@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="./main.js"></script>
+</head>
+
+<body>
+    <div id="app"></div>
+
+    <script>
+        const app = Elm.Main.init({
+            node: document.getElementById("app"),
+            flags: localStorage.getItem("savedModel") ?? {}
+        })
+
+        app.ports.save.subscribe(
+            (data) => localStorage.setItem("savedModel", data)
+        )
+    </script>
+</body>
+
+</html>
