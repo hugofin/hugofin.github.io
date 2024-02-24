@@ -2,34 +2,34 @@
 <html>
 
 <head>
-  <meta charset="UTF-8">
-  <title>Home</title>
-  <style>
-    body {
-      padding: 0;
-      margin: 0;
-    }
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
 
-    .arrow-container:hover>.arrow-text {
-      display: block;
-    }
+        .arrow-container:hover>.arrow-text {
+            display: block;
+        }
 
-    .arrow-container>.arrow-text {
-      display: none;
-    }
-  </style>
-  <link rel="stylesheet" href="/styles/katex.css">
-  <link rel="icon" type="image/x-icon" href="/src/favicon.png">
-  <script src="/js/Home.js"></script>
+        .arrow-container>.arrow-text {
+            display: none;
+        }
+    </style>
+    <link rel="stylesheet" href="styles/katex.css">
+    <link rel="icon" type="image/x-icon" href="src/favicon.png">
+    <script src="js/Home.js"></script>
 </head>
 
 <body>
 
-  <pre id="elm"></pre>
+    <pre id="elm"></pre>
 
-  <script>
-    const app = Elm.Home.init({ node: document.getElementById("elm") })
-  </script>
+    <script>
+        const app = Elm.Home.init({ node: document.getElementById("elm") })
+    </script>
 
 </body>
 
