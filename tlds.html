@@ -21,11 +21,18 @@
 
         const $results = document.querySelector('#results')
 
-        $results.replaceChildren(...results.map(result => {
-          const li = document.createElement("li")
-          li.innerText = result
-          return li
-        }))
+        if (results.length) {
+          $results.replaceChildren(...results.map(result => {
+            const li = document.createElement("li")
+            li.innerText = result
+            const tld = result.replace(/^.*\.(..)$/, (_, x) => x)
+            const flag = document.querySelector('#' + tld)?.cloneNode()
+            if (flag) { flag.hidden = false ; li.append(flag) }
+            return li
+          }))
+        } else {
+          alert('no results found for ' + query)
+        }
       }
     </script>
   </head>
@@ -38,5 +45,252 @@
       </label>
     </form>
     <ul id='results'></ul>
+    <img hidden id='cf' src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Flag_of_the_Central_African_Republic.svg' width=23 height=15 alt='Central African Republic'>
+    <img hidden id='eg' src='https://upload.wikimedia.org/wikipedia/commons/f/fe/Flag_of_Egypt.svg' width=23 height=15 alt='Egypt'>
+    <img hidden id='dm' src='https://upload.wikimedia.org/wikipedia/commons/c/c4/Flag_of_Dominica.svg' width=23 height=12 alt='Dominica'>
+    <img hidden id='vc' src='https://upload.wikimedia.org/wikipedia/commons/6/6d/Flag_of_Saint_Vincent_and_the_Grenadines.svg' width=23 height=15 alt='Saint Vincent and the Grenadines'>
+    <img hidden id='qa' src='https://upload.wikimedia.org/wikipedia/commons/6/65/Flag_of_Qatar.svg' width=23 height=9 alt='Qatar'>
+    <img hidden id='ve' src='https://upload.wikimedia.org/wikipedia/commons/0/06/Flag_of_Venezuela.svg' width=23 height=15 alt='Venezuela'>
+    <img hidden id='bo' src='https://upload.wikimedia.org/wikipedia/commons/b/b3/Bandera_de_Bolivia_%28Estado%29.svg' width=22 height=15 alt='Bolivia'>
+    <img hidden id='tw' src='https://upload.wikimedia.org/wikipedia/commons/7/72/Flag_of_the_Republic_of_China.svg' width=23 height=15 alt='Taiwan'>
+    <img hidden id='ie' src='https://upload.wikimedia.org/wikipedia/commons/4/45/Flag_of_Ireland.svg' width=23 height=12 alt='Ireland'>
+    <img hidden id='tj' src='https://upload.wikimedia.org/wikipedia/commons/d/d0/Flag_of_Tajikistan.svg' width=23 height=12 alt='Tajikistan'>
+    <img hidden id='er' src='https://upload.wikimedia.org/wikipedia/commons/2/29/Flag_of_Eritrea.svg' width=23 height=12 alt='Eritrea'>
+    <img hidden id='tr' src='https://upload.wikimedia.org/wikipedia/commons/b/b4/Flag_of_Turkey.svg' width=23 height=15 alt='Turkey'>
+    <img hidden id='bi' src='https://upload.wikimedia.org/wikipedia/commons/5/50/Flag_of_Burundi.svg' width=23 height=14 alt='Burundi'>
+    <img hidden id='sh' src='https://upload.wikimedia.org/wikipedia/commons/0/00/Flag_of_Saint_Helena.svg' width=23 height=12 alt='Saint Helena, Ascension and Tristan da Cunha (United Kingdom)'>
+    <img hidden id='mz' src='https://upload.wikimedia.org/wikipedia/commons/d/d0/Flag_of_Mozambique.svg' width=23 height=15 alt='Mozambique'>
+    <img hidden id='dj' src='https://upload.wikimedia.org/wikipedia/commons/3/34/Flag_of_Djibouti.svg' width=23 height=15 alt='Djibouti'>
+    <img hidden id='fr' src='https://upload.wikimedia.org/wikipedia/en/c/c3/Flag_of_France.svg' width=23 height=15 alt='France'>
+    <img hidden id='bw' src='https://upload.wikimedia.org/wikipedia/commons/f/fa/Flag_of_Botswana.svg' width=23 height=15 alt='Botswana'>
+    <img hidden id='td' src='https://upload.wikimedia.org/wikipedia/commons/4/4b/Flag_of_Chad.svg' width=23 height=15 alt='Chad'>
+    <img hidden id='si' src='https://upload.wikimedia.org/wikipedia/commons/f/f0/Flag_of_Slovenia.svg' width=23 height=12 alt='Slovenia'>
+    <img hidden id='bf' src='https://upload.wikimedia.org/wikipedia/commons/3/31/Flag_of_Burkina_Faso.svg' width=23 height=15 alt='Burkina Faso'>
+    <img hidden id='tn' src='https://upload.wikimedia.org/wikipedia/commons/c/ce/Flag_of_Tunisia.svg' width=23 height=15 alt='Tunisia'>
+    <img hidden id='eh' src='https://upload.wikimedia.org/wikipedia/commons/2/26/Flag_of_the_Sahrawi_Arab_Democratic_Republic.svg' width=23 height=12 alt='Western Sahara'>
+    <img hidden id='gi' src='https://upload.wikimedia.org/wikipedia/commons/0/02/Flag_of_Gibraltar.svg' width=23 height=12 alt='Gibraltar (United Kingdom)'>
+    <img hidden id='nz' src='https://upload.wikimedia.org/wikipedia/commons/3/3e/Flag_of_New_Zealand.svg' width=23 height=12 alt='New Zealand'>
+    <img hidden id='fj' src='https://upload.wikimedia.org/wikipedia/commons/b/ba/Flag_of_Fiji.svg' width=23 height=12 alt='Fiji'>
+    <img hidden id='km' src='https://upload.wikimedia.org/wikipedia/commons/9/94/Flag_of_the_Comoros.svg' width=23 height=14 alt='Comoros'>
+    <img hidden id='br' src='https://upload.wikimedia.org/wikipedia/en/0/05/Flag_of_Brazil.svg' width=22 height=15 alt='Brazil'>
+    <img hidden id='sd' src='https://upload.wikimedia.org/wikipedia/commons/0/01/Flag_of_Sudan.svg' width=23 height=12 alt='Sudan'>
+    <img hidden id='ki' src='https://upload.wikimedia.org/wikipedia/commons/d/d3/Flag_of_Kiribati.svg' width=23 height=12 alt='Kiribati'>
+    <img hidden id='ni' src='https://upload.wikimedia.org/wikipedia/commons/1/19/Flag_of_Nicaragua.svg' width=23 height=14 alt='Nicaragua'>
+    <img hidden id='om' src='https://upload.wikimedia.org/wikipedia/commons/d/dd/Flag_of_Oman.svg' width=23 height=12 alt='Oman'>
+    <img hidden id='ht' src='https://upload.wikimedia.org/wikipedia/commons/5/56/Flag_of_Haiti.svg' width=23 height=14 alt='Haiti'>
+    <img hidden id='ss' src='https://upload.wikimedia.org/wikipedia/commons/7/7a/Flag_of_South_Sudan.svg' width=23 height=12 alt='South Sudan'>
+    <img hidden id='sx' src='https://upload.wikimedia.org/wikipedia/commons/d/d3/Flag_of_Sint_Maarten.svg' width=23 height=15 alt='Sint Maarten (Kingdom of the Netherlands)'>
+    <img hidden id='mq' src='https://upload.wikimedia.org/wikipedia/commons/2/27/Flag-of-Martinique.svg' width=23 height=15 alt='Martinique (France)'>
+    <img hidden id='mw' src='https://upload.wikimedia.org/wikipedia/commons/d/d1/Flag_of_Malawi.svg' width=23 height=15 alt='Malawi'>
+    <img hidden id='be' src='https://upload.wikimedia.org/wikipedia/commons/9/92/Flag_of_Belgium_%28civil%29.svg' width=23 height=15 alt='Belgium'>
+    <img hidden id='by' src='https://upload.wikimedia.org/wikipedia/commons/8/85/Flag_of_Belarus.svg' width=23 height=12 alt='Belarus'>
+    <img hidden id='kp' src='https://upload.wikimedia.org/wikipedia/commons/5/51/Flag_of_North_Korea.svg' width=23 height=12 alt='North Korea'>
+    <img hidden id='me' src='https://upload.wikimedia.org/wikipedia/commons/6/64/Flag_of_Montenegro.svg' width=23 height=12 alt='Montenegro'>
+    <img hidden id='mt' src='https://upload.wikimedia.org/wikipedia/commons/7/73/Flag_of_Malta.svg' width=23 height=15 alt='Malta'>
+    <img hidden id='dz' src='https://upload.wikimedia.org/wikipedia/commons/7/77/Flag_of_Algeria.svg' width=23 height=15 alt='Algeria'>
+    <img hidden id='nu' src='https://upload.wikimedia.org/wikipedia/commons/0/01/Flag_of_Niue.svg' width=23 height=12 alt='Niue'>
+    <img hidden id='su' src='https://upload.wikimedia.org/wikipedia/commons/a/a9/Flag_of_the_Soviet_Union.svg' width=23 height=12 alt='Soviet Union'>
+    <img hidden id='gt' src='https://upload.wikimedia.org/wikipedia/commons/e/ec/Flag_of_Guatemala.svg' width=23 height=14 alt='Guatemala'>
+    <img hidden id='bq' src='https://upload.wikimedia.org/wikipedia/commons/2/20/Flag_of_the_Netherlands.svg' width=23 height=15 alt='Caribbean Netherlands (Bonaire,  Saba, and  Sint Eustatius)'>
+    <img hidden id='ke' src='https://upload.wikimedia.org/wikipedia/commons/4/49/Flag_of_Kenya.svg' width=23 height=15 alt='Kenya'>
+    <img hidden id='nl' src='https://upload.wikimedia.org/wikipedia/commons/2/20/Flag_of_the_Netherlands.svg' width=23 height=15 alt='Netherlands'>
+    <img hidden id='tm' src='https://upload.wikimedia.org/wikipedia/commons/1/1b/Flag_of_Turkmenistan.svg' width=23 height=15 alt='Turkmenistan'>
+    <img hidden id='gs' src='https://upload.wikimedia.org/wikipedia/commons/e/ed/Flag_of_South_Georgia_and_the_South_Sandwich_Islands.svg' width=23 height=12 alt='South Georgia and the South Sandwich Islands (United Kingdom)'>
+    <img hidden id='im' src='https://upload.wikimedia.org/wikipedia/commons/b/bc/Flag_of_the_Isle_of_Man.svg' width=23 height=12 alt='Isle of Man'>
+    <img hidden id='st' src='https://upload.wikimedia.org/wikipedia/commons/0/0a/Flag_of_S%C3%A3o_Tom%C3%A9_and_Pr%C3%ADncipe.svg' width=23 height=12 alt='São Tomé and Príncipe'>
+    <img hidden id='cy' src='https://upload.wikimedia.org/wikipedia/commons/d/d4/Flag_of_Cyprus.svg' width=23 height=15 alt='Cyprus'>
+    <img hidden id='dk' src='https://upload.wikimedia.org/wikipedia/commons/9/9c/Flag_of_Denmark.svg' width=20 height=15 alt='Denmark'>
+    <img hidden id='hn' src='https://upload.wikimedia.org/wikipedia/commons/8/82/Flag_of_Honduras.svg' width=23 height=12 alt='Honduras'>
+    <img hidden id='so' src='https://upload.wikimedia.org/wikipedia/commons/a/a0/Flag_of_Somalia.svg' width=23 height=15 alt='Somalia'>
+    <img hidden id='de' src='https://upload.wikimedia.org/wikipedia/en/b/ba/Flag_of_Germany.svg' width=23 height=14 alt='Germany'>
+    <img hidden id='py' src='https://upload.wikimedia.org/wikipedia/commons/2/27/Flag_of_Paraguay.svg' width=23 height=13 alt='Paraguay'>
+    <img hidden id='gg' src='https://upload.wikimedia.org/wikipedia/commons/f/fa/Flag_of_Guernsey.svg' width=23 height=15 alt='Guernsey'>
+    <img hidden id='et' src='https://upload.wikimedia.org/wikipedia/commons/7/71/Flag_of_Ethiopia.svg' width=23 height=12 alt='Ethiopia'>
+    <img hidden id='bj' src='https://upload.wikimedia.org/wikipedia/commons/0/0a/Flag_of_Benin.svg' width=23 height=15 alt='Benin'>
+    <img hidden id='do' src='https://upload.wikimedia.org/wikipedia/commons/9/9f/Flag_of_the_Dominican_Republic.svg' width=23 height=15 alt='Dominican Republic'>
+    <img hidden id='bs' src='https://upload.wikimedia.org/wikipedia/commons/9/93/Flag_of_the_Bahamas.svg' width=23 height=12 alt='Bahamas'>
+    <img hidden id='in' src='https://upload.wikimedia.org/wikipedia/en/4/41/Flag_of_India.svg' width=23 height=15 alt='India'>
+    <img hidden id='sl' src='https://upload.wikimedia.org/wikipedia/commons/1/17/Flag_of_Sierra_Leone.svg' width=23 height=15 alt='Sierra Leone'>
+    <img hidden id='ci' src='https://upload.wikimedia.org/wikipedia/commons/f/fe/Flag_of_C%C3%B4te_d%27Ivoire.svg' width=23 height=15 alt='Ivory Coast'>
+    <img hidden id='hk' src='https://upload.wikimedia.org/wikipedia/commons/5/5b/Flag_of_Hong_Kong.svg' width=23 height=15 alt='Hong Kong'>
+    <img hidden id='iq' src='https://upload.wikimedia.org/wikipedia/commons/f/f6/Flag_of_Iraq.svg' width=23 height=15 alt='Iraq'>
+    <img hidden id='pa' src='https://upload.wikimedia.org/wikipedia/commons/a/ab/Flag_of_Panama.svg' width=23 height=15 alt='Panama'>
+    <img hidden id='sm' src='https://upload.wikimedia.org/wikipedia/commons/b/b1/Flag_of_San_Marino.svg' width=20 height=15 alt='San Marino'>
+    <img hidden id='lb' src='https://upload.wikimedia.org/wikipedia/commons/5/59/Flag_of_Lebanon.svg' width=23 height=15 alt='Lebanon'>
+    <img hidden id='ru' src='https://upload.wikimedia.org/wikipedia/en/f/f3/Flag_of_Russia.svg' width=23 height=15 alt='Russia'>
+    <img hidden id='cr' src='https://upload.wikimedia.org/wikipedia/commons/f/f2/Flag_of_Costa_Rica.svg' width=23 height=14 alt='Costa Rica'>
+    <img hidden id='cn' src='https://upload.wikimedia.org/wikipedia/commons/f/fa/Flag_of_the_People%27s_Republic_of_China.svg' width=23 height=15 alt='People's Republic of China'>
+    <img hidden id='mk' src='https://upload.wikimedia.org/wikipedia/commons/7/79/Flag_of_North_Macedonia.svg' width=23 height=12 alt='North Macedonia'>
+    <img hidden id='ls' src='https://upload.wikimedia.org/wikipedia/commons/4/4a/Flag_of_Lesotho.svg' width=23 height=15 alt='Lesotho'>
+    <img hidden id='nc' src='https://upload.wikimedia.org/wikipedia/commons/2/26/Flags_of_New_Caledonia.svg' width=43 height=12 alt='New Caledonia (France)'>
+    <img hidden id='cc' src='https://upload.wikimedia.org/wikipedia/commons/7/74/Flag_of_the_Cocos_%28Keeling%29_Islands.svg' width=23 height=12 alt='Cocos (Keeling) Islands'>
+    <img hidden id='ye' src='https://upload.wikimedia.org/wikipedia/commons/8/89/Flag_of_Yemen.svg' width=23 height=15 alt='Yemen'>
+    <img hidden id='rw' src='https://upload.wikimedia.org/wikipedia/commons/1/17/Flag_of_Rwanda.svg' width=23 height=15 alt='Rwanda'>
+    <img hidden id='ml' src='https://upload.wikimedia.org/wikipedia/commons/9/92/Flag_of_Mali.svg' width=23 height=15 alt='Mali'>
+    <img hidden id='cl' src='https://upload.wikimedia.org/wikipedia/commons/7/78/Flag_of_Chile.svg' width=23 height=15 alt='Chile'>
+    <img hidden id='ee' src='https://upload.wikimedia.org/wikipedia/commons/8/8f/Flag_of_Estonia.svg' width=23 height=15 alt='Estonia'>
+    <img hidden id='mv' src='https://upload.wikimedia.org/wikipedia/commons/0/0f/Flag_of_Maldives.svg' width=23 height=15 alt='Maldives'>
+    <img hidden id='sr' src='https://upload.wikimedia.org/wikipedia/commons/6/60/Flag_of_Suriname.svg' width=23 height=15 alt='Suriname'>
+    <img hidden id='mh' src='https://upload.wikimedia.org/wikipedia/commons/2/2e/Flag_of_the_Marshall_Islands.svg' width=23 height=12 alt='Marshall Islands'>
+    <img hidden id='sv' src='https://upload.wikimedia.org/wikipedia/commons/3/34/Flag_of_El_Salvador.svg' width=23 height=13 alt='El Salvador'>
+    <img hidden id='zw' src='https://upload.wikimedia.org/wikipedia/commons/6/6a/Flag_of_Zimbabwe.svg' width=23 height=12 alt='Zimbabwe'>
+    <img hidden id='pt' src='https://upload.wikimedia.org/wikipedia/commons/5/5c/Flag_of_Portugal.svg' width=23 height=15 alt='Portugal'>
+    <img hidden id='tk' src='https://upload.wikimedia.org/wikipedia/commons/8/8e/Flag_of_Tokelau.svg' width=23 height=12 alt='Tokelau'>
+    <img hidden id='pf' src='https://upload.wikimedia.org/wikipedia/commons/d/db/Flag_of_French_Polynesia.svg' width=23 height=15 alt='French Polynesia (France)'>
+    <img hidden id='mg' src='https://upload.wikimedia.org/wikipedia/commons/b/bc/Flag_of_Madagascar.svg' width=23 height=15 alt='Madagascar'>
+    <img hidden id='ky' src='https://upload.wikimedia.org/wikipedia/commons/0/0f/Flag_of_the_Cayman_Islands.svg' width=23 height=12 alt='Cayman Islands (United Kingdom)'>
+    <img hidden id='to' src='https://upload.wikimedia.org/wikipedia/commons/9/9a/Flag_of_Tonga.svg' width=23 height=12 alt='Tonga'>
+    <img hidden id='fk' src='https://upload.wikimedia.org/wikipedia/commons/8/83/Flag_of_the_Falkland_Islands.svg' width=23 height=12 alt='Falkland Islands (United Kingdom)'>
+    <img hidden id='sg' src='https://upload.wikimedia.org/wikipedia/commons/4/48/Flag_of_Singapore.svg' width=23 height=15 alt='Singapore'>
+    <img hidden id='kz' src='https://upload.wikimedia.org/wikipedia/commons/d/d3/Flag_of_Kazakhstan.svg' width=23 height=12 alt='Kazakhstan'>
+    <img hidden id='je' src='https://upload.wikimedia.org/wikipedia/commons/1/1c/Flag_of_Jersey.svg' width=23 height=14 alt='Jersey'>
+    <img hidden id='lt' src='https://upload.wikimedia.org/wikipedia/commons/1/11/Flag_of_Lithuania.svg' width=23 height=14 alt='Lithuania'>
+    <img hidden id='lv' src='https://upload.wikimedia.org/wikipedia/commons/8/84/Flag_of_Latvia.svg' width=23 height=12 alt='Latvia'>
+    <img hidden id='li' src='https://upload.wikimedia.org/wikipedia/commons/4/47/Flag_of_Liechtenstein.svg' width=23 height=14 alt='Liechtenstein'>
+    <img hidden id='mx' src='https://upload.wikimedia.org/wikipedia/commons/f/fc/Flag_of_Mexico.svg' width=23 height=13 alt='Mexico'>
+    <img hidden id='np' src='https://upload.wikimedia.org/wikipedia/commons/9/9b/Flag_of_Nepal.svg' width=16 height=20 alt='Nepal'>
+    <img hidden id='cz' src='https://upload.wikimedia.org/wikipedia/commons/c/cb/Flag_of_the_Czech_Republic.svg' width=23 height=15 alt='Czech Republic'>
+    <img hidden id='uz' src='https://upload.wikimedia.org/wikipedia/commons/8/84/Flag_of_Uzbekistan.svg' width=23 height=12 alt='Uzbekistan'>
+    <img hidden id='bt' src='https://upload.wikimedia.org/wikipedia/commons/9/91/Flag_of_Bhutan.svg' width=23 height=15 alt='Bhutan'>
+    <img hidden id='gn' src='https://upload.wikimedia.org/wikipedia/commons/e/ed/Flag_of_Guinea.svg' width=23 height=15 alt='Guinea'>
+    <img hidden id='ge' src='https://upload.wikimedia.org/wikipedia/commons/0/0f/Flag_of_Georgia.svg' width=23 height=15 alt='Georgia'>
+    <img hidden id='nr' src='https://upload.wikimedia.org/wikipedia/commons/3/30/Flag_of_Nauru.svg' width=23 height=12 alt='Nauru'>
+    <img hidden id='hm' src='https://upload.wikimedia.org/wikipedia/commons/8/88/Flag_of_Australia_%28converted%29.svg' width=23 height=12 alt='Heard Island and McDonald Islands'>
+    <img hidden id='ir' src='https://upload.wikimedia.org/wikipedia/commons/c/ca/Flag_of_Iran.svg' width=23 height=13 alt='Iran'>
+    <img hidden id='fi' src='https://upload.wikimedia.org/wikipedia/commons/b/bc/Flag_of_Finland.svg' width=23 height=14 alt='Finland'>
+    <img hidden id='gw' src='https://upload.wikimedia.org/wikipedia/commons/0/01/Flag_of_Guinea-Bissau.svg' width=23 height=12 alt='Guinea-Bissau'>
+    <img hidden id='vi' src='https://upload.wikimedia.org/wikipedia/commons/f/f8/Flag_of_the_United_States_Virgin_Islands.svg' width=23 height=15 alt='United States Virgin Islands (United States)'>
+    <img hidden id='no' src='https://upload.wikimedia.org/wikipedia/commons/d/d9/Flag_of_Norway.svg' width=21 height=15 alt='Norway'>
+    <img hidden id='lk' src='https://upload.wikimedia.org/wikipedia/commons/1/11/Flag_of_Sri_Lanka.svg' width=23 height=12 alt='Sri Lanka'>
+    <img hidden id='gh' src='https://upload.wikimedia.org/wikipedia/commons/1/19/Flag_of_Ghana.svg' width=23 height=15 alt='Ghana'>
+    <img hidden id='ws' src='https://upload.wikimedia.org/wikipedia/commons/3/31/Flag_of_Samoa.svg' width=23 height=12 alt='Samoa'>
+    <img hidden id='uy' src='https://upload.wikimedia.org/wikipedia/commons/f/fe/Flag_of_Uruguay.svg' width=23 height=15 alt='Uruguay'>
+    <img hidden id='sa' src='https://upload.wikimedia.org/wikipedia/commons/0/0d/Flag_of_Saudi_Arabia.svg' width=23 height=15 alt='Saudi Arabia'>
+    <img hidden id='ad' src='https://upload.wikimedia.org/wikipedia/commons/1/19/Flag_of_Andorra.svg' width=22 height=15 alt='Andorra'>
+    <img hidden id='ae' src='http://upload.wikimedia.org/wikipedia/commons/c/cb/Flag_of_the_United_Arab_Emirates.svg' width=23 height=12 alt='United Arab Emirates'>
+    <img hidden id='af' src='http://upload.wikimedia.org/wikipedia/commons/5/5c/Flag_of_the_Taliban.svg' width=23 height=12 alt='Afghanistan'>
+    <img hidden id='ag' src='http://upload.wikimedia.org/wikipedia/commons/8/89/Flag_of_Antigua_and_Barbuda.svg' width=23 height=15 alt='Antigua and Barbuda'>
+    <img hidden id='ai' src='http://upload.wikimedia.org/wikipedia/commons/b/b4/Flag_of_Anguilla.svg' width=23 height=12 alt='Anguilla (United Kingdom)'>
+    <img hidden id='al' src='http://upload.wikimedia.org/wikipedia/commons/3/36/Flag_of_Albania.svg' width=21 height=15 alt='Albania'>
+    <img hidden id='am' src='http://upload.wikimedia.org/wikipedia/commons/2/2f/Flag_of_Armenia.svg' width=23 height=12 alt='Armenia'>
+    <img hidden id='ao' src='http://upload.wikimedia.org/wikipedia/commons/9/9d/Flag_of_Angola.svg' width=23 height=15 alt='Angola'>
+    <img hidden id='aq' src='https://upload.wikimedia.org/wikipedia/commons/b/bb/Proposed_flag_of_Antarctica_%28Graham_Bartram%29.svg' width=23 height=15 alt='Antarctica'>
+    <img hidden id='ar' src='http://upload.wikimedia.org/wikipedia/commons/1/1a/Flag_of_Argentina.svg' width=23 height=14 alt='Argentina'>
+    <img hidden id='as' src='http://upload.wikimedia.org/wikipedia/commons/8/87/Flag_of_American_Samoa.svg' width=23 height=12 alt='American Samoa (United States)'>
+    <img hidden id='at' src='http://upload.wikimedia.org/wikipedia/commons/4/41/Flag_of_Austria.svg' width=23 height=15 alt='Austria'>
+    <img hidden id='au' src='http://upload.wikimedia.org/wikipedia/commons/8/88/Flag_of_Australia_%28converted%29.svg' width=23 height=12 alt='Australia'>
+    <img hidden id='aw' src='http://upload.wikimedia.org/wikipedia/commons/f/f6/Flag_of_Aruba.svg' width=23 height=15 alt='Aruba (Kingdom of the Netherlands)'>
+    <img hidden id='ax' src='http://upload.wikimedia.org/wikipedia/commons/5/52/Flag_of_%C3%85land.svg' width=23 height=15 alt='Åland (Finland)'>
+    <img hidden id='az' src='http://upload.wikimedia.org/wikipedia/commons/d/dd/Flag_of_Azerbaijan.svg' width=23 height=12 alt='Azerbaijan'>
+    <img hidden id='ba' src='http://upload.wikimedia.org/wikipedia/commons/b/bf/Flag_of_Bosnia_and_Herzegovina.svg' width=23 height=12 alt='Bosnia and Herzegovina'>
+    <img hidden id='bb' src='http://upload.wikimedia.org/wikipedia/commons/e/ef/Flag_of_Barbados.svg' width=23 height=15 alt='Barbados'>
+    <img hidden id='bd' src='http://upload.wikimedia.org/wikipedia/commons/f/f9/Flag_of_Bangladesh.svg' width=23 height=14 alt='Bangladesh'>
+    <img hidden id='cw' src='https://upload.wikimedia.org/wikipedia/commons/b/b1/Flag_of_Cura%C3%A7ao.svg' width=23 height=15 alt='Curaçao (Kingdom of the Netherlands)'>
+    <img hidden id='re' src='https://upload.wikimedia.org/wikipedia/commons/8/8e/Proposed_flag_of_R%C3%A9union_%28VAR%29.svg' width=23 height=15 alt='Réunion (France)'>
+    <img hidden id='cu' src='https://upload.wikimedia.org/wikipedia/commons/b/bd/Flag_of_Cuba.svg' width=23 height=12 alt='Cuba'>
+    <img hidden id='ng' src='https://upload.wikimedia.org/wikipedia/commons/7/79/Flag_of_Nigeria.svg' width=23 height=12 alt='Nigeria'>
+    <img hidden id='md' src='https://upload.wikimedia.org/wikipedia/commons/2/27/Flag_of_Moldova.svg' width=23 height=12 alt='Moldova'>
+    <img hidden id='kn' src='https://upload.wikimedia.org/wikipedia/commons/f/fe/Flag_of_Saint_Kitts_and_Nevis.svg' width=23 height=15 alt='Saint Kitts and Nevis'>
+    <img hidden id='tf' src='https://upload.wikimedia.org/wikipedia/commons/a/a7/Flag_of_the_French_Southern_and_Antarctic_Lands.svg' width=23 height=15 alt='French Southern and Antarctic Lands'>
+    <img hidden id='my' src='https://upload.wikimedia.org/wikipedia/commons/6/66/Flag_of_Malaysia.svg' width=23 height=12 alt='Malaysia'>
+    <img hidden id='bg' src='https://upload.wikimedia.org/wikipedia/commons/9/9a/Flag_of_Bulgaria.svg' width=23 height=14 alt='Bulgaria'>
+    <img hidden id='sc' src='https://upload.wikimedia.org/wikipedia/commons/f/fc/Flag_of_Seychelles.svg' width=23 height=12 alt='Seychelles'>
+    <img hidden id='ly' src='https://upload.wikimedia.org/wikipedia/commons/0/05/Flag_of_Libya.svg' width=23 height=12 alt='Libya'>
+    <img hidden id='tg' src='https://upload.wikimedia.org/wikipedia/commons/6/68/Flag_of_Togo.svg' width=23 height=14 alt='Togo'>
+    <img hidden id='gp' src='https://upload.wikimedia.org/wikipedia/commons/e/e7/Unofficial_flag_of_Guadeloupe_%28local%29.svg' width=23 height=15 alt='Guadeloupe (France)'>
+    <img hidden id='bz' src='https://upload.wikimedia.org/wikipedia/commons/e/e7/Flag_of_Belize.svg' width=23 height=14 alt='Belize'>
+    <img hidden id='nf' src='https://upload.wikimedia.org/wikipedia/commons/4/48/Flag_of_Norfolk_Island.svg' width=23 height=12 alt='Norfolk Island'>
+    <img hidden id='gf' src='https://upload.wikimedia.org/wikipedia/en/c/c3/Flag_of_France.svg' width=23 height=15 alt='French Guiana (France)'>
+    <img hidden id='il' src='https://upload.wikimedia.org/wikipedia/commons/d/d4/Flag_of_Israel.svg' width=21 height=15 alt='Israel'>
+    <img hidden id='pl' src='https://upload.wikimedia.org/wikipedia/en/1/12/Flag_of_Poland.svg' width=23 height=14 alt='Poland'>
+    <img hidden id='mo' src='https://upload.wikimedia.org/wikipedia/commons/6/63/Flag_of_Macau.svg' width=23 height=15 alt='Macau'>
+    <img hidden id='mu' src='https://upload.wikimedia.org/wikipedia/commons/7/77/Flag_of_Mauritius.svg' width=23 height=15 alt='Mauritius'>
+    <img hidden id='sb' src='https://upload.wikimedia.org/wikipedia/commons/7/74/Flag_of_the_Solomon_Islands.svg' width=23 height=12 alt='Solomon Islands'>
+    <img hidden id='vg' src='https://upload.wikimedia.org/wikipedia/commons/4/42/Flag_of_the_British_Virgin_Islands.svg' width=23 height=12 alt='British Virgin Islands (United Kingdom)'>
+    <img hidden id='wf' src='https://upload.wikimedia.org/wikipedia/commons/d/d2/Flag_of_Wallis_and_Futuna.svg' width=23 height=15 alt='Wallis and Futuna'>
+    <img hidden id='cd' src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Flag_of_the_Democratic_Republic_of_the_Congo.svg' width=20 height=15 alt='Democratic Republic of the Congo'>
+    <img hidden id='co' src='https://upload.wikimedia.org/wikipedia/commons/2/21/Flag_of_Colombia.svg' width=23 height=15 alt='Colombia'>
+    <img hidden id='pw' src='https://upload.wikimedia.org/wikipedia/commons/4/48/Flag_of_Palau.svg' width=23 height=14 alt='Palau'>
+    <img hidden id='sz' src='https://upload.wikimedia.org/wikipedia/commons/f/fb/Flag_of_Eswatini.svg' width=23 height=15 alt='Eswatini'>
+    <img hidden id='us' src='https://upload.wikimedia.org/wikipedia/en/a/a4/Flag_of_the_United_States.svg' width=23 height=12 alt='United States of America'>
+    <img hidden id='fo' src='https://upload.wikimedia.org/wikipedia/commons/3/3c/Flag_of_the_Faroe_Islands.svg' width=21 height=15 alt='Faroe Islands (Kingdom of Denmark)'>
+    <img hidden id='mc' src='https://upload.wikimedia.org/wikipedia/commons/e/ea/Flag_of_Monaco.svg' width=19 height=15 alt='Monaco'>
+    <img hidden id='pk' src='https://upload.wikimedia.org/wikipedia/commons/3/32/Flag_of_Pakistan.svg' width=23 height=15 alt='Pakistan'>
+    <img hidden id='gr' src='https://upload.wikimedia.org/wikipedia/commons/5/5c/Flag_of_Greece.svg' width=23 height=15 alt='Greece'>
+    <img hidden id='pr' src='https://upload.wikimedia.org/wikipedia/commons/2/28/Flag_of_Puerto_Rico.svg' width=23 height=15 alt='Puerto Rico (United States)'>
+    <img hidden id='eu' src='https://upload.wikimedia.org/wikipedia/commons/b/b7/Flag_of_Europe.svg' width=23 height=15 alt='European Union'>
+    <img hidden id='ga' src='https://upload.wikimedia.org/wikipedia/commons/0/04/Flag_of_Gabon.svg' width=20 height=15 alt='Gabon'>
+    <img hidden id='lc' src='https://upload.wikimedia.org/wikipedia/commons/9/9f/Flag_of_Saint_Lucia.svg' width=23 height=12 alt='Saint Lucia'>
+    <img hidden id='tc' src='https://upload.wikimedia.org/wikipedia/commons/a/a0/Flag_of_the_Turks_and_Caicos_Islands.svg' width=23 height=12 alt='Turks and Caicos Islands (United Kingdom)'>
+    <img hidden id='kr' src='https://upload.wikimedia.org/wikipedia/commons/0/09/Flag_of_South_Korea.svg' width=23 height=15 alt='South Korea'>
+    <img hidden id='es' src='https://upload.wikimedia.org/wikipedia/en/9/9a/Flag_of_Spain.svg' width=23 height=15 alt='Spain'>
+    <img hidden id='cm' src='https://upload.wikimedia.org/wikipedia/commons/4/4f/Flag_of_Cameroon.svg' width=23 height=15 alt='Cameroon'>
+    <img hidden id='se' src='https://upload.wikimedia.org/wikipedia/en/4/4c/Flag_of_Sweden.svg' width=23 height=14 alt='Sweden'>
+    <img hidden id='tt' src='https://upload.wikimedia.org/wikipedia/commons/6/64/Flag_of_Trinidad_and_Tobago.svg' width=23 height=14 alt='Trinidad and Tobago'>
+    <img hidden id='gy' src='https://upload.wikimedia.org/wikipedia/commons/9/99/Flag_of_Guyana.svg' width=23 height=14 alt='Guyana'>
+    <img hidden id='ma' src='https://upload.wikimedia.org/wikipedia/commons/2/2c/Flag_of_Morocco.svg' width=23 height=15 alt='Morocco'>
+    <img hidden id='yt' src='https://upload.wikimedia.org/wikipedia/en/c/c3/Flag_of_France.svg' width=23 height=15 alt='Mayotte'>
+    <img hidden id='vu' src='https://upload.wikimedia.org/wikipedia/commons/b/bc/Flag_of_Vanuatu.svg' width=23 height=14 alt='Vanuatu'>
+    <img hidden id='bm' src='https://upload.wikimedia.org/wikipedia/commons/b/bf/Flag_of_Bermuda.svg' width=23 height=12 alt='Bermuda (United Kingdom)'>
+    <img hidden id='ro' src='https://upload.wikimedia.org/wikipedia/commons/7/73/Flag_of_Romania.svg' width=23 height=15 alt='Romania'>
+    <img hidden id='kh' src='https://upload.wikimedia.org/wikipedia/commons/8/83/Flag_of_Cambodia.svg' width=23 height=15 alt='Cambodia'>
+    <img hidden id='ps' src='https://upload.wikimedia.org/wikipedia/commons/0/00/Flag_of_Palestine.svg' width=23 height=12 alt='Palestine[53]'>
+    <img hidden id='lu' src='https://upload.wikimedia.org/wikipedia/commons/d/da/Flag_of_Luxembourg.svg' width=23 height=14 alt='Luxembourg'>
+    <img hidden id='gu' src='https://upload.wikimedia.org/wikipedia/commons/0/07/Flag_of_Guam.svg' width=23 height=12 alt='Guam (United States)'>
+    <img hidden id='gl' src='https://upload.wikimedia.org/wikipedia/commons/0/09/Flag_of_Greenland.svg' width=23 height=15 alt='Greenland (Kingdom of Denmark)'>
+    <img hidden id='cg' src='https://upload.wikimedia.org/wikipedia/commons/9/92/Flag_of_the_Republic_of_the_Congo.svg' width=23 height=15 alt='Republic of the Congo'>
+    <img hidden id='mp' src='https://upload.wikimedia.org/wikipedia/commons/e/e0/Flag_of_the_Northern_Mariana_Islands.svg' width=23 height=12 alt='Northern Mariana Islands (United States)'>
+    <img hidden id='cv' src='https://upload.wikimedia.org/wikipedia/commons/3/38/Flag_of_Cape_Verde.svg' width=23 height=14 alt='Cape Verde'>
+    <img hidden id='ug' src='https://upload.wikimedia.org/wikipedia/commons/4/4e/Flag_of_Uganda.svg' width=23 height=15 alt='Uganda'>
+    <img hidden id='ph' src='https://upload.wikimedia.org/wikipedia/commons/9/99/Flag_of_the_Philippines.svg' width=23 height=12 alt='Philippines'>
+    <img hidden id='jp' src='https://upload.wikimedia.org/wikipedia/en/9/9e/Flag_of_Japan.svg' width=23 height=15 alt='Japan'>
+    <img hidden id='cx' src='https://upload.wikimedia.org/wikipedia/commons/6/67/Flag_of_Christmas_Island.svg' width=23 height=12 alt='Christmas Island'>
+    <img hidden id='jo' src='https://upload.wikimedia.org/wikipedia/commons/c/c0/Flag_of_Jordan.svg' width=23 height=12 alt='Jordan'>
+    <img hidden id='va' src='https://upload.wikimedia.org/wikipedia/commons/4/41/Flag_of_Vatican_City_State_-_2023_version.svg' width=16 height=16 alt='Vatican City'>
+    <img hidden id='za' src='https://upload.wikimedia.org/wikipedia/commons/a/af/Flag_of_South_Africa.svg' width=23 height=15 alt='South Africa'>
+    <img hidden id='la' src='https://upload.wikimedia.org/wikipedia/commons/5/56/Flag_of_Laos.svg' width=23 height=15 alt='Laos'>
+    <img hidden id='pg' src='https://upload.wikimedia.org/wikipedia/commons/e/e3/Flag_of_Papua_New_Guinea.svg' width=20 height=15 alt='Papua New Guinea'>
+    <img hidden id='id' src='https://upload.wikimedia.org/wikipedia/commons/9/9f/Flag_of_Indonesia.svg' width=23 height=15 alt='Indonesia'>
+    <img hidden id='is' src='https://upload.wikimedia.org/wikipedia/commons/c/ce/Flag_of_Iceland.svg' width=21 height=15 alt='Iceland'>
+    <img hidden id='th' src='https://upload.wikimedia.org/wikipedia/commons/a/a9/Flag_of_Thailand.svg' width=23 height=15 alt='Thailand'>
+    <img hidden id='kg' src='https://upload.wikimedia.org/wikipedia/commons/c/c7/Flag_of_Kyrgyzstan.svg' width=23 height=14 alt='Kyrgyzstan'>
+    <img hidden id='io' src='https://upload.wikimedia.org/wikipedia/commons/6/65/Flag_of_the_Commissioner_of_the_British_Indian_Ocean_Territory.svg' width=23 height=12 alt='British Indian Ocean Territory (United Kingdom)'>
+    <img hidden id='gd' src='https://upload.wikimedia.org/wikipedia/commons/b/bc/Flag_of_Grenada.svg' width=23 height=14 alt='Grenada'>
+    <img hidden id='lr' src='https://upload.wikimedia.org/wikipedia/commons/b/b8/Flag_of_Liberia.svg' width=23 height=12 alt='Liberia'>
+    <img hidden id='ec' src='https://upload.wikimedia.org/wikipedia/commons/e/e8/Flag_of_Ecuador.svg' width=23 height=15 alt='Ecuador'>
+    <img hidden id='mr' src='https://upload.wikimedia.org/wikipedia/commons/4/43/Flag_of_Mauritania.svg' width=23 height=15 alt='Mauritania'>
+    <img hidden id='sk' src='https://upload.wikimedia.org/wikipedia/commons/e/e6/Flag_of_Slovakia.svg' width=23 height=15 alt='Slovakia'>
+    <img hidden id='ca' src='https://upload.wikimedia.org/wikipedia/commons/d/d9/Flag_of_Canada_%28Pantone%29.svg' width=23 height=12 alt='Canada'>
+    <img hidden id='tz' src='https://upload.wikimedia.org/wikipedia/commons/3/38/Flag_of_Tanzania.svg' width=23 height=15 alt='Tanzania'>
+    <img hidden id='sy' src='https://upload.wikimedia.org/wikipedia/commons/5/53/Flag_of_Syria.svg' width=23 height=15 alt='Syria'>
+    <img hidden id='ua' src='https://upload.wikimedia.org/wikipedia/commons/4/49/Flag_of_Ukraine.svg' width=23 height=15 alt='Ukraine'>
+    <img hidden id='gm' src='https://upload.wikimedia.org/wikipedia/commons/7/77/Flag_of_The_Gambia.svg' width=23 height=15 alt='The Gambia'>
+    <img hidden id='ne' src='https://upload.wikimedia.org/wikipedia/commons/f/f4/Flag_of_Niger.svg' width=18 height=15 alt='Niger'>
+    <img hidden id='bh' src='https://upload.wikimedia.org/wikipedia/commons/2/2c/Flag_of_Bahrain.svg' width=23 height=14 alt='Bahrain'>
+    <img hidden id='tv' src='https://upload.wikimedia.org/wikipedia/commons/3/38/Flag_of_Tuvalu.svg' width=23 height=12 alt='Tuvalu'>
+    <img hidden id='jm' src='https://upload.wikimedia.org/wikipedia/commons/0/0a/Flag_of_Jamaica.svg' width=23 height=12 alt='Jamaica'>
+    <img hidden id='ch' src='https://upload.wikimedia.org/wikipedia/commons/0/08/Flag_of_Switzerland_%28Pantone%29.svg' width=16 height=16 alt='Switzerland'>
+    <img hidden id='fm' src='https://upload.wikimedia.org/wikipedia/commons/e/e4/Flag_of_the_Federated_States_of_Micronesia.svg' width=23 height=12 alt='Federated States of Micronesia'>
+    <img hidden id='uk' src='https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg' width=23 height=12 alt='United Kingdom'>
+    <img hidden id='hu' src='https://upload.wikimedia.org/wikipedia/commons/c/c1/Flag_of_Hungary.svg' width=23 height=12 alt='Hungary'>
+    <img hidden id='ck' src='https://upload.wikimedia.org/wikipedia/commons/3/35/Flag_of_the_Cook_Islands.svg' width=23 height=12 alt='Cook Islands'>
+    <img hidden id='na' src='https://upload.wikimedia.org/wikipedia/commons/0/00/Flag_of_Namibia.svg' width=23 height=15 alt='Namibia'>
+    <img hidden id='kw' src='https://upload.wikimedia.org/wikipedia/commons/a/aa/Flag_of_Kuwait.svg' width=23 height=12 alt='Kuwait'>
+    <img hidden id='ms' src='https://upload.wikimedia.org/wikipedia/commons/d/d0/Flag_of_Montserrat.svg' width=23 height=12 alt='Montserrat (United Kingdom)'>
+    <img hidden id='zm' src='https://upload.wikimedia.org/wikipedia/commons/0/06/Flag_of_Zambia.svg' width=23 height=15 alt='Zambia'>
+    <img hidden id='mm' src='https://upload.wikimedia.org/wikipedia/commons/8/8c/Flag_of_Myanmar.svg' width=23 height=15 alt='Myanmar'>
+    <img hidden id='rs' src='https://upload.wikimedia.org/wikipedia/commons/f/ff/Flag_of_Serbia.svg' width=23 height=15 alt='Serbia'>
+    <img hidden id='hr' src='https://upload.wikimedia.org/wikipedia/commons/1/1b/Flag_of_Croatia.svg' width=23 height=12 alt='Croatia'>
+    <img hidden id='sn' src='https://upload.wikimedia.org/wikipedia/commons/f/fd/Flag_of_Senegal.svg' width=23 height=15 alt='Senegal'>
+    <img hidden id='gq' src='https://upload.wikimedia.org/wikipedia/commons/3/31/Flag_of_Equatorial_Guinea.svg' width=23 height=15 alt='Equatorial Guinea'>
+    <img hidden id='mn' src='https://upload.wikimedia.org/wikipedia/commons/4/4c/Flag_of_Mongolia.svg' width=23 height=12 alt='Mongolia'>
+    <img hidden id='bn' src='https://upload.wikimedia.org/wikipedia/commons/9/9c/Flag_of_Brunei.svg' width=23 height=12 alt='Brunei'>
+    <img hidden id='vn' src='https://upload.wikimedia.org/wikipedia/commons/2/21/Flag_of_Vietnam.svg' width=23 height=15 alt='Vietnam'>
+    <img hidden id='it' src='https://upload.wikimedia.org/wikipedia/en/0/03/Flag_of_Italy.svg' width=23 height=15 alt='Italy'>
+    <img hidden id='pe' src='https://upload.wikimedia.org/wikipedia/commons/c/cf/Flag_of_Peru.svg' width=23 height=15 alt='Peru'>
+    <img hidden id='tl' src='https://upload.wikimedia.org/wikipedia/commons/2/26/Flag_of_East_Timor.svg' width=23 height=12 alt='East Timor'>
+    <img hidden id='ac' src='https://upload.wikimedia.org/wikipedia/commons/6/65/Flag_of_Ascension_Island.svg' width=23 height=12 alt='Ascension Island (United Kingdom)'>
+    <img hidden id='pm' src='https://upload.wikimedia.org/wikipedia/en/c/c3/Flag_of_France.svg' width=23 height=15 alt='Saint-Pierre and Miquelon (France)'>
+    <img hidden id='pn' src='https://upload.wikimedia.org/wikipedia/commons/8/88/Flag_of_the_Pitcairn_Islands.svg' width=23 height=12 alt='Pitcairn Islands (United Kingdom)'>
   </body>
 </html>
