@@ -1,64 +1,30 @@
-<!DOCTYPE HTML>
+<!doctype html>
 <html>
 
-<head>
-  <meta charset="UTF-8">
-  <title>Barendregt's Lambda Cube</title>
-  <style>
-    body {
-      padding: 0;
-      margin: 0;
-    }
-
-    * {
-      font-family: "IBM Plex Sans", sans-serif;
-    }
-
-
-    .grid-container:hover>.grid-text {
-      display: flex;
-    }
-
-    .grid-container>.grid-text {
-      display: none;
-    }
-
-    .arrow-container:hover>.arrow-text {
-      display: block;
-    }
-
-    .arrow-container>.arrow-text {
-      display: none;
-    }
-
-    @font-face {
-      font-family: "IBM Plex Sans";
-      src:
-        url("fonts/IBMPlexSans-Medium.woff2") format("woff2");
-      font-weight: normal;
-      font-style: normal;
-    }
-  </style>
-  <link rel="stylesheet" href="/styles/katex.css">
-  <link rel="icon" type="image/x-icon" href="/src/favicon.png">
-  <script src="/js/Home.js"></script>
-</head>
-
 <body>
+    <pre>
+hugo findlay's web site
 
-  <pre id="elm"></pre>
+   ________  ________  ________  ________  
+  ╱    ╱   ╲╱    ╱   ╲╱        ╲╱        ╲ 
+ ╱         ╱         ╱       __╱         ╱ 
+╱         ╱         ╱       ╱ ╱         ╱  
+╲___╱____╱╲________╱╲________╱╲________╱   
 
-  <script>
-    const reducedMotion = { "true": true, "false": false }[localStorage.getItem("reducedMotion")] ?? window.matchMedia("(prefers-reduced-motion)").matches
-    const theme = localStorage.getItem("theme") ?? (window.matchMedia("(prefers-high-contrast)").matches ? "Colorblind" : "Normal")
-    const app = Elm.Home.init({ node: document.getElementById("elm"), flags: { reducedMotion, theme } })
-
-    app.ports.setReducedMotion.subscribe(reducedMotion => localStorage.setItem("reducedMotion", reducedMotion.toString()))
-    app.ports.setTheme.subscribe(theme => localStorage.setItem("theme", theme.toString()))
-  </script>
+    ________   ________  ________   _______  _______   ________  ________ 
+   ╱        ╲ ╱        ╲╱    ╱   ╲_╱       ╲╱       ╲ ╱        ╲╱    ╱   ╲
+  ╱       __╱_╱       ╱╱         ╱         ╱        ╱╱         ╱         ╱
+ ╱        _╱╱         ╱         ╱         ╱        ╱╱         ╱╲__      ╱ 
+ ╲_______╱  ╲________╱╲__╱_____╱╲________╱╲________╱╲___╱____╱   ╲_____╱  
 
 
 
+<ul>
+<li><a href="/lambdacube">lambdacube</a></li>
+<li><a href="/tlds">what tld can i get</a></li>
+</ul>
+
+</pre>
 </body>
 
 </html>
