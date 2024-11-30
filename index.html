@@ -59,13 +59,10 @@
         top: 0px;
         z-index: -1;
         user-select: none;
-        /* 
-        TODO day mode
-
-        background-color: #fff0d1;
-        color: #2d2821; 
-        
-        */
+        @media (prefers-color-scheme: light) {
+            background-color: #fff0d1;
+            color: #2d2821;
+        }
 
     }
 
