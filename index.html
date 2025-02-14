@@ -1,99 +1,230 @@
 <!doctype html>
 <html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+    </head>
 
-<head>
-    <meta name='viewport' content='width=device-width, initial-scale=1' />
-</head>
+    <body class="home">
+        <div class="index">
+            <div id="intro" class="title">Hugo Findlay Website</div>
+        </div>
+        <div class="content-row">
+            <div class="panel">
+                <pre class="sky" id="sky"></pre>
+            </div>
 
-<body style='margin: 0px;'>
-    <pre id='back' class='sky'>
-    </pre>
+            <div class="text-area">
+                <div class="text-container">
+                    <b class="top">
+                        lambdacube
+                        <a class="interlink" href="/lambdacube"> → </a>
+                    </b>
+                    <span>
+                        My Dissertation Project, a 3d tool to help explain the
+                        concept of Henk Barendregt's 'lambdacube', written in
+                        elm.
+                    </span>
+                    <span>
+                        The lambda cube is a way of demonstrating how any
+                        combination of three different type systems can be added
+                        to the simply typed lambda calculus, and how the system
+                        changes based on type system.
+                    </span>
+                    <b class="top">
+                        what tld can i get
+                        <a class="interlink" href="/tlds"> → </a>
+                    </b>
+                    <span>
+                        Have you ever wondered what tld you can get with your
+                        name?
+                    </span>
+                </div>
+            </div>
+        </div>
 
+        <div class="content-row">
+            <div class="text-area">
+                <div class="text-container">
+                    <b>Contact</b>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th>e-mail</th>
+                                <td>
+                                    <a
+                                        class="hyperlink"
+                                        href="mailto:hugo.findlay@gmail.com"
+                                    >
+                                        hugo.findlay@gmail.com
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>github</th>
+                                <td>
+                                    <a
+                                        class="hyperlink"
+                                        href="https://github.com/hugofin"
+                                        target="none"
+                                        >github.com/hugofin</a
+                                    >
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>linkedin</th>
+                                <td>
+                                    <a
+                                        class="hyperlink"
+                                        href="https://www.linkedin.com/in/hugofindlay/"
+                                        target="none"
+                                        >linkedin.com/in/hugofindlay</a
+                                    >
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
+            <div class="panel" style="background-color: #b0ffb0"></div>
+        </div>
 
-    <div class='slate'>
+        <style>
+            .home {
+                margin: 0px;
+                display: flex;
+                flex-direction: column;
+                font-family: sans-serif;
+            }
 
-        <h1 class='title'>hugo findlay's web site</h1>
+            .index {
+                width: 100%;
+                height: 100vh;
+                text-align: center;
+                display: flex;
+                align-items: center;
+            }
 
-        <table style="text-align: left;">
-            <thead>
-                <tr>
-                    <th style="width: 25%;"></th>
-                    <th></th>
-                    <th style="width: 10%; text-align: center;"></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope='row'><a href='/lambdacube'>lambdacube</a></th>
-                    <td>My Dissertation Project, a 3d tool to help explain the concept of Henk Barendregt's
-                        'lambdacube', written in elm
-                    </td>
-                    <td><img src="lambdacube/src/favicon.png" height="100" /></td>
-                </tr>
+            .title {
+                font-size: 8rem;
+                height: 12rem;
+                line-height: 12rem;
+                position: absolute;
+                left: 2%;
+            }
 
-                <tr>
-                    <th scope='row'><a href='/tlds'>what tld can i get</a></th>
-                    <td>Have you ever wondered what tld you can get with your name?</td>
-                    <td><img src="image/tlds.png" height="100" /></td>
-                </tr>
-            </tbody>
-        </table>
+            .content-row {
+                display: flex;
+                flex-direction: row;
+                max-width: 100%;
+            }
 
-    </div>
-</body>
+            .panel {
+                width: 50%;
+                height: 80vh;
+                text-align: center;
+                display: flex;
+                align-items: center;
+            }
 
+            .text-area {
+                width: 40%;
+                max-height: 80vh;
+                display: flex;
+                align-items: center;
+                row-gap: 2rem;
+                padding: 5%;
+            }
+
+            .text-container {
+                text-align: left;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                row-gap: 2rem;
+                font-size: 1.6rem;
+            }
+
+            .hyperlink {
+                color: #0000ff;
+            }
+
+            .interlink {
+                color: #000000;
+                text-decoration: none;
+            }
+
+            .top {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            table {
+                width: 100%;
+
+                th {
+                    text-align: left;
+                    padding-right: 4rem;
+                }
+
+                td {
+                    text-align: right;
+                }
+            }
+
+            .sky {
+                width: 100%;
+                text-wrap: nowrap;
+                color: #ecdbb7;
+                background-color: #1a1713;
+                font-size: x-large;
+                overflow: hidden;
+                margin: 0px;
+                user-select: none;
+                height: 80vh;
+                text-align: left;
+                @media (prefers-color-scheme: light) {
+                    background-color: #fcf4e3;
+                    color: #2d2821;
+                }
+            }
+        </style>
+
+        <script>
+            let digits = "0123456789abcdef";
+            let position = ["", "inset"];
+
+            function makeByte() {
+                return `${digits[Math.floor(Math.random() * 16)]}${digits[Math.floor(Math.random() * 16)]}`;
+            }
+
+            function makeLen() {
+                let l = Math.random();
+                if (l < 0.5) {
+                    return l * -l * 15;
+                } else {
+                    return l * l * 15;
+                }
+            }
+
+            let one = `${position[Math.floor(Math.random() * 2)]} ${makeLen()}rem ${makeLen()}rem #${makeByte()}${makeByte()}${makeByte()}${makeByte()}`;
+            let two = `${position[Math.floor(Math.random() * 2)]} ${makeLen()}rem ${makeLen()}rem #${makeByte()}${makeByte()}${makeByte()}${makeByte()}`;
+            let thr = `${position[Math.floor(Math.random() * 2)]} ${makeLen()}rem ${makeLen()}rem #${makeByte()}${makeByte()}${makeByte()}${makeByte()}`;
+            let fou = `${position[Math.floor(Math.random() * 2)]} ${makeLen()}rem ${makeLen()}rem #${makeByte()}${makeByte()}${makeByte()}${makeByte()}`;
+            let fiv = `${position[Math.floor(Math.random() * 2)]} ${makeLen()}rem ${makeLen()}rem #${makeByte()}${makeByte()}${makeByte()}${makeByte()}`;
+
+            let shadow = `${one}, ${two}, ${thr}, ${fou}, ${fiv}`;
+
+            let stars = "*.•˚˙°· \n\n";
+            let planetarium = "";
+
+            for (var i = 0; i < 250; i++) {
+                planetarium += stars[Math.floor(Math.random() * 10)];
+                planetarium += " ".repeat(Math.floor(Math.random() * 25));
+            }
+
+            document.getElementById("intro").style.boxShadow = shadow;
+            document.getElementById("sky").innerText = planetarium;
+        </script>
+    </body>
 </html>
-
-<style>
-    .sky {
-        width: 100%;
-        text-wrap: nowrap;
-        color: #ecdbb7;
-        background-color: #1a1713;
-        font-size: x-large;
-        height: 100vh;
-        overflow: hidden;
-        margin: 0px;
-        position: absolute;
-        top: 0px;
-        z-index: -1;
-        user-select: none;
-        @media (prefers-color-scheme: light) {
-            background-color: #fff0d1;
-            color: #2d2821;
-        }
-
-    }
-
-    .slate {
-        width: 50vw;
-        margin: 10rem auto;
-        background-color: #ffffff;
-        font-family: monospace;
-        text-align: center;
-        padding: 2rem;
-    }
-
-    .title {
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: xx-large;
-    }
-</style>
-
-<script>
-
-    let stars = ['*', '.', '•', '˚', '˙', '°', '·', ' ', '\n', '\n'];
-    let planetarium = '';
-
-    for (var i = 0; i < 300; i++) {
-        let gap = ' '.repeat(Math.floor(Math.random() * 50));
-        planetarium += stars[Math.floor(Math.random() * 10)];
-        planetarium += gap;
-    }
-
-    console.log(planetarium);
-
-    document.getElementById('back').innerText = planetarium;
-
-</script>
