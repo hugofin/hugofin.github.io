@@ -1,6 +1,11 @@
 <!doctype html>
 <meta charset="UTF-8" />
 <link href="site.css" rel="stylesheet" type="text/css" />
+<link
+    href="mobile.css"
+    rel="stylesheet"
+    media="screen and (max-width: 900px)"
+/>
 
 <html>
     <head>
@@ -19,8 +24,9 @@
             <div class="text-area">
                 <div class="text-container">
                     <b class="top">
-                        lambdacube
-                        <a class="interlink" href="/lambdacube"> → </a>
+                        <a class="interlink" href="/lambdacube"
+                            >lambdacube →
+                        </a>
                     </b>
                     <span>
                         My Dissertation Project, a 3d tool to help explain the
@@ -34,8 +40,9 @@
                         changes based on type system.
                     </span>
                     <b class="top">
-                        what tld can i get
-                        <a class="interlink" href="/tlds"> → </a>
+                        <a class="interlink" href="/tlds"
+                            >what tld can i get →
+                        </a>
                     </b>
                     <span>
                         Have you ever wondered what tld you can get with your
@@ -47,45 +54,54 @@
 
         <div class="content-row">
             <div class="text-area">
-                <div class="text-container">
-                    <b>Contact</b>
-                    <table>
-                        <tbody>
-                            <tr>
-                                <th>e-mail</th>
-                                <td>
-                                    <a
-                                        class="hyperlink"
-                                        href="mailto:hugo.findlay@gmail.com"
-                                    >
-                                        hugo.findlay@gmail.com
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>github</th>
-                                <td>
-                                    <a
-                                        class="hyperlink"
-                                        href="https://github.com/hugofin"
-                                        target="none"
-                                        >github.com/hugofin</a
-                                    >
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>linkedin</th>
-                                <td>
-                                    <a
-                                        class="hyperlink"
-                                        href="https://www.linkedin.com/in/hugofindlay/"
-                                        target="none"
-                                        >linkedin.com/in/hugofindlay</a
-                                    >
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div
+                    style="
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        width: 100%;
+                    "
+                >
+                    <div class="text-container">
+                        <b>Contact</b>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <th>e-mail</th>
+                                    <td>
+                                        <a
+                                            class="hyperlink"
+                                            href="mailto:hugo.findlay@gmail.com"
+                                        >
+                                            hugo.findlay@gmail.com
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>github</th>
+                                    <td>
+                                        <a
+                                            class="hyperlink"
+                                            href="https://github.com/hugofin"
+                                            target="none"
+                                            >github.com/hugofin</a
+                                        >
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>linkedin</th>
+                                    <td>
+                                        <a
+                                            class="hyperlink"
+                                            href="https://www.linkedin.com/in/hugofindlay/"
+                                            target="none"
+                                            >linkedin.com/in/hugofindlay</a
+                                        >
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
@@ -126,6 +142,8 @@
 
             let shadow = `${one}, ${two}, ${thr}, ${fou}, ${fiv}`;
 
+            document.getElementById("intro").style.boxShadow = shadow;
+
             let stars = "*.•˚˙°· \n\n";
             let planetarium = "";
 
@@ -133,6 +151,8 @@
                 planetarium += stars[Math.floor(Math.random() * 10)];
                 planetarium += " ".repeat(Math.floor(Math.random() * 25));
             }
+
+            document.getElementById("sky").innerText = planetarium;
 
             let flowers = "●◆▲▼▼";
 
@@ -151,62 +171,44 @@
                 petals_whi.push(row);
             }
 
+            function insertAt(x, y, char, list) {
+                var str = list[y];
+
+                str = str.split("");
+                str[x] = char;
+                str = str.join("");
+
+                list[y] = str;
+
+                return list;
+            }
+
             for (var i = 0; i < 100; i++) {
                 x = Math.floor(Math.random() * 75);
                 y = Math.floor(Math.random() * 74);
 
-                var str = stems[y + 1];
+                stems = insertAt(x, y + 1, "|", stems);
 
-                str = str.split("");
-                str[x] = "|";
-                str = str.join("");
-
-                stems[y + 1] = str;
+                var p = flowers[Math.floor(Math.random() * 4)];
 
                 switch (Math.floor(Math.random() * 8)) {
                     case 0:
-                        var str2 = petals_whi[y];
-
-                        str2 = str2.split("");
-                        str2[x] = flowers[Math.floor(Math.random() * 4)];
-                        str2 = str2.join("");
-
-                        petals_whi[y] = str2;
+                        petals_whi = insertAt(x, y, p, petals_whi);
                         break;
 
                     case 1:
-                        var str2 = petals_blu[y];
-
-                        str2 = str2.split("");
-                        str2[x] = flowers[Math.floor(Math.random() * 4)];
-                        str2 = str2.join("");
-
-                        petals_blu[y] = str2;
+                        petals_blu = insertAt(x, y, p, petals_blu);
                         break;
 
                     case 2:
-                        var str2 = petals_pur[y];
-
-                        str2 = str2.split("");
-                        str2[x] = flowers[Math.floor(Math.random() * 4)];
-                        str2 = str2.join("");
-
-                        petals_pur[y] = str2;
+                        petals_pur = insertAt(x, y, p, petals_pur);
                         break;
 
                     default:
-                        var str2 = petals_red[y];
-
-                        str2 = str2.split("");
-                        str2[x] = flowers[Math.floor(Math.random() * 4)];
-                        str2 = str2.join("");
-
-                        petals_red[y] = str2;
+                        petals_red = insertAt(x, y, p, petals_red);
                 }
             }
 
-            document.getElementById("intro").style.boxShadow = shadow;
-            document.getElementById("sky").innerText = planetarium;
             document.getElementById("stems").innerText = stems.join("\n");
             document.getElementById("petals-red").innerText =
                 petals_red.join("\n");
