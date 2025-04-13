@@ -1,4 +1,6 @@
 <!doctype html>
+<meta charset="UTF-8" />
+
 <html>
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -86,7 +88,16 @@
                 </div>
             </div>
 
-            <div class="panel" style="background-color: #b0ffb0"></div>
+            <div
+                class="panel"
+                style="background-color: #b0ffb0; position: relative"
+            >
+                <pre class="stems" id="stems"></pre>
+                <pre class="stems" style="color: #ff0000" id="petals-red"></pre>
+                <pre class="stems" style="color: #0000ff" id="petals-blu"></pre>
+                <pre class="stems" style="color: #990099" id="petals-yel"></pre>
+                <pre class="stems" style="color: #ffffff" id="petals-whi"></pre>
+            </div>
         </div>
 
         <style>
@@ -188,6 +199,22 @@
                     color: #2d2821;
                 }
             }
+
+            .stems {
+                width: 100%;
+                text-wrap: nowrap;
+                color: #30af1a;
+                line-height: 50%;
+                font-size: x-large;
+                overflow: hidden;
+                margin: 0px;
+                user-select: none;
+                height: 80vh;
+                text-align: left;
+                top: 0;
+                left: 0;
+                position: absolute;
+            }
         </style>
 
         <script>
@@ -223,8 +250,88 @@
                 planetarium += " ".repeat(Math.floor(Math.random() * 25));
             }
 
+            let flowers = "●◆▲▼▼";
+
+            let stems = [];
+            let petals_red = [];
+            let petals_blu = [];
+            let petals_pur = [];
+            let petals_whi = [];
+
+            for (var i = 0; i < 75; i++) {
+                row = " ".repeat(75);
+                stems.push(row);
+                petals_red.push(row);
+                petals_blu.push(row);
+                petals_pur.push(row);
+                petals_whi.push(row);
+            }
+
+            for (var i = 0; i < 100; i++) {
+                x = Math.floor(Math.random() * 75);
+                y = Math.floor(Math.random() * 74);
+
+                var str = stems[y + 1];
+
+                str = str.split("");
+                str[x] = "|";
+                str = str.join("");
+
+                stems[y + 1] = str;
+
+                switch (Math.floor(Math.random() * 8)) {
+                    case 0:
+                        var str2 = petals_whi[y];
+
+                        str2 = str2.split("");
+                        str2[x] = flowers[Math.floor(Math.random() * 4)];
+                        str2 = str2.join("");
+
+                        petals_whi[y] = str2;
+                        break;
+
+                    case 1:
+                        var str2 = petals_blu[y];
+
+                        str2 = str2.split("");
+                        str2[x] = flowers[Math.floor(Math.random() * 4)];
+                        str2 = str2.join("");
+
+                        petals_blu[y] = str2;
+                        break;
+
+                    case 2:
+                        var str2 = petals_pur[y];
+
+                        str2 = str2.split("");
+                        str2[x] = flowers[Math.floor(Math.random() * 4)];
+                        str2 = str2.join("");
+
+                        petals_pur[y] = str2;
+                        break;
+
+                    default:
+                        var str2 = petals_red[y];
+
+                        str2 = str2.split("");
+                        str2[x] = flowers[Math.floor(Math.random() * 4)];
+                        str2 = str2.join("");
+
+                        petals_red[y] = str2;
+                }
+            }
+
             document.getElementById("intro").style.boxShadow = shadow;
             document.getElementById("sky").innerText = planetarium;
+            document.getElementById("stems").innerText = stems.join("\n");
+            document.getElementById("petals-red").innerText =
+                petals_red.join("\n");
+            document.getElementById("petals-blu").innerText =
+                petals_blu.join("\n");
+            document.getElementById("petals-yel").innerText =
+                petals_pur.join("\n");
+            document.getElementById("petals-whi").innerText =
+                petals_whi.join("\n");
         </script>
     </body>
 </html>
