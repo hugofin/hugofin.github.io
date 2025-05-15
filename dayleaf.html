@@ -1,4 +1,5 @@
 <!doctype html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <html lang="en-GB">
     <head>
         <title>can you guess what tree this is?</title>
@@ -11,21 +12,84 @@
                 margin: 2rem auto;
             }
         </style>
-        <script type="module"></script>
     </head>
     <body>
         <h1>tree idenitfication game</h1>
-        <img id="image" />
+        <img src="" id="image" height="300" />
         <div>
-            <span id="lives"></span>
-            Guesses left
+            <span id="h1" style="font-family: monospace">♥</span>
+            <span id="h2" style="font-family: monospace">♥</span>
+            <span id="h3" style="font-family: monospace">♥</span>
+            <span id="h4" style="font-family: monospace">♥</span>
+            <span id="h5" style="font-family: monospace">♥</span>
         </div>
-        <form>
+        <div id="answer"></div>
+        <form onsubmit="return false">
             <label>
-                <input name="query" autocomplete="off" />
-                <input type="submit" value="guess..." />
+                <input id="query" autocomplete="off" />
+                <input
+                    id="submit"
+                    type="submit"
+                    value="guess..."
+                    onclick="guess()"
+                />
             </label>
         </form>
-        <ul id="guesses"></ul>
+        <div id="result"></div>
+        <ul id="guesses">
+            <li id="g5" style="display: none"></li>
+            <li id="g4" style="display: none"></li>
+            <li id="g3" style="display: none"></li>
+            <li id="g2" style="display: none"></li>
+            <li id="g1" style="display: none"></li>
+        </ul>
+
+        <script>
+            let trees = [
+                [
+                    "oak",
+                    "https://upload.wikimedia.org/wikipedia/commons/a/af/Quercus_robur.jpg",
+                ],
+                [
+                    "silver birch",
+                    "https://upload.wikimedia.org/wikipedia/commons/8/8a/Betula_pendula_Finland.jpg",
+                ],
+            ];
+
+            let todays = trees[Math.floor(Math.random() * trees.length)];
+            let previousGuesses = [];
+
+            document.getElementById("image").src = todays[1];
+
+            function guess() {
+                let x = document.getElementById("query").value;
+                let res = "";
+
+                if (x == todays[0]) {
+                    res = `${x} is right`;
+                    document.getElementById("query").disabled = "disabled";
+                    document.getElementById("submit").disabled = "disabled";
+                } else {
+                    res = `${x} is wrong`;
+                    document.getElementById(
+                        `h${5 - previousGuesses.length}`,
+                    ).innerText = "♡";
+                }
+
+                previousGuesses.push(res);
+                document.getElementById(
+                    `g${previousGuesses.length}`,
+                ).innerText = res;
+                document.getElementById(
+                    `g${previousGuesses.length}`,
+                ).style.display = "block";
+
+                if (previousGuesses.length == 5) {
+                    document.getElementById("query").disabled = "disabled";
+                    document.getElementById("submit").disabled = "disabled";
+                    document.getElementById("answer").innerText = todays[0];
+                }
+            }
+        </script>
     </body>
 </html>
