@@ -73,8 +73,11 @@
                 let x = document.getElementById("query").value;
                 let res = "";
 
-                if (x == todays[0]) {
-                    res = `${x} is right`;
+                if (
+                    x.toLowerCase().replace(" ", "") ==
+                    todays[0].replace(" ", "")
+                ) {
+                    res = `${todays[0]} is right`;
                     document.getElementById("query").disabled = "disabled";
                     document.getElementById("submit").disabled = "disabled";
                 } else {
@@ -82,6 +85,7 @@
                     document.getElementById(
                         `h${5 - previousGuesses.length}`,
                     ).innerText = "♡";
+                    document.getElementById("query").value = "";
                 }
 
                 previousGuesses.push(res);
