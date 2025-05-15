@@ -56,7 +56,15 @@
                 ],
             ];
 
-            let todays = trees[Math.floor(Math.random() * trees.length)];
+            const d = new Date();
+            var seed = d.getUTCDate() + d.getUTCMonth() + d.getUTCFullYear();
+
+            function random() {
+                var x = Math.sin(seed++) * 10000;
+                return x - Math.floor(x);
+            }
+
+            let todays = trees[Math.floor(random() * trees.length)];
             let previousGuesses = [];
 
             document.getElementById("image").src = todays[1];
