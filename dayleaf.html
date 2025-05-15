@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en-GB">
+    <head>
+        <title>can you guess what tree this is?</title>
+        <style>
+            :root {
+                font-family: system-ui;
+            }
+            body {
+                max-width: 40rem;
+                margin: 2rem auto;
+            }
+        </style>
+        <script type="module"></script>
+    </head>
+    <body>
+        <h1>tree idenitfication game</h1>
+        <img id="image" />
+        <div>
+            <span id="lives"></span>
+            Guesses left
+        </div>
+        <form>
+            <label>
+                <input name="query" autocomplete="off" />
+                <input type="submit" value="guess..." />
+            </label>
+        </form>
+        <ul id="guesses"></ul>
+    </body>
+</html>
