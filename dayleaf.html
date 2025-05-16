@@ -8,20 +8,26 @@
                 font-family: system-ui;
             }
             body {
-                max-width: 40rem;
+                max-width: 20rem;
                 margin: 2rem auto;
+            }
+            .life {
+                font-family: system-ui;
+                font-size: 20px;
+                color: #ff4444;
+                user-select: none;
             }
         </style>
     </head>
     <body>
-        <h1>tree idenitfication game</h1>
+        <h1>dayleaf</h1>
         <img src="" id="image" height="300" />
         <div>
-            <span id="h1" style="font-family: monospace">♥</span>
-            <span id="h2" style="font-family: monospace">♥</span>
-            <span id="h3" style="font-family: monospace">♥</span>
-            <span id="h4" style="font-family: monospace">♥</span>
-            <span id="h5" style="font-family: monospace">♥</span>
+            <span id="h1" class="life">♥</span>
+            <span id="h2" class="life">♥</span>
+            <span id="h3" class="life">♥</span>
+            <span id="h4" class="life">♥</span>
+            <span id="h5" class="life">♥</span>
         </div>
         <div id="answer"></div>
         <form onsubmit="return false">
@@ -31,7 +37,7 @@
                     id="submit"
                     type="submit"
                     value="guess..."
-                    onclick="guess()"
+                    onclick="rtg()"
                 />
             </label>
         </form>
@@ -43,6 +49,8 @@
             <li id="g2" style="display: none"></li>
             <li id="g1" style="display: none"></li>
         </ul>
+
+        <div id="123"></div>
 
         <script>
             let trees = [
@@ -57,7 +65,8 @@
             ];
 
             const d = new Date();
-            var seed = d.getUTCDate() + d.getUTCMonth() + d.getUTCFullYear();
+            var seed = `${d.getUTCDate()}${d.getUTCFullYear()}${d.getUTCMonth()}`;
+            let previousGuesses = [];
 
             function random() {
                 var x = Math.sin(seed++) * 10000;
@@ -65,41 +74,68 @@
             }
 
             let todays = trees[Math.floor(random() * trees.length)];
-            let previousGuesses = [];
 
             document.getElementById("image").src = todays[1];
 
-            function guess() {
+            var lastSeed = localStorage.getItem("lastSeed");
+            if (lastSeed != seed) {
+                localStorage.setItem("lastSeed", seed);
+                localStorage.setItem(
+                    "previousGuesses",
+                    JSON.stringify(previousGuesses),
+                );
+            } else {
+                let x = JSON.parse(localStorage.getItem("previousGuesses"));
+
+                console.log(x);
+
+                for (var g of x) {
+                    console.log(g);
+                    guess(g.replace("❌", "").replace("✓", ""));
+                }
+            }
+
+            function rtg() {
                 let x = document.getElementById("query").value;
+                guess(x);
+                localStorage.setItem(
+                    "previousGuesses",
+                    JSON.stringify(previousGuesses),
+                );
+            }
+
+            function guess(g) {
                 let res = "";
 
-                if (
-                    x.toLowerCase().replace(" ", "") ==
-                    todays[0].replace(" ", "")
-                ) {
-                    res = `${todays[0]} is right`;
-                    document.getElementById("query").disabled = "disabled";
-                    document.getElementById("submit").disabled = "disabled";
-                } else {
-                    res = `${x} is wrong`;
+                if (g) {
+                    if (
+                        g.toLowerCase().replace(" ", "") ==
+                        todays[0].replaceAll(" ", "")
+                    ) {
+                        res = `${g}✓`;
+                        document.getElementById("query").disabled = "disabled";
+                        document.getElementById("submit").disabled = "disabled";
+                    } else {
+                        res = `${g}❌`;
+                        document.getElementById(
+                            `h${5 - previousGuesses.length}`,
+                        ).innerText = "♡";
+                        document.getElementById("query").value = "";
+                    }
+
+                    previousGuesses.push(res);
                     document.getElementById(
-                        `h${5 - previousGuesses.length}`,
-                    ).innerText = "♡";
-                    document.getElementById("query").value = "";
-                }
+                        `g${previousGuesses.length}`,
+                    ).innerText = res;
+                    document.getElementById(
+                        `g${previousGuesses.length}`,
+                    ).style.display = "block";
 
-                previousGuesses.push(res);
-                document.getElementById(
-                    `g${previousGuesses.length}`,
-                ).innerText = res;
-                document.getElementById(
-                    `g${previousGuesses.length}`,
-                ).style.display = "block";
-
-                if (previousGuesses.length == 5) {
-                    document.getElementById("query").disabled = "disabled";
-                    document.getElementById("submit").disabled = "disabled";
-                    document.getElementById("answer").innerText = todays[0];
+                    if (previousGuesses.length == 5) {
+                        document.getElementById("query").disabled = "disabled";
+                        document.getElementById("submit").disabled = "disabled";
+                        document.getElementById("answer").innerText = todays[0];
+                    }
                 }
             }
         </script>
