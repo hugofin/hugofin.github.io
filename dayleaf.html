@@ -37,7 +37,7 @@
                     id="submit"
                     type="submit"
                     value="guess..."
-                    onclick="rtg()"
+                    onclick="realTimeGuess()"
                 />
             </label>
         </form>
@@ -50,10 +50,10 @@
             <li id="g1" style="display: none"></li>
         </ul>
 
-        <div id="123"></div>
+        <div id="score"></div>
 
         <script>
-            let trees = [
+            const trees = [
                 [
                     "oak",
                     "https://upload.wikimedia.org/wikipedia/commons/a/af/Quercus_robur.jpg",
@@ -65,37 +65,38 @@
             ];
 
             const d = new Date();
-            var seed = `${d.getUTCDate()}${d.getUTCFullYear()}${d.getUTCMonth()}`;
+            const seed = `${d.getUTCDate()}${d.getUTCFullYear()}${d.getUTCMonth()}`;
             let previousGuesses = [];
+            let finishedToday = "no";
 
             function random() {
-                var x = Math.sin(seed++) * 10000;
+                let x = Math.sin(seed) * 10000;
                 return x - Math.floor(x);
             }
 
-            let todays = trees[Math.floor(random() * trees.length)];
-
+            const todays = trees[Math.floor(random() * trees.length)];
             document.getElementById("image").src = todays[1];
 
-            var lastSeed = localStorage.getItem("lastSeed");
+            let wr = 0;
+            let wins = localStorage.getItem("wins");
+            let games = localStorage.getItem("games");
+            const lastSeed = localStorage.getItem("lastSeed");
             if (lastSeed != seed) {
+                localStorage.setItem("finishedToday", finishedToday);
                 localStorage.setItem("lastSeed", seed);
                 localStorage.setItem(
                     "previousGuesses",
                     JSON.stringify(previousGuesses),
                 );
             } else {
+                finishedToday = localStorage.getItem("finishedToday");
                 let x = JSON.parse(localStorage.getItem("previousGuesses"));
-
-                console.log(x);
-
                 for (var g of x) {
-                    console.log(g);
-                    guess(g.replace("❌", "").replace("✓", ""));
+                    guess(g.replace("✕", "").replace("✓", ""));
                 }
             }
 
-            function rtg() {
+            function realTimeGuess() {
                 let x = document.getElementById("query").value;
                 guess(x);
                 localStorage.setItem(
@@ -112,11 +113,23 @@
                         g.toLowerCase().replace(" ", "") ==
                         todays[0].replaceAll(" ", "")
                     ) {
-                        res = `${g}✓`;
+                        res = `✓ ${g}`;
                         document.getElementById("query").disabled = "disabled";
                         document.getElementById("submit").disabled = "disabled";
+
+                        if (finishedToday != "yes") {
+                            wins++;
+                            games++;
+                            localStorage.setItem("finishedToday", "yes");
+                        }
+
+                        localStorage.setItem("wins", wins);
+                        localStorage.setItem("games", games);
+
+                        document.getElementById("score").innerText =
+                            `Well done! your win rate is ${Math.floor((wins / games) * 100)}%`;
                     } else {
-                        res = `${g}❌`;
+                        res = `✕ ${g}`;
                         document.getElementById(
                             `h${5 - previousGuesses.length}`,
                         ).innerText = "♡";
@@ -135,6 +148,20 @@
                         document.getElementById("query").disabled = "disabled";
                         document.getElementById("submit").disabled = "disabled";
                         document.getElementById("answer").innerText = todays[0];
+
+                        if (finishedToday != "yes") {
+                            games++;
+                            localStorage.setItem("finishedToday", "yes");
+                        }
+
+                        if (wins != 0) {
+                            wr = (wins / games) * 100;
+                        }
+
+                        localStorage.setItem("games", games);
+
+                        document.getElementById("score").innerText =
+                            `Better luck next time, your win rate is ${Math.floor(wr)}%`;
                     }
                 }
             }
