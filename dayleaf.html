@@ -1,5 +1,6 @@
 <!doctype html>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <html lang="en-GB">
     <head>
         <title>can you guess what tree this is?</title>
@@ -54,14 +55,62 @@
 
         <script>
             const trees = [
+                ["silver birch", "8/8a/Betula_pendula_Finland.jpg"],
                 [
-                    "oak",
-                    "https://upload.wikimedia.org/wikipedia/commons/a/af/Quercus_robur.jpg",
+                    "aspen",
+                    "thumb/7/7e/Taxus_baccata_tree.jpg/960px-Taxus_baccata_tree.jpg",
                 ],
                 [
-                    "silver birch",
-                    "https://upload.wikimedia.org/wikipedia/commons/8/8a/Betula_pendula_Finland.jpg",
+                    "common lime",
+                    "thumb/5/58/Tilia_May_2014-1.jpg/960px-Tilia_May_2014-1.jpg",
                 ],
+                ["hazel", "c/c3/Hazelnut_in_blossom.jpg"],
+                ["alder", "2/2c/20120904Alnus_glutinosa01.jpg"],
+                [
+                    "crab apple",
+                    "b/b6/Flowering_crab_apple_tree_%28Malus_sylvestris%29_-_geograph.org.uk_-_1310092.jpg",
+                ],
+                ["hornbeam", "2/2c/Carpinus_betulus_-_Hunsrück_001.jpg"],
+                ["elm", "0/03/Constable_-_Study_of_an_Elm_Tree_-_c1821.jpeg"],
+                ["beech", "5/5b/Grib_skov.jpg"],
+                ["blackthorn", "2/29/Schlehe1.jpg"],
+                [
+                    "holly",
+                    "thumb/3/37/Ilex_aquifolium_in_the_Tashkent_Botanical_Garden.jpg/500px-Ilex_aquifolium_in_the_Tashkent_Botanical_Garden.jpg",
+                ],
+                ["common hawthorn", "f/f5/%28ms%29_Crataegus_monogyna_12.jpg"],
+                ["oak", "d/d3/Eiche_in_Suffolk.jpg"], //a/af/Quercus_robur.jpg
+                ["sycamore", "d/d3/Eiche_in_Suffolk.jpg"],
+                ["field maple", "c/c5/Acer_campestre_009.jpg"],
+                [
+                    "london plane",
+                    "b/b9/London_Plane_in_the_evening_rush_hour%2C_Millbank%2C_London_-_geograph.org.uk_-_4816671.jpg",
+                ],
+                [
+                    "wild service tree",
+                    "f/f0/Sorbus_torminalis_Trunk_and_canopy.jpg",
+                ],
+                [
+                    "sweet chestnut",
+                    "thumb/7/7a/Sweet_chestnuts_in_Farnham.jpg/2560px-Sweet_chestnuts_in_Farnham.jpg",
+                ],
+                ["goat willow", "1/19/Salix_caprea_sl19.jpg"],
+                [
+                    "horse chestnut",
+                    "thumb/2/2c/Horse_chestnut_flowers_in_Brodalen_4.jpg/960px-Horse_chestnut_flowers_in_Brodalen_4.jpg",
+                ],
+                [
+                    "ash",
+                    "6/62/Ash_in_Under_Hooken_-_geograph.org.uk_-_240969.jpg",
+                ],
+                [
+                    "rowan",
+                    "thumb/2/26/Rowan_tree_20081002b.jpg/960px-Rowan_tree_20081002b.jpg",
+                ],
+                ["yew", "7/7e/Taxus_baccata_tree.jpg"],
+                ["larch", "8/88/Autumn_Larch_-_geograph.org.uk_-_265498.jpg"],
+                ["scots pine", "9/91/Skuleskogen_pine.jpg"],
+                ["juniper", "d/d6/JuniperusCommunisAlpina.jpg"],
             ];
 
             const d = new Date();
@@ -75,7 +124,8 @@
             }
 
             const todays = trees[Math.floor(random() * trees.length)];
-            document.getElementById("image").src = todays[1];
+            document.getElementById("image").src =
+                `https://upload.wikimedia.org/wikipedia/commons/${todays[1]}`;
 
             let wr = 0;
             let wins = localStorage.getItem("wins");
