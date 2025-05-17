@@ -9,7 +9,7 @@
                 font-family: system-ui;
             }
             body {
-                max-width: 20rem;
+                max-width: 25rem;
                 margin: 2rem auto;
             }
             .life {
@@ -18,38 +18,69 @@
                 color: #ff4444;
                 user-select: none;
             }
+
+            .guess {
+                width:2em;
+                text-align:center;
+            }
+
+            .image{
+                object-fit: cover;
+                width: 333px;
+                height: 333px;
+            }
         </style>
     </head>
     <body>
         <h1>dayleaf</h1>
-        <img src="" id="image" height="300" />
-        <div>
-            <span id="h1" class="life">♥</span>
-            <span id="h2" class="life">♥</span>
-            <span id="h3" class="life">♥</span>
-            <span id="h4" class="life">♥</span>
-            <span id="h5" class="life">♥</span>
-        </div>
+        <img src="" id="image" class="image"/>
+
         <div id="answer"></div>
-        <form onsubmit="return false">
-            <label>
-                <input id="query" autocomplete="off" />
-                <input
-                    id="submit"
-                    type="submit"
-                    value="guess..."
-                    onclick="realTimeGuess()"
-                />
-            </label>
-        </form>
+        <div style="display: flex; flex-direction: row; column-gap: 1rem;">
+            <form onsubmit="return false">
+                <label>
+                    <input id="query" autocomplete="off" />
+                    <input
+                        id="submit"
+                        type="submit"
+                        value="guess..."
+                        onclick="realTimeGuess()"
+                    />
+                </label>
+            </form>
+            <div>
+                <span id="h1" class="life">♥</span>
+                <span id="h2" class="life">♥</span>
+                <span id="h3" class="life">♥</span>
+                <span id="h4" class="life">♥</span>
+                <span id="h5" class="life">♥</span>
+            </div>
+        </div>
+
         <div id="result"></div>
-        <ul id="guesses">
-            <li id="g5" style="display: none"></li>
-            <li id="g4" style="display: none"></li>
-            <li id="g3" style="display: none"></li>
-            <li id="g2" style="display: none"></li>
-            <li id="g1" style="display: none"></li>
-        </ul>
+
+        <table>
+            <tr>
+                <td id="r5" class="guess"></d>
+                <td id="g5" style="display: none"></>
+            </tr>
+            <tr>
+                <td id="r4" class="guess"></>
+                <td id="g4" style="display: none"></>
+            </tr>
+            <tr>
+                <td id="r3" class="guess"></>
+                <td id="g3" style="display: none"></>
+            </tr>
+            <tr>
+                <td id="r2" class="guess"></>
+                <td id="g2" style="display: none"></>
+            </tr>
+            <tr>
+                <td id="r1" class="guess"></>
+                <td id="g1" style="display: none"></>
+            </tr>
+        </table>
 
         <div id="score"></div>
 
@@ -143,9 +174,9 @@
                 );
             } else {
                 finishedToday = localStorage.getItem("finishedToday");
-                let x = JSON.parse(localStorage.getItem("previousGuesses"));
-                for (var g of x) {
-                    guess(g.replace("✕", "").replace("✓", ""));
+                let gs = JSON.parse(localStorage.getItem("previousGuesses"));
+                for (var g of gs) {
+                    guess(g);
                 }
             }
 
@@ -159,14 +190,15 @@
             }
 
             function guess(g) {
-                let res = "";
+                let res = ["✕", "#ff4444"];
 
                 if (g) {
                     if (
                         g.toLowerCase().replace(" ", "") ==
                         todays[0].replaceAll(" ", "")
                     ) {
-                        res = `✓ ${g}`;
+                        res[0] = `✓`;
+                        res[1] = "#44dd44";
                         document.getElementById("query").disabled = "disabled";
                         document.getElementById("submit").disabled = "disabled";
 
@@ -182,40 +214,46 @@
                         document.getElementById("score").innerText =
                             `Well done! your win rate is ${Math.floor((wins / games) * 100)}%`;
                     } else {
-                        res = `✕ ${g}`;
                         document.getElementById(
                             `h${5 - previousGuesses.length}`,
                         ).innerText = "♡";
                         document.getElementById("query").value = "";
+
+                        if (previousGuesses.length == 5) {
+                            document.getElementById("query").disabled = "disabled";
+                            document.getElementById("submit").disabled = "disabled";
+                            document.getElementById("answer").innerText = todays[0];
+
+                            if (finishedToday != "yes") {
+                                games++;
+                                localStorage.setItem("finishedToday", "yes");
+                            }
+
+                            if (wins != 0) {
+                                wr = (wins / games) * 100;
+                            }
+
+                            localStorage.setItem("games", games);
+
+                            document.getElementById("score").innerText =
+                                `Better luck next time, your win rate is ${Math.floor(wr)}%`;
+                        }
                     }
 
-                    previousGuesses.push(res);
+                    previousGuesses.push(g);
+
                     document.getElementById(
                         `g${previousGuesses.length}`,
-                    ).innerText = res;
+                    ).innerText = g;
                     document.getElementById(
                         `g${previousGuesses.length}`,
                     ).style.display = "block";
-
-                    if (previousGuesses.length == 5) {
-                        document.getElementById("query").disabled = "disabled";
-                        document.getElementById("submit").disabled = "disabled";
-                        document.getElementById("answer").innerText = todays[0];
-
-                        if (finishedToday != "yes") {
-                            games++;
-                            localStorage.setItem("finishedToday", "yes");
-                        }
-
-                        if (wins != 0) {
-                            wr = (wins / games) * 100;
-                        }
-
-                        localStorage.setItem("games", games);
-
-                        document.getElementById("score").innerText =
-                            `Better luck next time, your win rate is ${Math.floor(wr)}%`;
-                    }
+                    document.getElementById(
+                        `r${previousGuesses.length}`,
+                    ).innerText = res[0];
+                    document.getElementById(
+                        `r${previousGuesses.length}`,
+                    ).style.color = res[1];
                 }
             }
         </script>
