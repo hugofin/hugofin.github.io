@@ -209,12 +209,8 @@
                         document.getElementById("score").innerText =
                             `Well done! your win rate is ${Math.floor((wins / games) * 100)}%`;
                     } else {
-                        document.getElementById(
-                            `h${5 - previousGuesses.length}`,
-                        ).innerText = "♡";
-                        document.getElementById("query").value = "";
 
-                        if (previousGuesses.length == 5) {
+                        if (previousGuesses.length >= 4) {
                             document.getElementById("query").disabled = "disabled";
                             document.getElementById("submit").disabled = "disabled";
                             document.getElementById("answer").innerText = todays[0];
@@ -229,10 +225,14 @@
                             }
 
                             localStorage.setItem("games", games);
-
                             document.getElementById("score").innerText =
                                 `Better luck next time, your win rate is ${Math.floor(wr)}%`;
                         }
+
+                        document.getElementById(
+                            `h${5 - previousGuesses.length}`,
+                        ).innerText = "♡";
+                        document.getElementById("query").value = "";
                     }
 
                     previousGuesses.push(g);
