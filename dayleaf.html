@@ -19,11 +19,11 @@
             }
 
             .guess {
-                width:2em;
-                text-align:center;
+                width: 2em;
+                text-align: center;
             }
 
-            .image{
+            .image {
                 object-fit: cover;
                 max-width: 100%;
                 aspect-ratio: 1/1;
@@ -32,13 +32,19 @@
     </head>
     <body>
         <h1>dayleaf</h1>
-        <img src="" id="image" class="image"/>
+        <img src="" id="image" class="image" />
 
         <div id="answer"></div>
-        <div style="display: flex; flex-direction: row; justify-content: space-between;">
+        <div
+            style="
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+            "
+        >
             <form onsubmit="return false">
                 <label>
-                    <input id="query" autocomplete="off" list="opts"/>
+                    <input id="query" autocomplete="off" list="opts" />
                     <input
                         id="submit"
                         type="submit"
@@ -47,7 +53,7 @@
                     />
                 </label>
             </form>
-            <div style="white-space: nowrap;">
+            <div style="white-space: nowrap">
                 <span id="h1" class="life">♥</span>
                 <span id="h2" class="life">♥</span>
                 <span id="h3" class="life">♥</span>
@@ -60,24 +66,24 @@
 
         <table>
             <tr>
-                <td id="r5" class="guess"></d>
-                <td id="g5" style="display: none"></>
+                <td id="r5" class="guess"></td>
+                <td id="g5" style="display: none"></td>
             </tr>
             <tr>
-                <td id="r4" class="guess"></>
-                <td id="g4" style="display: none"></>
+                <td id="r4" class="guess"></td>
+                <td id="g4" style="display: none"></td>
             </tr>
             <tr>
-                <td id="r3" class="guess"></>
-                <td id="g3" style="display: none"></>
+                <td id="r3" class="guess"></td>
+                <td id="g3" style="display: none"></td>
             </tr>
             <tr>
-                <td id="r2" class="guess"></>
-                <td id="g2" style="display: none"></>
+                <td id="r2" class="guess"></td>
+                <td id="g2" style="display: none"></td>
             </tr>
             <tr>
-                <td id="r1" class="guess"></>
-                <td id="g1" style="display: none"></>
+                <td id="r1" class="guess"></td>
+                <td id="g1" style="display: none"></td>
             </tr>
         </table>
 
@@ -115,27 +121,60 @@
         <script>
             const trees = [
                 ["silver birch", "8/8a/Betula_pendula_Finland.jpg"],
-                ["aspen", "/thumb/0/03/Populus_tremula_-_Eurasian_Aspen%2C_Giresun_2016_01-2.jpg/330px-Populus_tremula_-_Eurasian_Aspen%2C_Giresun_2016_01-2.jpg"],
-                ["common lime", "thumb/5/58/Tilia_May_2014-1.jpg/960px-Tilia_May_2014-1.jpg"],
+                [
+                    "aspen",
+                    "/thumb/0/03/Populus_tremula_-_Eurasian_Aspen%2C_Giresun_2016_01-2.jpg/330px-Populus_tremula_-_Eurasian_Aspen%2C_Giresun_2016_01-2.jpg",
+                ],
+                [
+                    "common lime",
+                    "thumb/5/58/Tilia_May_2014-1.jpg/960px-Tilia_May_2014-1.jpg",
+                ],
                 ["hazel", "c/c3/Hazelnut_in_blossom.jpg"],
                 ["alder", "2/2c/20120904Alnus_glutinosa01.jpg"],
-                ["crab apple", "b/b6/Flowering_crab_apple_tree_%28Malus_sylvestris%29_-_geograph.org.uk_-_1310092.jpg"],
+                [
+                    "crab apple",
+                    "b/b6/Flowering_crab_apple_tree_%28Malus_sylvestris%29_-_geograph.org.uk_-_1310092.jpg",
+                ],
                 ["hornbeam", "2/2c/Carpinus_betulus_-_Hunsrück_001.jpg"],
                 ["elm", "0/03/Constable_-_Study_of_an_Elm_Tree_-_c1821.jpeg"],
                 ["beech", "5/5b/Grib_skov.jpg"],
                 ["blackthorn", "2/29/Schlehe1.jpg"],
-                ["holly", "thumb/3/37/Ilex_aquifolium_in_the_Tashkent_Botanical_Garden.jpg/500px-Ilex_aquifolium_in_the_Tashkent_Botanical_Garden.jpg"],
+                [
+                    "holly",
+                    "thumb/3/37/Ilex_aquifolium_in_the_Tashkent_Botanical_Garden.jpg/500px-Ilex_aquifolium_in_the_Tashkent_Botanical_Garden.jpg",
+                ],
                 ["common hawthorn", "f/f5/%28ms%29_Crataegus_monogyna_12.jpg"],
                 ["oak", "d/d3/Eiche_in_Suffolk.jpg"], //a/af/Quercus_robur.jpg
-                ["sycamore", "thumb/e/ea/FelledSycamoreTree.jpg/960px-FelledSycamoreTree.jpg"],
+                [
+                    "sycamore",
+                    "thumb/e/ea/FelledSycamoreTree.jpg/960px-FelledSycamoreTree.jpg",
+                ],
                 ["field maple", "c/c5/Acer_campestre_009.jpg"],
-                ["london plane", "b/b9/London_Plane_in_the_evening_rush_hour%2C_Millbank%2C_London_-_geograph.org.uk_-_4816671.jpg"],
-                ["wild service tree", "f/f0/Sorbus_torminalis_Trunk_and_canopy.jpg"],
-                ["sweet chestnut", "thumb/7/7a/Sweet_chestnuts_in_Farnham.jpg/2560px-Sweet_chestnuts_in_Farnham.jpg"],
+                [
+                    "london plane",
+                    "b/b9/London_Plane_in_the_evening_rush_hour%2C_Millbank%2C_London_-_geograph.org.uk_-_4816671.jpg",
+                ],
+                [
+                    "wild service tree",
+                    "f/f0/Sorbus_torminalis_Trunk_and_canopy.jpg",
+                ],
+                [
+                    "sweet chestnut",
+                    "thumb/7/7a/Sweet_chestnuts_in_Farnham.jpg/2560px-Sweet_chestnuts_in_Farnham.jpg",
+                ],
                 ["goat willow", "1/19/Salix_caprea_sl19.jpg"],
-                ["horse chestnut", "thumb/2/2c/Horse_chestnut_flowers_in_Brodalen_4.jpg/960px-Horse_chestnut_flowers_in_Brodalen_4.jpg"],
-                ["ash", "6/62/Ash_in_Under_Hooken_-_geograph.org.uk_-_240969.jpg"],
-                ["rowan", "thumb/2/26/Rowan_tree_20081002b.jpg/960px-Rowan_tree_20081002b.jpg"],
+                [
+                    "horse chestnut",
+                    "thumb/2/2c/Horse_chestnut_flowers_in_Brodalen_4.jpg/960px-Horse_chestnut_flowers_in_Brodalen_4.jpg",
+                ],
+                [
+                    "ash",
+                    "6/62/Ash_in_Under_Hooken_-_geograph.org.uk_-_240969.jpg",
+                ],
+                [
+                    "rowan",
+                    "thumb/2/26/Rowan_tree_20081002b.jpg/960px-Rowan_tree_20081002b.jpg",
+                ],
                 ["yew", "7/7e/Taxus_baccata_tree.jpg"],
                 ["larch", "8/88/Autumn_Larch_-_geograph.org.uk_-_265498.jpg"],
                 ["scots pine", "9/91/Skuleskogen_pine.jpg"],
@@ -209,11 +248,13 @@
                         document.getElementById("score").innerText =
                             `Well done! your win rate is ${Math.floor((wins / games) * 100)}%`;
                     } else {
-
                         if (previousGuesses.length >= 4) {
-                            document.getElementById("query").disabled = "disabled";
-                            document.getElementById("submit").disabled = "disabled";
-                            document.getElementById("answer").innerText = todays[0];
+                            document.getElementById("query").disabled =
+                                "disabled";
+                            document.getElementById("submit").disabled =
+                                "disabled";
+                            document.getElementById("answer").innerText =
+                                todays[0];
 
                             if (finishedToday != "yes") {
                                 games++;
