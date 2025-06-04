@@ -228,7 +228,7 @@
 
                 if (g) {
                     if (
-                        g.toLowerCase().replace(" ", "") ==
+                        g.toLowerCase().replaceAll(" ", "") ==
                         todays[0].replaceAll(" ", "")
                     ) {
                         res[0] = `✓`;
