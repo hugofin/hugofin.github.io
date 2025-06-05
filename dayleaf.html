@@ -31,7 +31,19 @@
         </style>
     </head>
     <body>
-        <h1>dayleaf</h1>
+        <div
+            style="
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+            "
+        >
+            <h1>dayleaf</h1>
+            <span style="align-self: end; padding-bottom: 1.5rem"
+                >the daily tree guessing game</span
+            >
+        </div>
+
         <img src="" id="image" class="image" />
 
         <div id="answer"></div>
@@ -182,7 +194,9 @@
             ];
 
             const d = new Date();
-            const seed = `${d.getUTCDate()}${d.getUTCFullYear()}${d.getUTCMonth()}`;
+            const seed = parseInt(
+                `${d.getUTCDate()}${d.getUTCFullYear()}${d.getUTCMonth()}`,
+            );
             let previousGuesses = [];
             let finishedToday = "no";
 
