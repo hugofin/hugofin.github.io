@@ -1,0 +1,223 @@
+<!doctype html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<html lang="en-GB">
+    <head>
+        <title>Connections Etymology type game</title>
+        <style>
+            :root {
+                font-family: system-ui;
+            }
+            body {
+                max-width: 28rem;
+                margin: 1.5rem min(1.5rem);
+            }
+            .life {
+                font-size: 20px;
+                color: #ff4444;
+                user-select: none;
+            }
+
+            .guess {
+                width: 2em;
+                text-align: center;
+            }
+
+            .butt {
+                width: 8rem;
+                height: 8rem;
+                border: none;
+                background-color: #eee;
+            }
+
+            .selected {
+                background-color: #4af;
+            }
+
+            .locked {
+                background-color: #afa;
+            }
+        </style>
+    </head>
+    <body>
+        <div
+            style="
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+            "
+        >
+            <h1>game</h1>
+        </div>
+
+        <div
+            style="
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+            "
+        >
+            <div style="display: flex; flex-direction: column; row-gap: 2rem">
+                <button class="butt" id="l1" onclick="squareClicked('l1')">
+                    one
+                </button>
+                <button class="butt" id="l2" onclick="squareClicked('l2')">
+                    two
+                </button>
+                <button class="butt" id="l3" onclick="squareClicked('l3')">
+                    three
+                </button>
+            </div>
+            <div style="display: flex; flex-direction: column; row-gap: 2rem">
+                <button class="butt" id="m1" onclick="squareClicked('m1')">
+                    four
+                </button>
+                <button class="butt" id="m2" onclick="squareClicked('m2')">
+                    five
+                </button>
+                <button class="butt" id="m3" onclick="squareClicked('m3')">
+                    six
+                </button>
+            </div>
+            <div style="display: flex; flex-direction: column; row-gap: 2rem">
+                <button class="butt" id="r1" onclick="squareClicked('r1')">
+                    seven
+                </button>
+                <button class="butt" id="r2" onclick="squareClicked('r2')">
+                    eight
+                </button>
+                <button class="butt" id="r3" onclick="squareClicked('r3')">
+                    nine
+                </button>
+            </div>
+        </div>
+
+        <div
+            style="
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+            "
+        >
+            <button onclick="guess()" id="guess">guess..</button>
+            <div style="white-space: nowrap">
+                <span id="h1" class="life">♥</span>
+                <span id="h2" class="life">♥</span>
+                <span id="h3" class="life">♥</span>
+                <span id="h4" class="life">♥</span>
+                <span id="h5" class="life">♥</span>
+            </div>
+        </div>
+
+        <h1 id="msg"></h1>
+
+        <script>
+            function random() {
+                let x = Math.sin(seed + 1) * 10000;
+                return x - Math.floor(x);
+            }
+
+            let prev_guesses = [];
+            let lives = 5;
+            let pairs = 0;
+
+            let selected = [];
+            let locked = [];
+            let vals = {};
+
+            vals["zinc"] = "1";
+            vals["tine"] = "1";
+            vals["oaf"] = "2";
+            vals["elf"] = "2";
+            vals["craze"] = "3";
+            vals["crash"] = "3";
+            vals["tulip"] = "4";
+            vals["turban"] = "4";
+            vals["table"] = "5";
+
+            function squareClicked(sq) {
+                if (!locked.includes(sq)) {
+                    if (selected.includes(sq)) {
+                        const index = selected.indexOf(sq);
+                        if (index > -1) {
+                            selected.splice(index, 1);
+                        }
+                        document
+                            .getElementById(sq)
+                            .classList.remove("selected");
+                    } else if (selected.length < 2) {
+                        selected.push(sq);
+                        document.getElementById(sq).classList.add("selected");
+                    }
+                }
+            }
+
+            function lockBoard() {
+                document.getElementById("guess").disabled = "disabled";
+
+                for (var c of ["l", "m", "r"]) {
+                    for (var r of ["1", "2", "3"]) {
+                        document.getElementById(`${c}${r}`).disabled =
+                            "disabled";
+                    }
+                }
+            }
+
+            function guess() {
+                if (selected.length > 1) {
+                    let a = selected[0];
+                    let b = selected[1];
+
+                    prev_guesses.push([a, b]);
+
+                    if (
+                        vals[document.getElementById(a).innerText] ==
+                        vals[document.getElementById(b).innerText]
+                    ) {
+                        document.getElementById(a).classList.remove("selected");
+                        document.getElementById(a).classList.add("locked");
+                        locked.push(a);
+                        document.getElementById(a).disabled = "disabled";
+
+                        document.getElementById(b).classList.remove("selected");
+                        document.getElementById(b).classList.add("locked");
+                        locked.push(b);
+                        document.getElementById(b).disabled = "disabled";
+
+                        selected = [];
+                        pairs += 1;
+
+                        if (pairs == 4) {
+                            lockBoard();
+                            document.getElementById("msg").innerText =
+                                "Congratulations!";
+                        }
+                    } else {
+                        document.getElementById(`h${lives}`).innerText = "♡";
+                        lives -= 1;
+
+                        if (lives == 0) {
+                            lockBoard();
+                            document.getElementById("msg").innerText =
+                                "Better luck next time :(";
+                        }
+                    }
+                }
+            }
+
+            function setBoard() {
+                let a = Object.keys(vals);
+
+                for (var c of ["l", "m", "r"]) {
+                    for (var r of ["1", "2", "3"]) {
+                        let x = Math.floor(Math.random() * a.length);
+                        document.getElementById(`${c}${r}`).innerText = a[x];
+                        a.splice(x, 1);
+                    }
+                }
+            }
+
+            setBoard();
+        </script>
+    </body>
+</html>
