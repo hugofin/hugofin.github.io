@@ -12,6 +12,20 @@
                 max-width: 22rem;
                 margin: 0rem auto;
             }
+
+            .row {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                margin: 0rem 1rem;
+            }
+
+            .col {
+                display: flex;
+                flex-direction: column;
+                row-gap: 1rem;
+            }
+
             .life {
                 font-size: 20px;
                 color: #ff4444;
@@ -52,26 +66,12 @@
         </style>
     </head>
     <body>
-        <div
-            style="
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-                margin: 0rem 1rem;
-            "
-        >
+        <div class="row">
             <h2>Connections Etymology type game</h2>
         </div>
 
-        <div
-            style="
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-                margin: 0rem 1rem;
-            "
-        >
-            <div style="display: flex; flex-direction: column; row-gap: 1rem">
+        <div class="row">
+            <div class="col">
                 <button class="butt" id="l1" onclick="squareClicked('l1')">
                     one
                 </button>
@@ -82,7 +82,7 @@
                     three
                 </button>
             </div>
-            <div style="display: flex; flex-direction: column; row-gap: 1rem">
+            <div class="col">
                 <button class="butt" id="m1" onclick="squareClicked('m1')">
                     four
                 </button>
@@ -93,7 +93,7 @@
                     six
                 </button>
             </div>
-            <div style="display: flex; flex-direction: column; row-gap: 1rem">
+            <div class="col">
                 <button class="butt" id="r1" onclick="squareClicked('r1')">
                     seven
                 </button>
@@ -105,15 +105,8 @@
                 </button>
             </div>
         </div>
-
-        <div
-            style="
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-                margin: 1rem 1rem;
-            "
-        >
+        <br />
+        <div class="row">
             <button onclick="realTimeGuess()" id="guess">guess...</button>
             <div style="white-space: nowrap">
                 <span id="h1" class="life">♥</span>
@@ -138,7 +131,6 @@
             let previousGuesses = [];
             let lives = 3;
             let pairs = 0;
-
             let selected = [];
             let locked = [];
             let vals = {};
@@ -163,19 +155,13 @@
                 ["feral", "bore"],
             ];
 
-            for (var i = 0; i < 5; i++) {
+            for (let i = 0; i < 5; i++) {
                 let x = random();
                 let y = Math.floor(x * doublets.length);
                 let set = doublets[y];
 
-                if (set.length == 2) {
-                    vals[doublets[y][0]] = `${i}`;
-                    vals[doublets[y][1]] = `${i}`;
-                } else {
+                for (h of [1, 2]) {
                     let z = Math.floor(x * set.length);
-                    vals[set[z]] = `${i}`;
-                    set.splice(z, 1);
-                    z = Math.floor(x * set.length);
                     vals[set[z]] = `${i}`;
                     set.splice(z, 1);
                 }
@@ -183,19 +169,15 @@
             }
 
             function squareClicked(sq) {
-                if (!locked.includes(sq)) {
-                    if (selected.includes(sq)) {
-                        const index = selected.indexOf(sq);
-                        if (index > -1) {
-                            selected.splice(index, 1);
-                        }
-                        document
-                            .getElementById(sq)
-                            .classList.remove("selected");
-                    } else if (selected.length < 2) {
-                        selected.push(sq);
-                        document.getElementById(sq).classList.add("selected");
+                if (selected.includes(sq)) {
+                    const index = selected.indexOf(sq);
+                    if (index > -1) {
+                        selected.splice(index, 1);
                     }
+                    document.getElementById(sq).classList.remove("selected");
+                } else if (selected.length < 2) {
+                    selected.push(sq);
+                    document.getElementById(sq).classList.add("selected");
                 }
             }
 
@@ -214,34 +196,25 @@
                 if (xs.length > 1) {
                     let a = xs[0];
                     let b = xs[1];
-
                     previousGuesses.push([a, b]);
-
-                    console.log(vals[document.getElementById(a).innerText]);
 
                     if (
                         vals[document.getElementById(a).innerText] ==
                         vals[document.getElementById(b).innerText]
                     ) {
-                        document.getElementById(a).classList.remove("selected");
-                        document
-                            .getElementById(a)
-                            .classList.add(
-                                `w${vals[document.getElementById(a).innerText]}`,
-                            );
-                        locked.push(a);
-                        document.getElementById(a).disabled = "disabled";
-
-                        document.getElementById(b).classList.remove("selected");
-                        document
-                            .getElementById(b)
-                            .classList.add(
-                                `w${vals[document.getElementById(b).innerText]}`,
-                            );
-                        locked.push(b);
-                        document.getElementById(b).disabled = "disabled";
-
-                        selected = [];
+                        for (square of [a, b]) {
+                            document
+                                .getElementById(square)
+                                .classList.remove("selected");
+                            document
+                                .getElementById(square)
+                                .classList.add(
+                                    `w${vals[document.getElementById(square).innerText]}`,
+                                );
+                            locked.push(square);
+                            document.getElementById(square).disabled =
+                                "disabled";
+                        }
                         pairs += 1;
 
                         if (pairs == 4) {
@@ -253,12 +226,18 @@
                         document.getElementById(`h${lives}`).innerText = "♡";
                         lives -= 1;
 
+                        if (selected.length != 0) {
+                            squareClicked(a);
+                            squareClicked(b);
+                        }
+
                         if (lives == 0) {
                             lockBoard();
                             document.getElementById("msg").innerText =
                                 "Better luck next time :(";
                         }
                     }
+                    selected = [];
                 }
             }
 
@@ -270,18 +249,15 @@
                 );
             }
 
-            function setBoard() {
-                let a = Object.keys(vals);
+            let a = Object.keys(vals);
 
-                for (var c of ["l", "m", "r"]) {
-                    for (var r of ["1", "2", "3"]) {
-                        let x = Math.floor(random() * a.length);
-                        document.getElementById(`${c}${r}`).innerText = a[x];
-                        a.splice(x, 1);
-                    }
+            for (var c of ["l", "m", "r"]) {
+                for (var r of ["1", "2", "3"]) {
+                    let x = Math.floor(random() * a.length);
+                    document.getElementById(`${c}${r}`).innerText = a[x];
+                    a.splice(x, 1);
                 }
             }
-            setBoard();
 
             const lastSeed = localStorage.getItem("lastSeed");
             if (lastSeed != seed) {
