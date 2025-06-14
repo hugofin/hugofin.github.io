@@ -9,7 +9,7 @@
                 font-family: system-ui;
             }
             body {
-                max-width: 28rem;
+                max-width: 22rem;
                 margin: 1.5rem min(1.5rem);
             }
             .life {
@@ -24,8 +24,8 @@
             }
 
             .butt {
-                width: 8rem;
-                height: 8rem;
+                width: 5.33rem;
+                height: 5.33rem;
                 border: none;
                 background-color: #eee;
             }
@@ -57,7 +57,9 @@
                 justify-content: space-between;
             "
         >
-            <div style="display: flex; flex-direction: column; row-gap: 2rem">
+            <div
+                style="display: flex; flex-direction: column; row-gap: 0.66rem"
+            >
                 <button class="butt" id="l1" onclick="squareClicked('l1')">
                     one
                 </button>
@@ -68,7 +70,9 @@
                     three
                 </button>
             </div>
-            <div style="display: flex; flex-direction: column; row-gap: 2rem">
+            <div
+                style="display: flex; flex-direction: column; row-gap: 0.66rem"
+            >
                 <button class="butt" id="m1" onclick="squareClicked('m1')">
                     four
                 </button>
@@ -79,7 +83,9 @@
                     six
                 </button>
             </div>
-            <div style="display: flex; flex-direction: column; row-gap: 2rem">
+            <div
+                style="display: flex; flex-direction: column; row-gap: 0.66rem"
+            >
                 <button class="butt" id="r1" onclick="squareClicked('r1')">
                     seven
                 </button>
@@ -97,15 +103,14 @@
                 display: flex;
                 flex-direction: row;
                 justify-content: space-between;
+                margin-top: 1rem;
             "
         >
-            <button onclick="guess()" id="guess">guess..</button>
+            <button onclick="realTimeGuess()" id="guess">guess...</button>
             <div style="white-space: nowrap">
                 <span id="h1" class="life">♥</span>
                 <span id="h2" class="life">♥</span>
                 <span id="h3" class="life">♥</span>
-                <span id="h4" class="life">♥</span>
-                <span id="h5" class="life">♥</span>
             </div>
         </div>
 
@@ -117,23 +122,57 @@
                 return x - Math.floor(x);
             }
 
-            let prev_guesses = [];
-            let lives = 5;
+            const d = new Date();
+            const seed = parseInt(
+                `${d.getUTCDate()}${d.getUTCFullYear()}${d.getUTCMonth()}`,
+            );
+
+            let previousGuesses = [];
+            let lives = 3;
             let pairs = 0;
 
             let selected = [];
             let locked = [];
             let vals = {};
 
-            vals["zinc"] = "1";
-            vals["tine"] = "1";
-            vals["oaf"] = "2";
-            vals["elf"] = "2";
-            vals["craze"] = "3";
-            vals["crash"] = "3";
-            vals["tulip"] = "4";
-            vals["turban"] = "4";
-            vals["table"] = "5";
+            let doublets = [
+                ["zinc", "tines"],
+                ["elf", "oaf"],
+                ["craze", "crash"],
+                ["tulip", "turban"],
+                ["head", "cape"],
+                ["host", "guest"],
+                ["verb", "word"],
+                ["clan", "plant"],
+                ["cloak", "glockenspeil"],
+                ["magistrate", "mist"],
+                ["equip", "skipper"],
+                ["apothecary", "bodega"],
+                ["paranoid", "noble", "gnome", "narrate", "normal", "notice"],
+                ["horse", "carry"],
+                ["blink", "beach", "bleak"],
+                ["king", "nation", "gender", "engine", "genius"],
+                ["feral", "bore"],
+            ];
+
+            for (var i = 0; i < 5; i++) {
+                let x = random();
+                let y = Math.floor(x * doublets.length);
+                let set = doublets[y];
+
+                if (set.length == 2) {
+                    vals[doublets[y][0]] = `${i}`;
+                    vals[doublets[y][1]] = `${i}`;
+                } else {
+                    let z = Math.floor(x * set.length);
+                    vals[set[z]] = `${i}`;
+                    set.splice(z, 1);
+                    z = Math.floor(x * set.length);
+                    vals[set[z]] = `${i}`;
+                    set.splice(z, 1);
+                }
+                doublets.splice(y, 1);
+            }
 
             function squareClicked(sq) {
                 if (!locked.includes(sq)) {
@@ -163,12 +202,12 @@
                 }
             }
 
-            function guess() {
-                if (selected.length > 1) {
-                    let a = selected[0];
-                    let b = selected[1];
+            function guess(xs) {
+                if (xs.length > 1) {
+                    let a = xs[0];
+                    let b = xs[1];
 
-                    prev_guesses.push([a, b]);
+                    previousGuesses.push([a, b]);
 
                     if (
                         vals[document.getElementById(a).innerText] ==
@@ -205,19 +244,40 @@
                 }
             }
 
+            function realTimeGuess() {
+                guess(selected);
+                localStorage.setItem(
+                    "previousGuesses",
+                    JSON.stringify(previousGuesses),
+                );
+            }
+
             function setBoard() {
                 let a = Object.keys(vals);
 
                 for (var c of ["l", "m", "r"]) {
                     for (var r of ["1", "2", "3"]) {
-                        let x = Math.floor(Math.random() * a.length);
+                        let x = Math.floor(random() * a.length);
                         document.getElementById(`${c}${r}`).innerText = a[x];
                         a.splice(x, 1);
                     }
                 }
             }
-
             setBoard();
+
+            const lastSeed = localStorage.getItem("lastSeed");
+            if (lastSeed != seed) {
+                localStorage.setItem("lastSeed", seed);
+                localStorage.setItem(
+                    "previousGuesses",
+                    JSON.stringify(previousGuesses),
+                );
+            } else {
+                let gs = JSON.parse(localStorage.getItem("previousGuesses"));
+                for (var g of gs) {
+                    guess(g);
+                }
+            }
         </script>
     </body>
 </html>
