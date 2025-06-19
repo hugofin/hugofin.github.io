@@ -1,0 +1,243 @@
+<!doctype html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<html lang="en-GB">
+    <head>
+        <title>gambling simulator</title>
+        <style>
+            :root {
+                font-family: system-ui;
+            }
+            body {
+                max-width: 22rem;
+                margin: 0rem auto;
+                padding: 1rem;
+                background-color: #393;
+            }
+
+            .hand {
+                display: flex;
+                flex-direction: row;
+            }
+
+            .dealt {
+                display: flex;
+                flex-direction: column;
+                row-gap: -4rem;
+            }
+
+            .options {
+                display: flex;
+                flex-direction: column;
+                position: fixed;
+                bottom: 5rem;
+                width: 25%;
+            }
+
+            .card {
+                width: 4rem;
+                height: 6rem;
+                border: 2px #e0dba8 solid;
+                border-radius: 0.5rem;
+                padding: 1rem;
+                background-color: #fffded;
+            }
+
+            button {
+                height: 4rem;
+                width: 100%;
+                padding: 0.1rem;
+                background-color: #fafafa;
+                font-style: oblique;
+            }
+
+            .h {
+                color: #d00;
+            }
+
+            .s {
+                color: #000;
+            }
+
+            .d {
+                color: #f61;
+            }
+
+            .c {
+                color: #30c;
+            }
+
+            .down {
+                background-color: #f23036;
+                color: rgba(0, 0, 0, 0);
+                border: 2px #ad2227 solid;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="hand">
+            <div class="hand">
+                <div id="d1" class="card"></div>
+                <div
+                    id="d2"
+                    class="card down"
+                    style="position: relative; top: 1.5rem; left: -3.5rem"
+                ></div>
+            </div>
+
+            <div class="dealt">
+                <div id="r0" class="card" style="display: none"></div>
+                <div
+                    id="r1"
+                    class="card"
+                    style="position: relative; top: -5.5rem; display: none"
+                ></div>
+                <div
+                    id="r2"
+                    class="card"
+                    style="position: relative; top: -11rem; display: none"
+                ></div>
+                <div
+                    id="r3"
+                    class="card"
+                    style="position: relative; top: -16.5rem; display: none"
+                ></div>
+            </div>
+        </div>
+
+        <div class="hand" style="position: fixed; top: 20rem">
+            <div class="hand">
+                <div id="p1" class="card"></div>
+                <div
+                    id="p2"
+                    class="card"
+                    style="position: relative; top: 1.5rem; left: -3.5rem"
+                ></div>
+            </div>
+
+            <div class="dealt">
+                <div id="f0" class="card" style="display: none"></div>
+                <div
+                    id="f1"
+                    class="card"
+                    style="position: relative; top: -5.5rem; display: none"
+                ></div>
+                <div
+                    id="f2"
+                    class="card"
+                    style="position: relative; top: -11rem; display: none"
+                ></div>
+                <div
+                    id="f3"
+                    class="card"
+                    style="position: relative; top: -16.5rem; display: none"
+                ></div>
+                <div
+                    id="f4"
+                    class="card"
+                    style="position: relative; top: -22rem; display: none"
+                ></div>
+                <div
+                    id="f5"
+                    class="card"
+                    style="position: relative; top: -27.5rem; display: none"
+                ></div>
+                <div
+                    id="f6"
+                    class="card"
+                    style="position: relative; top: -33rem; display: none"
+                ></div>
+            </div>
+        </div>
+
+        <div class="options">
+            <button id="hit" onclick="hit(playerFlop)">carte!</button>
+
+            <button id="stand" onclick="stand()">je m'y tiens...</button>
+        </div>
+
+        <script>
+            var deck = [];
+
+            var playerHand = [];
+            var playerFlop = [];
+            var dealerHand = [];
+            var dealerFlop = [];
+
+            var turn = "f";
+
+            function draw(d) {
+                var i = Math.floor(Math.random() * d.length);
+                var c = d[i];
+                d.splice(i, 1);
+                return c;
+            }
+
+            function hit(flop) {
+                var card = draw(deck);
+
+                flop.push(card);
+                i = flop.length;
+
+                document
+                    .getElementById(`${turn}${i - 1}`)
+                    .classList.add(flop[i - 1][0]);
+                document.getElementById(`${turn}${i - 1}`).innerText =
+                    `${flop[i - 1][0]}${flop[i - 1][1]}`;
+                document.getElementById(`${turn}${i - 1}`).style.display =
+                    "block";
+            }
+
+            function stand() {
+                turn = "r";
+
+                document.getElementById("hit").disabled = "disabled";
+                document.getElementById("stand").disabled = "disabled";
+
+                for (a in [1, 2, 3]) {
+                    hit(dealerFlop);
+                }
+            }
+
+            for (suit of ["h", "s", "d", "c"]) {
+                for (rank of [
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9",
+                    "10",
+                    "K",
+                    "Q",
+                    "K",
+                    "A",
+                ]) {
+                    deck.push([suit, rank]);
+                }
+            }
+
+            for (pos of [0, 1]) {
+                playerHand.push(draw(deck));
+
+                document
+                    .getElementById(`p${pos + 1}`)
+                    .classList.add(playerHand[pos][0]);
+                document.getElementById(`p${pos + 1}`).innerText =
+                    `${playerHand[pos][0]}${playerHand[pos][1]}`;
+            }
+
+            for (pos of [0, 1]) {
+                dealerHand.push(draw(deck));
+
+                document
+                    .getElementById(`d${pos + 1}`)
+                    .classList.add(dealerHand[pos][0]);
+                document.getElementById(`d${pos + 1}`).innerText =
+                    `${dealerHand[pos][0]}${dealerHand[pos][1]}`;
+            }
+        </script>
+    </body>
+</html>
