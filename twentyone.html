@@ -27,7 +27,6 @@
             .dealt {
                 display: flex;
                 flex-direction: column;
-                position: fixed;
                 left: 10rem;
             }
 
@@ -179,11 +178,13 @@
             </div>
         </div>
 
-        <div
-            onclick="reset()"
-            id="result"
-            style="position: relative; top: 22rem; color: #fafafa"
-        ></div>
+        <div style="position: relative; top: 22rem; color: #fafafa">
+            <div id="result" onclick="advance()"></div>
+            <div style="display: flex; flex-direction: row; column-gap: 3rem">
+                <div id="wallet"></div>
+                <div id="round"></div>
+            </div>
+        </div>
 
         <div class="footer">
             <div class="options">
@@ -199,9 +200,11 @@
             var deck = [];
 
             var playerHand = [];
+            var wallet = 10;
             var dealerHand = [];
 
             var turn = "p";
+            var round = 1;
 
             function draw(d) {
                 var i = Math.floor(Math.random() * d.length);
@@ -247,14 +250,39 @@
                 if (ph < 22) {
                     if (dh > 21 || ph > dh) {
                         winner = "you win!!";
+                        wallet += 2 * round;
                     }
                     if (ph == dh) {
                         winner = "it's a draw";
+                        wallet += round;
                     }
                 } else if (dh > 21) {
                     winner = "both loose";
                 }
-                document.getElementById("result").innerText = `${winner} ↻`;
+                round += 1;
+                document.getElementById("wallet").innerText = `£${wallet}`;
+
+                if (wallet >= round) {
+                    document.getElementById("result").innerText =
+                        `${winner} , go to next round →`;
+                } else {
+                    document.getElementById("result").innerText =
+                        `${winner} , c'est fini :(`;
+                    document.getElementById("result").onclick = function () {
+                        beginAgain();
+                    };
+                }
+            }
+
+            function advance() {
+                wallet -= round;
+                reset();
+            }
+
+            function beginAgain() {
+                round = 1;
+                wallet = 10;
+                reset();
             }
 
             function sumHand(hand) {
@@ -349,7 +377,14 @@
                 document.getElementById("hit").removeAttribute("disabled");
                 document.getElementById("stand").removeAttribute("disabled");
 
-                document.getElementById("result").innerText = "";
+                document.getElementById("result").innerText = " ";
+                document.getElementById("wallet").innerText = `£${wallet}`;
+                document.getElementById("round").innerText =
+                    `it's round ${round}`;
+
+                document.getElementById("result").onclick = function () {
+                    advance();
+                };
             }
 
             reset();
