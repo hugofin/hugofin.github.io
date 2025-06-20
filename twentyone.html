@@ -20,24 +20,36 @@
                 flex-direction: row;
             }
 
+            .row {
+                display: flex;
+            }
+
             .dealt {
                 display: flex;
                 flex-direction: column;
-                row-gap: -4rem;
+                position: fixed;
+                left: 10rem;
+            }
+
+            .footer {
+                display: flex;
+                flex-direction: row;
+                column-gap: 4rem;
+                position: fixed;
+                bottom: 3rem;
             }
 
             .options {
                 display: flex;
                 flex-direction: column;
-                position: fixed;
-                bottom: 5rem;
-                width: 25%;
+                row-gap: 1rem;
+                width: 7rem;
             }
 
-            .card {
-                width: 4rem;
-                height: 6rem;
-                border: 2px #e0dba8 solid;
+            card {
+                width: 3.8rem;
+                height: 5.8rem;
+                border: 0.2rem #e0dba8 solid;
                 border-radius: 0.5rem;
                 padding: 1rem;
                 background-color: #fffded;
@@ -47,23 +59,36 @@
                 height: 4rem;
                 width: 100%;
                 padding: 0.1rem;
-                background-color: #fafafa;
+                background: none;
                 font-style: oblique;
+                font-weight: bold;
+                border: 2px #fafafa dashed;
+                color: #fafafa;
             }
 
-            .h {
+            button:active {
+                background-color: #6c6;
+            }
+
+            button:disabled {
+                background-color: #282;
+                color: #c7c7c7;
+                border-color: #c7c7c7;
+            }
+
+            .♥ {
                 color: #d00;
             }
 
-            .s {
+            .♠ {
                 color: #000;
             }
 
-            .d {
+            .♦ {
                 color: #f61;
             }
 
-            .c {
+            .♣ {
                 color: #30c;
             }
 
@@ -75,96 +100,108 @@
         </style>
     </head>
     <body>
-        <div class="hand">
+        <div class="row">
             <div class="hand">
-                <div id="d1" class="card"></div>
-                <div
-                    id="d2"
-                    class="card down"
-                    style="position: relative; top: 1.5rem; left: -3.5rem"
-                ></div>
+                <card id="d0"></card>
+                <card
+                    id="d1"
+                    style="position: relative; top: 2.5rem; left: -4.5rem"
+                ></card>
             </div>
 
             <div class="dealt">
-                <div id="r0" class="card" style="display: none"></div>
-                <div
-                    id="r1"
-                    class="card"
+                <card id="d2" style="display: none"></card>
+                <card
+                    id="d3"
                     style="position: relative; top: -5.5rem; display: none"
-                ></div>
-                <div
-                    id="r2"
-                    class="card"
+                ></card>
+                <card
+                    id="d4"
                     style="position: relative; top: -11rem; display: none"
-                ></div>
-                <div
-                    id="r3"
-                    class="card"
+                ></card>
+                <card
+                    id="d5"
                     style="position: relative; top: -16.5rem; display: none"
-                ></div>
+                ></card>
             </div>
         </div>
 
-        <div class="hand" style="position: fixed; top: 20rem">
+        <div class="row" style="position: fixed; top: 15rem">
             <div class="hand">
-                <div id="p1" class="card"></div>
-                <div
-                    id="p2"
-                    class="card"
-                    style="position: relative; top: 1.5rem; left: -3.5rem"
-                ></div>
+                <card id="p0"></card>
+                <card
+                    id="p1"
+                    style="position: relative; top: 2.5rem; left: -4.5rem"
+                ></card>
             </div>
 
             <div class="dealt">
-                <div id="f0" class="card" style="display: none"></div>
-                <div
-                    id="f1"
-                    class="card"
-                    style="position: relative; top: -5.5rem; display: none"
-                ></div>
-                <div
-                    id="f2"
-                    class="card"
-                    style="position: relative; top: -11rem; display: none"
-                ></div>
-                <div
-                    id="f3"
-                    class="card"
-                    style="position: relative; top: -16.5rem; display: none"
-                ></div>
-                <div
-                    id="f4"
-                    class="card"
-                    style="position: relative; top: -22rem; display: none"
-                ></div>
-                <div
-                    id="f5"
-                    class="card"
-                    style="position: relative; top: -27.5rem; display: none"
-                ></div>
-                <div
-                    id="f6"
-                    class="card"
-                    style="position: relative; top: -33rem; display: none"
-                ></div>
+                <card id="p2" style="display: none"></card>
+                <card
+                    id="p3"
+                    style="
+                        position: relative;
+                        top: -7rem;
+                        left: 3rem;
+                        display: none;
+                    "
+                ></card>
+                <card
+                    id="p4"
+                    style="position: relative; top: -13rem; display: none"
+                ></card>
+                <card
+                    id="p5"
+                    style="
+                        position: relative;
+                        top: -19.5rem;
+                        left: 3rem;
+                        display: none;
+                    "
+                ></card>
+                <card
+                    id="p6"
+                    style="position: relative; top: -25.5rem; display: none"
+                ></card>
+                <card
+                    id="p7"
+                    style="
+                        position: relative;
+                        top: -32rem;
+                        left: 3rem;
+                        display: none;
+                    "
+                ></card>
+                <card
+                    id="p8"
+                    style="position: relative; top: -38rem; display: none"
+                ></card>
             </div>
         </div>
 
-        <div class="options">
-            <button id="hit" onclick="hit(playerFlop)">carte!</button>
+        <div
+            onclick="reset()"
+            id="result"
+            style="position: relative; top: 22rem; color: #fafafa"
+        ></div>
 
-            <button id="stand" onclick="stand()">je m'y tiens...</button>
+        <div class="footer">
+            <div class="options">
+                <button id="hit" onclick="hit(playerHand)">carte!</button>
+
+                <button id="stand" onclick="stand()">je m'y tiens...</button>
+            </div>
+
+            <card class="down"></card>
         </div>
 
         <script>
             var deck = [];
 
             var playerHand = [];
-            var playerFlop = [];
             var dealerHand = [];
-            var dealerFlop = [];
 
-            var turn = "f";
+            var turn = "p";
 
             function draw(d) {
                 var i = Math.floor(Math.random() * d.length);
@@ -173,71 +210,149 @@
                 return c;
             }
 
-            function hit(flop) {
+            function hit(hand) {
                 var card = draw(deck);
 
-                flop.push(card);
-                i = flop.length;
+                hand.push(card);
+                i = hand.length;
 
                 document
                     .getElementById(`${turn}${i - 1}`)
-                    .classList.add(flop[i - 1][0]);
+                    .classList.add(hand[i - 1][0]);
                 document.getElementById(`${turn}${i - 1}`).innerText =
-                    `${flop[i - 1][0]}${flop[i - 1][1]}`;
+                    `${hand[i - 1][0]}${hand[i - 1][1]}`;
                 document.getElementById(`${turn}${i - 1}`).style.display =
                     "block";
+
+                if (turn == "p" && sumHand(hand) > 21) {
+                    stand();
+                }
             }
 
             function stand() {
-                turn = "r";
+                turn = "d";
 
                 document.getElementById("hit").disabled = "disabled";
                 document.getElementById("stand").disabled = "disabled";
+                document.getElementById("d1").classList.remove("down");
 
-                for (a in [1, 2, 3]) {
-                    hit(dealerFlop);
+                while (!(sumHand(dealerHand) > 16)) {
+                    hit(dealerHand);
                 }
-            }
 
-            for (suit of ["h", "s", "d", "c"]) {
-                for (rank of [
-                    "2",
-                    "3",
-                    "4",
-                    "5",
-                    "6",
-                    "7",
-                    "8",
-                    "9",
-                    "10",
-                    "K",
-                    "Q",
-                    "K",
-                    "A",
-                ]) {
-                    deck.push([suit, rank]);
+                var dh = sumHand(dealerHand);
+                var ph = sumHand(playerHand);
+                var winner = "the house wins";
+
+                if (ph < 22) {
+                    if (dh > 21 || ph > dh) {
+                        winner = "you win!!";
+                    }
+                    if (ph == dh) {
+                        winner = "it's a draw";
+                    }
+                } else if (dh > 21) {
+                    winner = "both loose";
                 }
+                document.getElementById("result").innerText = `${winner} ↻`;
             }
 
-            for (pos of [0, 1]) {
-                playerHand.push(draw(deck));
+            function sumHand(hand) {
+                var sum = 0;
 
-                document
-                    .getElementById(`p${pos + 1}`)
-                    .classList.add(playerHand[pos][0]);
-                document.getElementById(`p${pos + 1}`).innerText =
-                    `${playerHand[pos][0]}${playerHand[pos][1]}`;
+                for (card of hand) {
+                    switch (card[1]) {
+                        case "K":
+                        case "Q":
+                        case "J":
+                            sum += 10;
+                            break;
+                        case "A":
+                            sum += 11;
+                            break;
+                        default:
+                            sum += parseInt(card[1]);
+                    }
+                }
+
+                return sum;
             }
 
-            for (pos of [0, 1]) {
-                dealerHand.push(draw(deck));
+            function reset() {
+                deck = [];
+                dealerHand = [];
+                playerHand = [];
+                turn = "p";
 
-                document
-                    .getElementById(`d${pos + 1}`)
-                    .classList.add(dealerHand[pos][0]);
-                document.getElementById(`d${pos + 1}`).innerText =
-                    `${dealerHand[pos][0]}${dealerHand[pos][1]}`;
+                // ⚘ ⚫︎ ⚔ bell cup leaf
+                for (suit of ["♥", "♠", "♦", "♣"]) {
+                    for (rank of [
+                        "2",
+                        "3",
+                        "4",
+                        "5",
+                        "6",
+                        "7",
+                        "8",
+                        "9",
+                        "10",
+                        "J",
+                        "Q",
+                        "K",
+                        "A",
+                    ]) {
+                        deck.push([suit, rank]);
+                    }
+                }
+
+                for (var i = 2; i < 8; i++) {
+                    document.getElementById(`p${i}`).style.display = "none";
+                    document
+                        .getElementById(`p${i}`)
+                        .classList.remove("♥", "♠", "♦", "♣");
+                }
+
+                for (pos of [0, 1]) {
+                    playerHand.push(draw(deck));
+
+                    document
+                        .getElementById(`p${pos}`)
+                        .classList.remove("♥", "♠", "♦", "♣");
+                    document
+                        .getElementById(`p${pos}`)
+                        .classList.add(playerHand[pos][0]);
+                    document.getElementById(`p${pos}`).innerText =
+                        `${playerHand[pos][0]}${playerHand[pos][1]}`;
+                }
+
+                for (var i = 2; i < 5; i++) {
+                    document.getElementById(`d${i}`).style.display = "none";
+                    document
+                        .getElementById(`d${i}`)
+                        .classList.remove("♥", "♠", "♦", "♣");
+                }
+
+                for (pos of [0, 1]) {
+                    dealerHand.push(draw(deck));
+
+                    document
+                        .getElementById(`d${pos}`)
+                        .classList.remove("♥", "♠", "♦", "♣");
+                    document
+                        .getElementById(`d${pos}`)
+                        .classList.add(dealerHand[pos][0]);
+                    document.getElementById(`d${pos}`).innerText =
+                        `${dealerHand[pos][0]}${dealerHand[pos][1]}`;
+                }
+                document.getElementById("d1").classList.add("down");
+
+                document.getElementById("hit").removeAttribute("disabled");
+                document.getElementById("stand").removeAttribute("disabled");
+
+                document.getElementById("result").innerText = "";
             }
+
+            reset();
         </script>
     </body>
 </html>
