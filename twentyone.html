@@ -227,7 +227,7 @@
                 document.getElementById(`${turn}${i - 1}`).style.display =
                     "block";
 
-                if (turn == "p" && sumHand(hand) > 21) {
+                if (turn == "p" && Math.min(...sumHand(hand)) > 21) {
                     stand();
                 }
             }
@@ -239,12 +239,13 @@
                 document.getElementById("stand").disabled = "disabled";
                 document.getElementById("d1").classList.remove("down");
 
-                while (!(sumHand(dealerHand) > 16)) {
+                while (!(Math.max(...sumHand(dealerHand)) > 16)) {
                     hit(dealerHand);
                 }
 
-                var dh = sumHand(dealerHand);
-                var ph = sumHand(playerHand);
+                var ph = Math.max(...sumHand(playerHand).filter(bustHands));
+                var dh = Math.max(...sumHand(dealerHand).filter(bustHands));
+
                 var winner = "the house wins";
 
                 if (ph < 22) {
@@ -274,6 +275,10 @@
                 }
             }
 
+            function bustHands(value) {
+                return value <= 21;
+            }
+
             function advance() {
                 wallet -= round;
                 reset();
@@ -283,26 +288,6 @@
                 round = 1;
                 wallet = 10;
                 reset();
-            }
-
-            function sumHand(hand) {
-                var sum = 0;
-
-                for (card of hand) {
-                    switch (card[1]) {
-                        case "K":
-                        case "Q":
-                        case "J":
-                            sum += 10;
-                            break;
-                        case "A":
-                            sum += 11;
-                            break;
-                        default:
-                            sum += parseInt(card[1]);
-                    }
-                }
-                return sum;
             }
 
             function reset() {
@@ -386,6 +371,42 @@
                 };
             }
 
+            function sumHand(hand) {
+                var sums = [];
+                var h2e = [];
+
+                for (var i = 0; i < hand.length; i++) {
+                    if (hand[i][1] == "A") {
+                        copy1 = structuredClone(hand);
+                        copy1[i][1] = "1";
+                        h2e.push(copy1);
+                        copy2 = structuredClone(hand);
+                        copy2[i][1] = "11";
+                        h2e.push(copy2);
+                    } else h2e.push(hand);
+                }
+
+                for (hand of h2e) {
+                    var sum = 0;
+
+                    for (card of hand) {
+                        switch (card[1]) {
+                            case "K":
+                            case "Q":
+                            case "J":
+                                sum += 10;
+                                break;
+                            case "A":
+                                sum += 1;
+                                break;
+                            default:
+                                sum += parseInt(card[1]);
+                        }
+                    }
+                    sums.push(sum);
+                }
+                return sums;
+            }
             reset();
         </script>
     </body>
