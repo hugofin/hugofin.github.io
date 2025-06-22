@@ -112,15 +112,42 @@
                 <card id="d2" style="display: none"></card>
                 <card
                     id="d3"
-                    style="position: relative; top: -5.5rem; display: none"
+                    style="
+                        position: relative;
+                        top: -7rem;
+                        left: 3rem;
+                        display: none;
+                    "
                 ></card>
                 <card
                     id="d4"
-                    style="position: relative; top: -11rem; display: none"
+                    style="position: relative; top: -13rem; display: none"
                 ></card>
                 <card
                     id="d5"
-                    style="position: relative; top: -16.5rem; display: none"
+                    style="
+                        position: relative;
+                        top: -19.5rem;
+                        left: 3rem;
+                        display: none;
+                    "
+                ></card>
+                <card
+                    id="d6"
+                    style="position: relative; top: -25.5rem; display: none"
+                ></card>
+                <card
+                    id="d7"
+                    style="
+                        position: relative;
+                        top: -32rem;
+                        left: 3rem;
+                        display: none;
+                    "
+                ></card>
+                <card
+                    id="d8"
+                    style="position: relative; top: -38rem; display: none"
                 ></card>
             </div>
         </div>
@@ -180,6 +207,7 @@
 
         <div style="position: fixed; bottom: 15rem; color: #fafafa">
             <div id="result" onclick="advance()"></div>
+            <div id="score"></div>
             <div style="display: flex; flex-direction: row; column-gap: 3rem">
                 <div id="wallet"></div>
                 <div id="round"></div>
@@ -206,10 +234,12 @@
             var turn = "p";
             var round = 1;
 
-            function draw(d) {
-                var i = Math.floor(Math.random() * d.length);
-                var c = d[i];
-                d.splice(i, 1);
+            var highScore = localStorage.getItem("highScore");
+
+            function draw(deck) {
+                var i = Math.floor(Math.random() * deck.length);
+                var c = deck[i];
+                deck.splice(i, 1);
                 return c;
             }
 
@@ -243,21 +273,28 @@
                     hit(dealerHand);
                 }
 
-                var ph = Math.max(...sumHand(playerHand).filter(bustHands));
-                var dh = Math.max(...sumHand(dealerHand).filter(bustHands));
+                var playerHighscore = Math.max(
+                    ...sumHand(playerHand).filter(filterBusts),
+                );
+                var dealerHighscore = Math.max(
+                    ...sumHand(dealerHand).filter(filterBusts),
+                );
 
                 var winner = "the house wins";
 
-                if (ph < 22) {
-                    if (dh > 21 || ph > dh) {
+                if (playerHighscore < 22) {
+                    if (
+                        dealerHighscore > 21 ||
+                        playerHighscore > dealerHighscore
+                    ) {
                         winner = "you win!!";
                         wallet += 2 * round;
                     }
-                    if (ph == dh) {
+                    if (playerHighscore == dealerHighscore) {
                         winner = "it's a draw";
                         wallet += round;
                     }
-                } else if (dh > 21) {
+                } else if (dealerHighscore > 21) {
                     winner = "both loose";
                 }
                 round += 1;
@@ -268,14 +305,22 @@
                         `${winner} , go to next round →`;
                 } else {
                     document.getElementById("result").innerText =
-                        `${winner} , c'est fini :(`;
+                        `${winner} , c'est fini :(  try again ↻`;
                     document.getElementById("result").onclick = function () {
                         beginAgain();
                     };
+                    if (round > highScore) {
+                        document.getElementById("score").innerText =
+                            `Well done! ${round} is a new high score`;
+                        localStorage.setItem("highScore", round);
+                    } else {
+                        document.getElementById("score").innerText =
+                            `your high score is ${highScore}`;
+                    }
                 }
             }
 
-            function bustHands(value) {
+            function filterBusts(value) {
                 return value <= 21;
             }
 
@@ -287,6 +332,7 @@
             function beginAgain() {
                 round = 1;
                 wallet = 10;
+                document.getElementById("score").innerText = " ";
                 reset();
             }
 
@@ -317,13 +363,6 @@
                     }
                 }
 
-                for (var i = 2; i < 8; i++) {
-                    document.getElementById(`p${i}`).style.display = "none";
-                    document
-                        .getElementById(`p${i}`)
-                        .classList.remove("♥", "♠", "♦", "♣");
-                }
-
                 for (pos of [0, 1]) {
                     playerHand.push(draw(deck));
 
@@ -335,16 +374,7 @@
                         .classList.add(playerHand[pos][0]);
                     document.getElementById(`p${pos}`).innerText =
                         `${playerHand[pos][0]}${playerHand[pos][1]}`;
-                }
 
-                for (var i = 2; i < 5; i++) {
-                    document.getElementById(`d${i}`).style.display = "none";
-                    document
-                        .getElementById(`d${i}`)
-                        .classList.remove("♥", "♠", "♦", "♣");
-                }
-
-                for (pos of [0, 1]) {
                     dealerHand.push(draw(deck));
 
                     document
@@ -356,6 +386,19 @@
                     document.getElementById(`d${pos}`).innerText =
                         `${dealerHand[pos][0]}${dealerHand[pos][1]}`;
                 }
+
+                for (var i = 2; i < 8; i++) {
+                    document.getElementById(`p${i}`).style.display = "none";
+                    document
+                        .getElementById(`p${i}`)
+                        .classList.remove("♥", "♠", "♦", "♣");
+
+                    document.getElementById(`d${i}`).style.display = "none";
+                    document
+                        .getElementById(`d${i}`)
+                        .classList.remove("♥", "♠", "♦", "♣");
+                }
+
                 document.getElementById("d1").classList.add("down");
 
                 document.getElementById("hit").removeAttribute("disabled");
@@ -383,8 +426,10 @@
                         copy2 = structuredClone(hand);
                         copy2[i][1] = "11";
                         h2e.push(copy2);
-                    } else h2e.push(hand);
+                    }
                 }
+
+                if (h2e.length == 0) h2e.push(hand);
 
                 for (hand of h2e) {
                     var sum = 0;
