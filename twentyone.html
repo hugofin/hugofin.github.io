@@ -235,7 +235,6 @@
             var round = 1;
 
             var highScore = localStorage.getItem("highScore");
-
             function draw(deck) {
                 var i = Math.floor(Math.random() * deck.length);
                 var c = deck[i];
@@ -333,6 +332,7 @@
                 round = 1;
                 wallet = 10;
                 document.getElementById("score").innerText = " ";
+                highScore = localStorage.getItem("highScore");
                 reset();
             }
 
