@@ -235,6 +235,7 @@
             var round = 1;
 
             var highScore = localStorage.getItem("highScore");
+
             function draw(deck) {
                 var i = Math.floor(Math.random() * deck.length);
                 var c = deck[i];
@@ -248,13 +249,10 @@
                 hand.push(card);
                 i = hand.length;
 
-                document
-                    .getElementById(`${turn}${i - 1}`)
-                    .classList.add(hand[i - 1][0]);
-                document.getElementById(`${turn}${i - 1}`).innerText =
-                    `${hand[i - 1][0]}${hand[i - 1][1]}`;
-                document.getElementById(`${turn}${i - 1}`).style.display =
-                    "block";
+                const c = document.getElementById(`${turn}${i - 1}`);
+                c.classList.add(hand[i - 1][0]);
+                c.innerText = `${hand[i - 1][0]}${hand[i - 1][1]}`;
+                c.style.display = "flex";
 
                 if (turn == "p" && Math.min(...sumHand(hand)) > 21) {
                     stand();
@@ -366,37 +364,27 @@
                 for (pos of [0, 1]) {
                     playerHand.push(draw(deck));
 
-                    document
-                        .getElementById(`p${pos}`)
-                        .classList.remove("♥", "♠", "♦", "♣");
-                    document
-                        .getElementById(`p${pos}`)
-                        .classList.add(playerHand[pos][0]);
-                    document.getElementById(`p${pos}`).innerText =
-                        `${playerHand[pos][0]}${playerHand[pos][1]}`;
+                    var pc = document.getElementById(`p${pos}`);
+                    pc.classList.remove("♥", "♠", "♦", "♣");
+                    pc.classList.add(playerHand[pos][0]);
+                    pc.innerText = `${playerHand[pos][0]}${playerHand[pos][1]}`;
 
                     dealerHand.push(draw(deck));
 
-                    document
-                        .getElementById(`d${pos}`)
-                        .classList.remove("♥", "♠", "♦", "♣");
-                    document
-                        .getElementById(`d${pos}`)
-                        .classList.add(dealerHand[pos][0]);
-                    document.getElementById(`d${pos}`).innerText =
-                        `${dealerHand[pos][0]}${dealerHand[pos][1]}`;
+                    var dc = document.getElementById(`d${pos}`);
+                    dc.classList.remove("♥", "♠", "♦", "♣");
+                    dc.classList.add(dealerHand[pos][0]);
+                    dc.innerText = `${dealerHand[pos][0]}${dealerHand[pos][1]}`;
                 }
 
                 for (var i = 2; i < 8; i++) {
-                    document.getElementById(`p${i}`).style.display = "none";
-                    document
-                        .getElementById(`p${i}`)
-                        .classList.remove("♥", "♠", "♦", "♣");
+                    var pc = document.getElementById(`p${i}`);
+                    pc.style.display = "none";
+                    pc.classList.remove("♥", "♠", "♦", "♣");
 
-                    document.getElementById(`d${i}`).style.display = "none";
-                    document
-                        .getElementById(`d${i}`)
-                        .classList.remove("♥", "♠", "♦", "♣");
+                    var dc = document.getElementById(`p${i}`);
+                    dc.style.display = "none";
+                    dc.classList.remove("♥", "♠", "♦", "♣");
                 }
 
                 document.getElementById("d1").classList.add("down");
