@@ -221,7 +221,41 @@
                 <button id="stand" onclick="stand()">je m'y tiens...</button>
             </div>
 
-            <card class="down"></card>
+            <button
+                style="border-radius: 50%; height: 1.75rem; width: 1.75rem"
+                onclick="info()"
+            >
+                ?
+            </button>
+
+            <card
+                id="explain"
+                style="
+                    position: absolute;
+                    top: -32rem;
+                    left: 2rem;
+                    display: none;
+                    height: 14rem;
+                    width: 9rem;
+                    display: flex;
+                    flex-direction: column;
+                    row-gap: 1rem;
+                    font-size: 11px;
+                "
+            >
+                <span
+                    >try and get the sum your cards (lower) to be closer to 21,
+                    without going over it, than the dealer (upper). Press
+                    'carte!' (card!) to be dealt a new card and 'je m'y
+                    tiens...' (i'll keep mine...) if you don't want any more
+                    cards.
+                </span>
+                <span
+                    >Each round the cost to 'buy in' increases by one. You will
+                    lose when you no longer have enough money to buy in.</span
+                >
+                <i> bonne chance!</i>
+            </card>
         </div>
 
         <script>
@@ -441,6 +475,16 @@
                 return sums;
             }
             reset();
+
+            function info() {
+                c = document.getElementById("explain");
+
+                if (c.style.display == "none") {
+                    c.style.display = "block";
+                } else {
+                    c.style.display = "none";
+                }
+            }
         </script>
     </body>
 </html>
