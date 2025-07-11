@@ -52,6 +52,12 @@
                 border-radius: 0.5rem;
                 padding: 1rem;
                 background-color: #fffded;
+                transform: transformX(0rem);
+                transform: transformy(0rem);
+                transition: transform 1s;
+                position: fixed;
+                bottom: 3rem;
+                left: 50%;
             }
 
             button {
@@ -96,115 +102,28 @@
                 color: rgba(0, 0, 0, 0);
                 border: 2px #ad2227 solid;
             }
+
+            .explain {
+                position: absolute;
+                top: -32rem;
+                left: 2rem;
+                display: none;
+                height: 14rem;
+                width: 9rem;
+                flex-direction: column;
+                row-gap: 1rem;
+                font-size: 11px;
+            }
+
+            .info {
+                border-radius: 50%;
+                height: 1.75rem;
+                width: 1.75rem;
+            }
         </style>
     </head>
+
     <body>
-        <div class="row">
-            <div class="hand">
-                <card id="d0"></card>
-                <card
-                    id="d1"
-                    style="position: relative; top: 2.5rem; left: -4.5rem"
-                ></card>
-            </div>
-
-            <div class="dealt">
-                <card id="d2" style="display: none"></card>
-                <card
-                    id="d3"
-                    style="
-                        position: relative;
-                        top: -7rem;
-                        left: 3rem;
-                        display: none;
-                    "
-                ></card>
-                <card
-                    id="d4"
-                    style="position: relative; top: -13rem; display: none"
-                ></card>
-                <card
-                    id="d5"
-                    style="
-                        position: relative;
-                        top: -19.5rem;
-                        left: 3rem;
-                        display: none;
-                    "
-                ></card>
-                <card
-                    id="d6"
-                    style="position: relative; top: -25.5rem; display: none"
-                ></card>
-                <card
-                    id="d7"
-                    style="
-                        position: relative;
-                        top: -32rem;
-                        left: 3rem;
-                        display: none;
-                    "
-                ></card>
-                <card
-                    id="d8"
-                    style="position: relative; top: -38rem; display: none"
-                ></card>
-            </div>
-        </div>
-
-        <div class="row" style="position: fixed; top: 15rem">
-            <div class="hand">
-                <card id="p0"></card>
-                <card
-                    id="p1"
-                    style="position: relative; top: 2.5rem; left: -4.5rem"
-                ></card>
-            </div>
-
-            <div class="dealt">
-                <card id="p2" style="display: none"></card>
-                <card
-                    id="p3"
-                    style="
-                        position: relative;
-                        top: -7rem;
-                        left: 3rem;
-                        display: none;
-                    "
-                ></card>
-                <card
-                    id="p4"
-                    style="position: relative; top: -13rem; display: none"
-                ></card>
-                <card
-                    id="p5"
-                    style="
-                        position: relative;
-                        top: -19.5rem;
-                        left: 3rem;
-                        display: none;
-                    "
-                ></card>
-                <card
-                    id="p6"
-                    style="position: relative; top: -25.5rem; display: none"
-                ></card>
-                <card
-                    id="p7"
-                    style="
-                        position: relative;
-                        top: -32rem;
-                        left: 3rem;
-                        display: none;
-                    "
-                ></card>
-                <card
-                    id="p8"
-                    style="position: relative; top: -38rem; display: none"
-                ></card>
-            </div>
-        </div>
-
         <div style="position: fixed; bottom: 15rem; color: #fafafa">
             <div id="result" onclick="advance()"></div>
             <div id="score"></div>
@@ -217,32 +136,33 @@
         <div class="footer">
             <div class="options">
                 <button id="hit" onclick="hit(playerHand)">carte!</button>
-
                 <button id="stand" onclick="stand()">je m'y tiens...</button>
+                <button class="info" onclick="info()">?</button>
             </div>
 
-            <button
-                style="border-radius: 50%; height: 1.75rem; width: 1.75rem"
-                onclick="info()"
-            >
-                ?
-            </button>
+            <div>
+                <card class="down"></card>
+                <card id="p0" class="down"></card>
+                <card id="p1" class="down"></card>
+                <card id="p2" class="down"></card>
+                <card id="p3" class="down"></card>
+                <card id="p4" class="down"></card>
+                <card id="p5" class="down"></card>
+                <card id="p6" class="down"></card>
+                <card id="p7" class="down"></card>
+                <card id="p8" class="down"></card>
+                <card id="d0" class="down"></card>
+                <card id="d1" class="down"></card>
+                <card id="d2" class="down"></card>
+                <card id="d3" class="down"></card>
+                <card id="d4" class="down"></card>
+                <card id="d5" class="down"></card>
+                <card id="d6" class="down"></card>
+                <card id="d7" class="down"></card>
+                <card id="d8" class="down"></card>
+            </div>
 
-            <card
-                id="explain"
-                style="
-                    position: absolute;
-                    top: -32rem;
-                    left: 2rem;
-                    display: none;
-                    height: 14rem;
-                    width: 9rem;
-                    display: none;
-                    flex-direction: column;
-                    row-gap: 1rem;
-                    font-size: 11px;
-                "
-            >
+            <card id="explain" class="explain">
                 <span
                     >try and get the sum your cards (lower) to be closer to 21,
                     without going over it, than the dealer (upper). Press
@@ -265,10 +185,31 @@
             var wallet = 10;
             var dealerHand = [];
 
-            var turn = "p";
+            var turn = "d";
             var round = 1;
 
             var highScore = localStorage.getItem("highScore");
+
+            const positions = {
+                p0: [-9, -22],
+                p1: [-7, -19.5],
+                p2: [0, -22],
+                p3: [3.2, -21],
+                p4: [0, -18],
+                p5: [3.2, -17],
+                p6: [0, -14],
+                p7: [3.2, -13],
+                p8: [0, -10],
+                d0: [-9, -34],
+                d1: [-7, -31.5],
+                d2: [0, -34],
+                d3: [3.2, -33],
+                d4: [3.2, -30],
+                d5: [0, -29],
+                d6: [3.2, -26],
+                d7: [0, -25],
+                d8: [3.2, -22],
+            };
 
             function draw(deck) {
                 var i = Math.floor(Math.random() * deck.length);
@@ -282,11 +223,13 @@
 
                 hand.push(card);
                 i = hand.length;
+                var x = `${turn}${i - 1}`;
 
-                const c = document.getElementById(`${turn}${i - 1}`);
+                const c = document.getElementById(x);
                 c.classList.add(hand[i - 1][0]);
                 c.innerText = `${hand[i - 1][0]}${hand[i - 1][1]}`;
-                c.style.display = "flex";
+                c.style.transform = `translate(${positions[x][0]}rem, ${positions[x][1]}rem)`;
+                c.classList.remove("down");
 
                 if (turn == "p" && Math.min(...sumHand(hand)) > 21) {
                     stand();
@@ -372,7 +315,6 @@
                 deck = [];
                 dealerHand = [];
                 playerHand = [];
-                turn = "p";
 
                 // ⚘ ⚫︎ ⚔ bell cup leaf
                 for (suit of ["♥", "♠", "♦", "♣"]) {
@@ -395,31 +337,25 @@
                     }
                 }
 
-                for (pos of [0, 1]) {
-                    playerHand.push(draw(deck));
-
-                    var pc = document.getElementById(`p${pos}`);
-                    pc.classList.remove("♥", "♠", "♦", "♣");
-                    pc.classList.add(playerHand[pos][0]);
-                    pc.innerText = `${playerHand[pos][0]}${playerHand[pos][1]}`;
-
-                    dealerHand.push(draw(deck));
-
-                    var dc = document.getElementById(`d${pos}`);
-                    dc.classList.remove("♥", "♠", "♦", "♣");
-                    dc.classList.add(dealerHand[pos][0]);
-                    dc.innerText = `${dealerHand[pos][0]}${dealerHand[pos][1]}`;
-                }
-
-                for (var i = 2; i < 8; i++) {
+                for (var i = 0; i < 8; i++) {
                     var pc = document.getElementById(`p${i}`);
-                    pc.style.display = "none";
+                    pc.style.transform = `translate(0rem, 0rem)`;
+                    pc.classList.add("down");
                     pc.classList.remove("♥", "♠", "♦", "♣");
 
-                    var dc = document.getElementById(`p${i}`);
-                    dc.style.display = "none";
+                    var dc = document.getElementById(`d${i}`);
+                    dc.style.transform = `translate(0rem, 0rem)`;
+                    dc.classList.add("down");
                     dc.classList.remove("♥", "♠", "♦", "♣");
                 }
+
+                hit(dealerHand);
+                hit(dealerHand);
+
+                turn = "p";
+
+                hit(playerHand);
+                hit(playerHand);
 
                 document.getElementById("d1").classList.add("down");
 
@@ -474,7 +410,6 @@
                 }
                 return sums;
             }
-            reset();
 
             function info() {
                 c = document.getElementById("explain");
@@ -485,6 +420,8 @@
                     c.style.display = "none";
                 }
             }
+
+            reset();
         </script>
     </body>
 </html>
