@@ -28,6 +28,26 @@
                 max-width: 100%;
                 aspect-ratio: 1/1;
             }
+
+            .submit {
+                background-color: #6b6;
+                color: #fff;
+                border: 0.1rem solid #6b6;
+                border-radius: 0px;
+                height: 1.5rem;
+            }
+
+            .submit:active {
+                background-color: #9c9;
+                border: 0.1rem solid #9c9;
+            }
+
+            .search {
+                border: 0.1rem solid #6b6;
+                border-radius: 0px;
+                height: 1.2rem;
+                padding-left: 0.2rem;
+            }
         </style>
     </head>
     <body>
@@ -39,7 +59,7 @@
             "
         >
             <h1>dayleaf</h1>
-            <span style="align-self: end; padding-bottom: 1.5rem"
+            <span style="align-self: end; padding-bottom: 1.5rem; color: #6b6"
                 >the daily tree guessing game</span
             >
         </div>
@@ -56,10 +76,16 @@
         >
             <form onsubmit="return false">
                 <label>
-                    <input id="query" autocomplete="off" list="opts" />
+                    <input
+                        id="query"
+                        autocomplete="off"
+                        list="opts"
+                        class="search"
+                    />
                     <input
                         id="submit"
                         type="submit"
+                        class="submit"
                         value="guess..."
                         onclick="realTimeGuess()"
                     />
