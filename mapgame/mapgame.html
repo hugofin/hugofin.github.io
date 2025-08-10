@@ -8,10 +8,16 @@
                 font-family: system-ui;
             }
 
+            .map-box {
+                height: 40rem;
+                width: 65rem;
+                overflow: scroll;
+                background-color: #cef;
+            }
+
             .map {
                 width: 1030px;
                 height: 1034px;
-                background-color: #cef;
             }
 
             .marker {
@@ -35,28 +41,43 @@
         </style>
     </head>
     <body>
-        <div class="map" id="map">
-            <!-- <img
-                src="https://upload.wikimedia.org/wikipedia/commons/e/ec/Web_maps_Mercator_projection_SW.jpg"
-                width="1030"
-                style="position: absolute"
-            /> -->
+        <div class="map-box">
+            <div class="map" id="map"></div>
         </div>
+
+        <input type="range" min="7" max="11" step="0.1" />
 
         <script src="./cities.js"></script>
         <script>
             const m = document.getElementById("map");
+            let scale = 9;
 
-            for (var x of cities) {
-                const div = document.createElement("div");
+            const input = document.querySelector("input");
+            input.addEventListener("input", function (event) {
+                scale = event.target.value;
+                set();
+            });
 
-                div.id = x[0];
-                div.title = x[0];
-                div.className = "marker";
-                div.innerText = "·";
-                div.style.top = `${lat2tile(x[1], 9) / 5.12}%`;
-                div.style.left = `${lon2tile(x[2], 9) / 5.12}%`;
-                m.appendChild(div);
+            function start() {
+                for (var x in cities) {
+                    const div = document.createElement("div");
+
+                    div.id = x;
+                    div.title = cities[x][0];
+                    div.className = "marker";
+                    div.innerText = "·";
+                    div.style.top = `${lat2tile(cities[x][1], scale) / 5.12}%`;
+                    div.style.left = `${lon2tile(cities[x][2], scale) / 5.12}%`;
+                    m.appendChild(div);
+                }
+            }
+
+            function set() {
+                for (var x in cities) {
+                    const div = document.getElementById(x);
+                    div.style.top = `${lat2tile(cities[x][1], scale) / 5.12}%`;
+                    div.style.left = `${lon2tile(cities[x][2], scale) / 5.12}%`;
+                }
             }
 
             function lon2tile(lon, zoom) {
@@ -75,6 +96,8 @@
                         Math.pow(2, zoom),
                 );
             }
+
+            start();
         </script>
     </body>
 </html>
