@@ -1,0 +1,219 @@
+<!doctype html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<html lang="en-GB">
+    <head>
+        <title>Name all the Countries</title>
+        <style>
+            :root {
+                font-family: system-ui;
+            }
+            body {
+                max-width: 25rem;
+                margin: 0rem auto;
+            }
+
+            table {
+                table-layout: fixed;
+                width: 80%;
+                margin: 0 auto;
+                border-collapse: collapse;
+            }
+
+            th,
+            td {
+                padding: 0.6em;
+            }
+
+            .top {
+                background-color: #2c75ff;
+                height: 20vh;
+                color: #fff;
+            }
+
+            .footer {
+                background-color: #2c75ff;
+                height: 10vh;
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .submit {
+                height: 10vh;
+                width: 10vh;
+                background-color: rgba(255, 255, 255, 0.2);
+                border: none;
+                font-size: 25px;
+                color: #fff;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="top">
+            <h1>Guess the countries alphabetically</h1>
+        </div>
+
+        <div style="height: 68vh; overflow: auto">
+            <table id="countries">
+                <tr>
+                    <th style="width: 1em">x</th>
+                    <th>Name</th>
+                </tr>
+            </table>
+        </div>
+
+        <div class="footer">
+            <input type="text" id="guess" style="font-size: 24px" />
+            <button onclick="guess()" class="submit">→</button>
+        </div>
+
+        <script>
+            let cs = [
+                // A
+                "Afghanistan",
+                "Albania",
+                "Algeria",
+                "Andorra",
+                "Angola",
+                "Antigua and Barbuda",
+                "Argentina",
+                "Armenia",
+                "Australia",
+                "Austria",
+                "Azerbaijan",
+                // B
+                "Bahamas",
+                "Bahrain",
+                "Bangladesh",
+                "Barbados",
+                "Belarus",
+                "Belgium",
+                "Belize",
+                "Benin",
+                "Bhutan",
+                "Bolivia",
+                "Bosnia and Herzegovina",
+                "Botswana",
+                "Brazil",
+                "Brunei",
+                "Bulgaria",
+                "Burkina Faso",
+                "Burundi",
+                // C
+                "Cambodia",
+                "Cameroon",
+                "Canada",
+                "Cape Verde",
+                "Central African Republic",
+                "Chad",
+                "Chile",
+                "China",
+                "Colombia",
+                "Comoros",
+                "Congo, Democratic",
+                "Congo, Republic",
+                "Costa Rica",
+                "Croatia",
+                "Cuba",
+                "Cyprus",
+                "Czechia",
+                // D
+                "Denmark",
+                "Djibouti",
+                "Dominica",
+                "Dominican Republic",
+                // E
+                "Ecuador",
+                "Egypt",
+                "El Salvador",
+                "Equatorial Guinea",
+                "Eritrea",
+                "Estonia",
+                "Eswatini",
+                "Ethiopia",
+                // F
+                "Fiji",
+                "Finland",
+                "France",
+                // G
+                "Gabon",
+                "Gambia",
+                "Georgia",
+                "Germany",
+                "Ghana",
+                "Greece",
+                "Grenada",
+                "Guatemala",
+                "Guinea",
+                "Guinea-Bussau",
+                "Guyana",
+                // H
+                "Haiti",
+                "Honduras",
+                "Hungary",
+                // I
+                "Iceland",
+                "India",
+                "Indonesia",
+                "Iran",
+                "Iraq",
+                "Ireland",
+                "Italy",
+                "Ivory Coast",
+                // J
+                "Jamaica",
+                "Japan",
+                "Jordan",
+                // K
+                "Kazakhstan",
+                "Kenya",
+                "Kiribati",
+                "Kuwait",
+                "Kyrgyzstan",
+                // L
+                "Laos",
+                "Latvia",
+                "Lebanon",
+                "Lesotho",
+                "Liberia",
+                "Libya",
+                "Liechtenstein",
+                "Lithuania",
+                "Luxembourg",
+            ];
+
+            let l = "";
+
+            let countriesTable = document.getElementById("countries");
+
+            for (let c in cs) {
+                const row = document.createElement("tr");
+                const c1 = document.createElement("td");
+                const c2 = document.createElement("td");
+
+                if (cs[c][0] != l) {
+                    l = cs[c][0];
+                    c1.innerText = l;
+                }
+
+                c2.id = cs[c];
+                c2.innerText = "..."; //cs[c];
+
+                row.appendChild(c1);
+                row.appendChild(c2);
+
+                countriesTable.appendChild(row);
+            }
+
+            function guess() {
+                let g = document.getElementById("guess").value;
+
+                if (cs.includes(g)) {
+                    document.getElementById(g).innerText = g;
+                }
+
+                document.getElementById("guess").value = "";
+            }
+        </script>
+    </body>
+</html>
