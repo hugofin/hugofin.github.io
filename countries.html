@@ -29,6 +29,7 @@
                 background-color: #2c75ff;
                 height: 20vh;
                 color: #fff;
+                padding: 0.5rem;
             }
 
             .footer {
@@ -36,11 +37,12 @@
                 height: 10vh;
                 display: flex;
                 justify-content: space-between;
+                color: #fff;
             }
 
             .submit {
-                height: 10vh;
-                width: 10vh;
+                height: 100%;
+                width: 21%;
                 background-color: rgba(255, 255, 255, 0.2);
                 border: none;
                 font-size: 25px;
@@ -56,14 +58,28 @@
         <div style="height: 68vh; overflow: auto">
             <table id="countries">
                 <tr>
-                    <th style="width: 1em">x</th>
+                    <th style="width: 1em"></th>
                     <th>Name</th>
                 </tr>
             </table>
         </div>
 
         <div class="footer">
-            <input type="text" id="guess" style="font-size: 24px" />
+            <div>
+                <input
+                    type="text"
+                    id="guess"
+                    style="font-size: 24px; height: 1.2em; width: 100%"
+                />
+                <div style="display: flex; justify-content: space-between">
+                    <span id="msg"></span>
+                    <div>
+                        <span id="cnt">0</span>
+                        <span id="ttl"></span>
+                    </div>
+                </div>
+            </div>
+
             <button onclick="guess()" class="submit">→</button>
         </div>
 
@@ -145,7 +161,7 @@
                 "Grenada",
                 "Guatemala",
                 "Guinea",
-                "Guinea-Bussau",
+                "Guinea-Bissau",
                 "Guyana",
                 // H
                 "Haiti",
@@ -168,6 +184,7 @@
                 "Kazakhstan",
                 "Kenya",
                 "Kiribati",
+                "Kosovo",
                 "Kuwait",
                 "Kyrgyzstan",
                 // L
@@ -180,9 +197,118 @@
                 "Liechtenstein",
                 "Lithuania",
                 "Luxembourg",
+                // M
+                "Madagascar",
+                "Malawi",
+                "Malaysia",
+                "Maldives",
+                "Mali",
+                "Malta",
+                "Marshall Islands",
+                "Mauritania",
+                "Mauritius",
+                "Mexico",
+                "Micronesia",
+                "Moldova",
+                "Monaco",
+                "Mongolia",
+                "Montenegro",
+                "Morocco",
+                "Mozambique",
+                "Myanmar",
+                // N
+                "Namibia",
+                "Nauru",
+                "Nepal",
+                "Netherlands",
+                "New Zealand",
+                "Nicaragua",
+                "Niger",
+                "Nigeria",
+                "North Korea",
+                "North Macedonia",
+                "Norway",
+                // O
+                "Oman",
+                // P
+                "Pakistan",
+                "Palau",
+                "Palestine",
+                "Panama",
+                "Papua New Guinea",
+                "Paraguay",
+                "Peru",
+                "Philippines",
+                "Poland",
+                "Portugal",
+                // Q
+                "Qatar",
+                // R
+                "Romania",
+                "Russia",
+                "Rwanda",
+                // S
+                "Saint Kitts and Nevis",
+                "Saint Lucia",
+                "Saint Vincent and the Grenadines",
+                "Samoa",
+                "San Marino",
+                "Sao Tome and Principe",
+                "Saudi Arabia",
+                "Senegal",
+                "Serbia",
+                "Seychelles",
+                "Sierra Leone",
+                "Singapore",
+                "Slovakia",
+                "Slovenia",
+                "Solomon Islands",
+                "Somalia",
+                "South Africa",
+                "South Korea",
+                "South Sudan",
+                "Spain",
+                "Sri Lanka",
+                "Sudan",
+                "Suriname",
+                "Sweden",
+                "Switzerland",
+                "Syria",
+                // T
+                "Taiwan",
+                "Tajikistan",
+                "Tanzania",
+                "Thailand",
+                "Timor-Leste",
+                "Togo",
+                "Tonga",
+                "Trinidad and Tobago",
+                "Tunisia",
+                "Turkey",
+                "Turkmenistan",
+                "Tuvalu",
+                // U
+                "Uganda",
+                "Ukraine",
+                "United Arab Emirates",
+                "United Kingdom",
+                "United States",
+                "Uruguay",
+                "Uzbekistan",
+                // V
+                "Vanuatu",
+                "Vatican City",
+                "Venezuela",
+                "Vietnam",
+                // Y
+                "Yemen",
+                // Z
+                "Zambia",
+                "Zimbabwe",
             ];
 
             let l = "";
+            let gs = [];
 
             let countriesTable = document.getElementById("countries");
 
@@ -205,15 +331,35 @@
                 countriesTable.appendChild(row);
             }
 
+            document.getElementById("ttl").innerText = "/ " + cs.length;
+
             function guess() {
                 let g = document.getElementById("guess").value;
 
+                document.getElementById("msg").innerText = "";
+
                 if (cs.includes(g)) {
                     document.getElementById(g).innerText = g;
-                }
+                    document.getElementById("guess").value = "";
 
-                document.getElementById("guess").value = "";
+                    if (!gs.includes(g)) {
+                        gs.push(g);
+                        document.getElementById("cnt").innerText = gs.length;
+                    } else {
+                        document.getElementById("msg").innerText =
+                            "you said that already...";
+                    }
+                } else {
+                    document.getElementById("msg").innerText =
+                        "that's not right!";
+                }
             }
+
+            document.addEventListener("keydown", function (e) {
+                if (e.code === "Enter") {
+                    guess();
+                }
+            });
         </script>
     </body>
 </html>
