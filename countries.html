@@ -42,10 +42,23 @@
 
             .submit {
                 height: 100%;
-                width: 21%;
+                width: 22%;
                 background-color: rgba(255, 255, 255, 0.2);
                 border: none;
                 font-size: 25px;
+                color: #fff;
+            }
+
+            .submit:active {
+                background-color: rgba(255, 255, 255, 0.3);
+            }
+
+            .inp {
+                font-size: 24px;
+                height: 1.2em;
+                width: 100%;
+                background-color: rgba(255, 255, 255, 0);
+                border: 2px solid rgba(255, 255, 255, 0.2);
                 color: #fff;
             }
         </style>
@@ -65,15 +78,21 @@
         </div>
 
         <div class="footer">
-            <div>
-                <input
-                    type="text"
-                    id="guess"
-                    style="font-size: 24px; height: 1.2em; width: 100%"
-                />
-                <div style="display: flex; justify-content: space-between">
-                    <span id="msg"></span>
-                    <div>
+            <div style="width: 76.5%">
+                <input type="text" id="guess" class="inp" />
+                <div
+                    style="
+                        display: flex;
+                        justify-content: space-between;
+                        align-content: center;
+                        height: 52%;
+                    "
+                >
+                    <span
+                        id="msg"
+                        style="align-content: center; padding-left: 1rem"
+                    ></span>
+                    <div style="align-content: center">
                         <span id="cnt">0</span>
                         <span id="ttl"></span>
                     </div>
@@ -334,21 +353,17 @@
             document.getElementById("ttl").innerText = "/ " + cs.length;
 
             function guess() {
-                let g = document
-                    .getElementById("guess")
-                    .value.replaceAll(" ", "");
-                g =
-                    String(g[0]).toUpperCase() +
-                    String(g.toLowerCase()).slice(1);
-
                 document.getElementById("msg").innerText = "";
 
-                if (regex.test(g)) {
-                    document.getElementById(g).innerText = g;
+                let g = document.getElementById("guess").value;
+                let fg = contains(g);
+
+                if (fg != "") {
+                    document.getElementById(fg).innerText = fg;
                     document.getElementById("guess").value = "";
 
-                    if (!gs.includes(g)) {
-                        gs.push(g);
+                    if (!gs.includes(fg)) {
+                        gs.push(fg);
                         document.getElementById("cnt").innerText = gs.length;
                     } else {
                         document.getElementById("msg").innerText =
@@ -365,6 +380,25 @@
                     guess();
                 }
             });
+
+            function contains(x) {
+                let guess = x
+                    .toLowerCase()
+                    .replaceAll(" ", "")
+                    .replaceAll("-", "")
+                    .replaceAll(",", "");
+                for (let i in cs) {
+                    let real = cs[i]
+                        .replaceAll(" ", "")
+                        .replaceAll("-", "")
+                        .replaceAll(",", "")
+                        .toLowerCase();
+                    if (real == guess) {
+                        return cs[i];
+                    }
+                }
+                return "";
+            }
         </script>
     </body>
 </html>
