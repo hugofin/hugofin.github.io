@@ -334,11 +334,16 @@
             document.getElementById("ttl").innerText = "/ " + cs.length;
 
             function guess() {
-                let g = document.getElementById("guess").value;
+                let g = document
+                    .getElementById("guess")
+                    .value.replaceAll(" ", "");
+                g =
+                    String(g[0]).toUpperCase() +
+                    String(g.toLowerCase()).slice(1);
 
                 document.getElementById("msg").innerText = "";
 
-                if (cs.includes(g)) {
+                if (regex.test(g)) {
                     document.getElementById(g).innerText = g;
                     document.getElementById("guess").value = "";
 
