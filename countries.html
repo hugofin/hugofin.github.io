@@ -27,7 +27,7 @@
 
             .top {
                 background-color: #2c75ff;
-                height: 20vh;
+                height: 12vh;
                 color: #fff;
                 padding: 0.5rem;
             }
@@ -382,17 +382,9 @@
             });
 
             function contains(x) {
-                let guess = x
-                    .toLowerCase()
-                    .replaceAll(" ", "")
-                    .replaceAll("-", "")
-                    .replaceAll(",", "");
+                let guess = x.toLowerCase().replace(/[^a-z]/gi, "");
                 for (let i in cs) {
-                    let real = cs[i]
-                        .replaceAll(" ", "")
-                        .replaceAll("-", "")
-                        .replaceAll(",", "")
-                        .toLowerCase();
+                    let real = cs[i].toLowerCase().replace(/[^a-z]/gi, "");
                     if (real == guess) {
                         return cs[i];
                     }
