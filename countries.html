@@ -32,9 +32,14 @@
                 padding: 0.5rem;
             }
 
+            .midriff {
+                height: 45vh;
+                overflow: auto;
+            }
+
             .footer {
                 background-color: #2c75ff;
-                height: 10vh;
+                height: 30vh;
                 display: flex;
                 justify-content: space-between;
                 color: #fff;
@@ -58,7 +63,25 @@
                 height: 1.2em;
                 width: 100%;
                 background-color: rgba(255, 255, 255, 0);
-                border: 2px solid rgba(255, 255, 255, 0.2);
+                border: none;
+                color: #fff;
+                text-align: center;
+            }
+
+            .keyrow {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+            }
+
+            .key {
+                font-size: 20px;
+                width: 1.4em;
+                height: 2em;
+                text-align: center;
+                padding: 0px;
+                background-color: rgba(255, 255, 255, 0.3);
+                border: none;
                 color: #fff;
             }
         </style>
@@ -68,7 +91,7 @@
             <h1>Guess the countries alphabetically</h1>
         </div>
 
-        <div style="height: 65vh; overflow: auto">
+        <div class="midriff">
             <table id="countries">
                 <tr>
                     <th style="width: 1em"></th>
@@ -78,14 +101,20 @@
         </div>
 
         <div class="footer">
-            <div style="width: 76.5%">
-                <input type="text" id="guess" class="inp" />
+            <div
+                style="
+                    width: 76.5%;
+                    display: flex;
+                    flex-direction: column;
+                    row-gap: 0.2rem;
+                "
+            >
+                <div id="guess" class="inp"></div>
                 <div
                     style="
                         display: flex;
                         justify-content: space-between;
                         align-content: center;
-                        height: 52%;
                     "
                 >
                     <span
@@ -96,6 +125,102 @@
                         <span id="cnt">0</span>
                         <span id="ttl"></span>
                     </div>
+                </div>
+                <div class="keyrow">
+                    <button class="key" onclick="keypress('Q')" id="Q">
+                        Q
+                    </button>
+                    <button class="key" onclick="keypress('W')" id="W">
+                        W
+                    </button>
+                    <button class="key" onclick="keypress('E')" id="E">
+                        E
+                    </button>
+                    <button class="key" onclick="keypress('R')" id="R">
+                        R
+                    </button>
+                    <button class="key" onclick="keypress('T')" id="T">
+                        T
+                    </button>
+                    <button class="key" onclick="keypress('Y')" id="Y">
+                        Y
+                    </button>
+                    <button class="key" onclick="keypress('U')" id="U">
+                        U
+                    </button>
+                    <button class="key" onclick="keypress('I')" id="I">
+                        I
+                    </button>
+                    <button class="key" onclick="keypress('O')" id="O">
+                        O
+                    </button>
+                    <button class="key" onclick="keypress('P')" id="P">
+                        P
+                    </button>
+                </div>
+                <div class="keyrow">
+                    <button class="key" onclick="keypress('A')" id="A">
+                        A
+                    </button>
+                    <button class="key" onclick="keypress('S')" id="S">
+                        S
+                    </button>
+                    <button class="key" onclick="keypress('D')" id="D">
+                        D
+                    </button>
+                    <button class="key" onclick="keypress('F')" id="F">
+                        F
+                    </button>
+                    <button class="key" onclick="keypress('G')" id="G">
+                        G
+                    </button>
+                    <button class="key" onclick="keypress('H')" id="H">
+                        H
+                    </button>
+                    <button class="key" onclick="keypress('J')" id="J">
+                        J
+                    </button>
+                    <button class="key" onclick="keypress('K')" id="K">
+                        K
+                    </button>
+                    <button class="key" onclick="keypress('L')" id="L">
+                        L
+                    </button>
+                    <button class="key" onclick="keypress('-')" id="-">
+                        -
+                    </button>
+                </div>
+                <div class="keyrow">
+                    <button class="key" onclick="keypress('⇧')" id="⇧">
+                        ⇧
+                    </button>
+                    <button class="key" onclick="keypress('˽')" id="˽">
+                        ˽
+                    </button>
+                    <button class="key" onclick="keypress('Z')" id="Z">
+                        Z
+                    </button>
+                    <button class="key" onclick="keypress('X')" id="X">
+                        X
+                    </button>
+                    <button class="key" onclick="keypress('C')" id="C">
+                        C
+                    </button>
+                    <button class="key" onclick="keypress('V')" id="V">
+                        V
+                    </button>
+                    <button class="key" onclick="keypress('B')" id="B">
+                        B
+                    </button>
+                    <button class="key" onclick="keypress('N')" id="N">
+                        N
+                    </button>
+                    <button class="key" onclick="keypress('M')" id="M">
+                        M
+                    </button>
+                    <button class="key" onclick="keypress('⇽')" id="⇽">
+                        ⇽
+                    </button>
                 </div>
             </div>
 
@@ -328,6 +453,8 @@
 
             let l = "";
             let gs = [];
+            let g = "";
+            let shift = true;
 
             let countriesTable = document.getElementById("countries");
 
@@ -355,16 +482,18 @@
             function guess() {
                 document.getElementById("msg").innerText = "";
 
-                let g = document.getElementById("guess").value;
+                // let g = document.getElementById("guess").value;
                 let fg = contains(g);
 
                 if (fg != "") {
                     document.getElementById(fg).innerText = fg;
-                    document.getElementById("guess").value = "";
+                    g = "";
+                    document.getElementById("guess").innerText = g;
 
                     if (!gs.includes(fg)) {
                         gs.push(fg);
                         document.getElementById("cnt").innerText = gs.length;
+                        caps();
                     } else {
                         document.getElementById("msg").innerText =
                             "you said that already...";
@@ -376,8 +505,25 @@
             }
 
             document.addEventListener("keydown", function (e) {
-                if (e.code === "Enter") {
-                    guess();
+                switch (e.code) {
+                    case "Enter":
+                        guess();
+                        break;
+                    case "Space":
+                        keypress("˽");
+                        break;
+                    case "Minus":
+                        guess("⇽");
+                        break;
+                    case "ShiftLeft":
+                        caps();
+                        break;
+                    case "Backspace":
+                        keypress("⇽");
+                        break;
+                    default:
+                        keypress(e.code);
+                        break;
                 }
             });
 
@@ -390,6 +536,73 @@
                     }
                 }
                 return "";
+            }
+
+            function keypress(x) {
+                switch (x) {
+                    case "⇽":
+                        g = g.substring(0, g.length - 1);
+                        break;
+                    case "˽":
+                        g += " ";
+                        break;
+                    case "⇧":
+                        caps();
+                        break;
+                    default:
+                        let i = x.match(/Key[A-Z]/) ? x.slice(-1) : x;
+
+                        let q = document.getElementById(i).innerText;
+                        g += q;
+
+                        if (q.match(/^[A-Z]*$/)) {
+                            caps();
+                        }
+                }
+
+                document.getElementById("guess").innerText = g;
+            }
+
+            function caps() {
+                shift = !shift;
+                let letters = [
+                    "A",
+                    "B",
+                    "C",
+                    "D",
+                    "E",
+                    "F",
+                    "G",
+                    "H",
+                    "I",
+                    "J",
+                    "K",
+                    "L",
+                    "M",
+                    "N",
+                    "O",
+                    "P",
+                    "Q",
+                    "R",
+                    "S",
+                    "T",
+                    "U",
+                    "V",
+                    "W",
+                    "X",
+                    "Y",
+                    "Z",
+                ];
+
+                if (!shift) {
+                    for (var i of letters) {
+                        document.getElementById(i).innerText = i.toLowerCase();
+                    }
+                } else {
+                    for (var i of letters) {
+                        document.getElementById(i).innerText = i.toUpperCase();
+                    }
+                }
             }
         </script>
     </body>
