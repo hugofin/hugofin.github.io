@@ -17,7 +17,6 @@
                 table-layout: fixed;
                 width: 100%;
                 margin: 0 auto;
-                border-collapse: 0.2rem;
             }
 
             th,
@@ -29,7 +28,7 @@
                 background-color: #2c75ff;
                 height: 12vh;
                 color: #fff;
-                padding: 0.5rem;
+                padding: 0.8rem;
             }
 
             .midriff {
@@ -59,12 +58,6 @@
                 text-align: center;
             }
 
-            .keyrow {
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-            }
-
             .key {
                 font-size: 20px;
                 width: 1.4em;
@@ -74,10 +67,15 @@
                 background-color: rgba(255, 255, 255, 0.3);
                 border: none;
                 color: #fff;
+                user-select: none;
+            }
+
+            .key:hover {
+                background-color: rgba(255, 255, 255, 0.4);
             }
 
             .key:active {
-                background-color: rgba(255, 255, 255, 0.3);
+                background-color: rgba(255, 255, 255, 0.6);
             }
         </style>
     </head>
@@ -87,28 +85,22 @@
         </div>
 
         <div class="midriff">
-            <table id="countries">
-                <tr>
-                    <th style="width: 1em"></th>
-                    <th>Name</th>
-                </tr>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 1em"></th>
+                        <th>Name</th>
+                    </tr>
+                </thead>
+                <tbody id="countries"></tbody>
             </table>
         </div>
 
         <div class="footer">
             <div id="guess" class="inp"></div>
-            <div
-                style="
-                    display: flex;
-                    justify-content: space-between;
-                    align-content: center;
-                "
-            >
-                <span
-                    id="msg"
-                    style="align-content: center; padding-left: 1rem"
-                ></span>
-                <div style="align-content: center">
+            <div style="display: flex; justify-content: space-between">
+                <span id="msg"></span>
+                <div>
                     <span id="cnt">0</span>
                     <span id="ttl"></span>
                 </div>
@@ -116,49 +108,43 @@
 
             <table>
                 <tr>
-                    <td class="key" onclick="keypress('Q')" id="Q">Q</td>
-                    <td class="key" onclick="keypress('W')" id="W">W</td>
-                    <td class="key" onclick="keypress('E')" id="E">E</td>
-                    <td class="key" onclick="keypress('R')" id="R">R</td>
-                    <td class="key" onclick="keypress('T')" id="T">T</td>
-                    <td class="key" onclick="keypress('Y')" id="Y">Y</td>
-                    <td class="key" onclick="keypress('U')" id="U">U</td>
-                    <td class="key" onclick="keypress('I')" id="I">I</td>
-                    <td class="key" onclick="keypress('O')" id="O">O</td>
-                    <td class="key" onclick="keypress('P')" id="P">P</td>
+                    <td class="key" onclick="kp('Q')" id="Q">Q</td>
+                    <td class="key" onclick="kp('W')" id="W">W</td>
+                    <td class="key" onclick="kp('E')" id="E">E</td>
+                    <td class="key" onclick="kp('R')" id="R">R</td>
+                    <td class="key" onclick="kp('T')" id="T">T</td>
+                    <td class="key" onclick="kp('Y')" id="Y">Y</td>
+                    <td class="key" onclick="kp('U')" id="U">U</td>
+                    <td class="key" onclick="kp('I')" id="I">I</td>
+                    <td class="key" onclick="kp('O')" id="O">O</td>
+                    <td class="key" onclick="kp('P')" id="P">P</td>
                 </tr>
                 <tr>
-                    <td class="key" onclick="keypress('A')" id="A">A</td>
-                    <td class="key" onclick="keypress('S')" id="S">S</td>
-                    <td class="key" onclick="keypress('D')" id="D">D</td>
-                    <td class="key" onclick="keypress('F')" id="F">F</td>
-                    <td class="key" onclick="keypress('G')" id="G">G</td>
-                    <td class="key" onclick="keypress('H')" id="H">H</td>
-                    <td class="key" onclick="keypress('J')" id="J">J</td>
-                    <td class="key" onclick="keypress('K')" id="K">K</td>
-                    <td class="key" onclick="keypress('L')" id="L">L</td>
-                    <td class="key" onclick="keypress('-')" id="-">-</td>
+                    <td class="key" onclick="kp('A')" id="A">A</td>
+                    <td class="key" onclick="kp('S')" id="S">S</td>
+                    <td class="key" onclick="kp('D')" id="D">D</td>
+                    <td class="key" onclick="kp('F')" id="F">F</td>
+                    <td class="key" onclick="kp('G')" id="G">G</td>
+                    <td class="key" onclick="kp('H')" id="H">H</td>
+                    <td class="key" onclick="kp('J')" id="J">J</td>
+                    <td class="key" onclick="kp('K')" id="K">K</td>
+                    <td class="key" onclick="kp('L')" id="L">L</td>
+                    <td class="key" onclick="kp('-')" id="-">-</td>
                 </tr>
                 <tr>
-                    <td class="key" onclick="keypress('⇧')" id="⇧" colspan="2">
-                        ⇪
-                    </td>
-                    <td class="key" onclick="keypress('Z')" id="Z">Z</td>
-                    <td class="key" onclick="keypress('X')" id="X">X</td>
-                    <td class="key" onclick="keypress('C')" id="C">C</td>
-                    <td class="key" onclick="keypress('V')" id="V">V</td>
-                    <td class="key" onclick="keypress('B')" id="B">B</td>
-                    <td class="key" onclick="keypress('N')" id="N">N</td>
-                    <td class="key" onclick="keypress('M')" id="M">M</td>
-                    <td class="key" onclick="keypress('⇽')" id="⇽">⇽</td>
+                    <td class="key" onclick="kp('⇧')" id="⇧" colspan="2">⇪</td>
+                    <td class="key" onclick="kp('Z')" id="Z">Z</td>
+                    <td class="key" onclick="kp('X')" id="X">X</td>
+                    <td class="key" onclick="kp('C')" id="C">C</td>
+                    <td class="key" onclick="kp('V')" id="V">V</td>
+                    <td class="key" onclick="kp('B')" id="B">B</td>
+                    <td class="key" onclick="kp('N')" id="N">N</td>
+                    <td class="key" onclick="kp('M')" id="M">M</td>
+                    <td class="key" onclick="kp('⇽')" id="⇽">⇽</td>
                 </tr>
                 <tr>
-                    <td class="key" onclick="keypress('˽')" id="˽" colspan="5">
-                        space
-                    </td>
-                    <td class="key" onclick="guess()" id="˽" colspan="5">
-                        guess →
-                    </td>
+                    <td class="key" onclick="kp('˽')" id="˽" colspan="5">__</td>
+                    <td class="key" onclick="guess()" colspan="5">guess →</td>
                 </tr>
             </table>
         </div>
@@ -388,14 +374,13 @@
             ];
 
             let l = "";
-            let gs = [];
             let g = "";
+            let gs = [];
             let shift = true;
 
             let countriesTable = document.getElementById("countries");
-
             for (let c in cs) {
-                const row = document.createElement("tr");
+                const rw = document.createElement("tr");
                 const c1 = document.createElement("td");
                 const c2 = document.createElement("td");
 
@@ -407,16 +392,15 @@
                 c2.id = cs[c];
                 c2.innerText = "...";
 
-                row.appendChild(c1);
-                row.appendChild(c2);
-
-                countriesTable.appendChild(row);
+                rw.appendChild(c1);
+                rw.appendChild(c2);
+                countriesTable.appendChild(rw);
             }
 
             document.getElementById("ttl").innerText = "/ " + cs.length;
 
             function guess() {
-                document.getElementById("msg").innerText = "";
+                let msg = "that's not right!";
                 let fg = contains(g);
 
                 if (fg != "") {
@@ -427,15 +411,18 @@
                     if (!gs.includes(fg)) {
                         gs.push(fg);
                         document.getElementById("cnt").innerText = gs.length;
+                        msg = "";
                         caps();
                     } else {
-                        document.getElementById("msg").innerText =
-                            "you said that already...";
+                        msg = "you said that already...";
                     }
-                } else {
-                    document.getElementById("msg").innerText =
-                        "that's not right!";
+
+                    document.getElementById(fg).scrollIntoView({
+                        behavior: "smooth",
+                        block: "center",
+                    });
                 }
+                document.getElementById("msg").innerText = msg;
             }
 
             document.addEventListener("keydown", function (e) {
@@ -444,19 +431,19 @@
                         guess();
                         break;
                     case "Space":
-                        keypress("˽");
+                        kp("˽");
                         break;
                     case "Minus":
-                        keypress("-");
+                        kp("-");
                         break;
                     case "ShiftLeft":
                         caps();
                         break;
                     case "Backspace":
-                        keypress("⇽");
+                        kp("⇽");
                         break;
                     default:
-                        keypress(e.code);
+                        kp(e.code);
                 }
             });
 
@@ -471,7 +458,7 @@
                 return "";
             }
 
-            function keypress(x) {
+            function kp(x) {
                 switch (x) {
                     case "⇽":
                         g = g.substring(0, g.length - 1);
@@ -484,7 +471,6 @@
                         break;
                     default:
                         let i = x.match(/Key[A-Z]/) ? x.slice(-1) : x;
-
                         let q = document.getElementById(i).innerText;
                         g += q;
 
@@ -497,46 +483,16 @@
 
             function caps() {
                 shift = !shift;
-                let letters = [
-                    "A",
-                    "B",
-                    "C",
-                    "D",
-                    "E",
-                    "F",
-                    "G",
-                    "H",
-                    "I",
-                    "J",
-                    "K",
-                    "L",
-                    "M",
-                    "N",
-                    "O",
-                    "P",
-                    "Q",
-                    "R",
-                    "S",
-                    "T",
-                    "U",
-                    "V",
-                    "W",
-                    "X",
-                    "Y",
-                    "Z",
-                ];
+                let i = 65;
 
-                if (!shift) {
-                    for (var i of letters) {
-                        document.getElementById(i).innerText = i.toLowerCase();
-                    }
-                    document.getElementById("⇧").innerText = "⇧";
-                } else {
-                    for (var i of letters) {
-                        document.getElementById(i).innerText = i.toUpperCase();
-                    }
-                    document.getElementById("⇧").innerText = "⇪";
+                while (i < 91) {
+                    let l = String.fromCharCode(i);
+                    document.getElementById(l).innerText = shift
+                        ? l.toUpperCase()
+                        : l.toLowerCase();
+                    i++;
                 }
+                document.getElementById("⇧").innerText = shift ? "⇪" : "⇧";
             }
         </script>
     </body>
