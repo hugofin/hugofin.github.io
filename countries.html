@@ -77,6 +77,16 @@
             .key:active {
                 background-color: rgba(255, 255, 255, 0.6);
             }
+
+            .fin {
+                width: 100%;
+                height: 100%;
+                text-align: center;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                font-size: 24px;
+            }
         </style>
     </head>
     <body>
@@ -84,7 +94,7 @@
             <h1>Guess the countries alphabetically</h1>
         </div>
 
-        <div class="midriff">
+        <div class="midriff" id="midriff">
             <table>
                 <thead>
                     <tr>
@@ -377,6 +387,7 @@
             let g = "";
             let gs = [];
             let shift = true;
+            const starttime = new Date();
 
             let countriesTable = document.getElementById("countries");
             for (let c in cs) {
@@ -413,6 +424,39 @@
                         document.getElementById("cnt").innerText = gs.length;
                         msg = "";
                         caps();
+
+                        if (gs.length == cs.length) {
+                            let endtime = new Date();
+                            const fin = document.createElement("span");
+                            fin.id = "fin";
+                            fin.classList.add("fin");
+                            let diff = Math.abs(
+                                endtime.getTime() - starttime.getTime(),
+                            );
+
+                            let h, m, s;
+                            h = Math.floor(diff / 1000 / 60 / 60);
+                            m = Math.floor((diff / 1000 / 60 / 60 - h) * 60);
+                            s = Math.floor(
+                                ((diff / 1000 / 60 / 60 - h) * 60 - m) * 60,
+                            );
+
+                            let hs, ms, ss;
+                            hs = h > 0 ? `${h} hour` : "";
+                            ms = m > 0 ? `${m} minutes` : "";
+                            ss = s == 1 ? `${s} second` : `${s} seconds`;
+
+                            fin.innerText = `Well done! you finished it in ${hs} ${ms} ${ss}`;
+
+                            document
+                                .getElementById("midriff")
+                                .replaceChildren(fin);
+
+                            document.removeEventListener(
+                                "keydown",
+                                handleKeydown,
+                            );
+                        }
                     } else {
                         msg = "you said that already...";
                     }
@@ -425,7 +469,7 @@
                 document.getElementById("msg").innerText = msg;
             }
 
-            document.addEventListener("keydown", function (e) {
+            function handleKeydown(e) {
                 switch (e.code) {
                     case "Enter":
                         guess();
@@ -445,7 +489,8 @@
                     default:
                         kp(e.code);
                 }
-            });
+            }
+            document.addEventListener("keydown", handleKeydown);
 
             function contains(x) {
                 let guess = x.toLowerCase().replace(/[^a-z]/gi, "");
