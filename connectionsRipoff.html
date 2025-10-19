@@ -209,7 +209,7 @@
                             document
                                 .getElementById(square)
                                 .classList.add(
-                                    `w${vals[document.getElementById(square).innerText]}`,
+                                    `w${parseInt(vals[document.getElementById(square).innerText]) + 1}`,
                                 );
                             locked.push(square);
                             document.getElementById(square).disabled =
