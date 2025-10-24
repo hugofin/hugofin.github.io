@@ -1,0 +1,156 @@
+<!doctype html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<html lang="en-GB">
+    <head>
+        <title>trainstationcoldle</title>
+        <style>
+            :root {
+                font-family: monospace;
+            }
+
+            .attempts {
+                display: flex;
+                flex-direction: column;
+                row-gap: 1rem;
+            }
+
+            .ticket {
+                width: 9rem;
+                height: 5rem;
+                background-color: #ff6816;
+                display: flex;
+                flex-direction: column;
+                padding-top: 1rem;
+                border-radius: 5px;
+            }
+
+            .middle {
+                height: 4rem;
+                background-color: #fff8af;
+                display: flex;
+                flex-direction: row;
+                column-gap: 1rem;
+                align-items: center;
+            }
+
+            .letter {
+                width: 2.5rem;
+                height: 2.5rem;
+                color: #fff;
+                text-align: center;
+                align-content: center;
+            }
+
+            .far {
+                background-color: #aaa;
+            }
+
+            .close {
+                background-color: #faa;
+            }
+
+            .exact {
+                background-color: #ada;
+            }
+
+            .loc {
+                position: relative;
+                bottom: 1px;
+                left: 3px;
+                color: #fff;
+            }
+        </style>
+    </head>
+    <body>
+        <h1 id="today"></h1>
+
+        <div class="attempts" id="attempts"></div>
+
+        <div>
+            <input id="input" type="text" />
+            <button id="guess" onclick="guess()">guess...</button>
+        </div>
+
+        <span id="res"></span>
+
+        <script src="./stations.js"></script>
+
+        <script>
+            const today = stations[Math.floor(Math.random() * stations.length)];
+            document.getElementById("today").innerText =
+                `Where is ${today.crsCode}`;
+
+            const stationsDict = {};
+            const guesses = [];
+
+            for (var s of stations) {
+                stationsDict[s.stationName.toLowerCase().replaceAll(" ", "")] =
+                    {
+                        stationName: s.stationName,
+                        lat: s.lat,
+                        long: s.long,
+                        crsCode: s.crsCode,
+                        constituentCountry: s.constituentCountry,
+                    };
+            }
+
+            function addGuess(station) {
+                console.log(station);
+
+                var attempt = document.createElement("div");
+                attempt.classList.add("ticket");
+
+                var mid = document.createElement("div");
+                mid.classList.add("middle");
+                attempt.appendChild(mid);
+
+                for (var l in station.crsCode) {
+                    var newCel = document.createElement("div");
+                    newCel.innerText = station.crsCode[l];
+                    switch (true) {
+                        case station.crsCode[l] == today.crsCode[l]:
+                            newCel.classList.add("letter", "exact");
+                            break;
+                        case today.crsCode.includes(station.crsCode[l]):
+                            newCel.classList.add("letter", "close");
+                            break;
+                        default:
+                            newCel.classList.add("letter", "far");
+                            break;
+                    }
+                    mid.appendChild(newCel);
+                }
+
+                var loc = document.createElement("span");
+                loc.classList.add("loc");
+                loc.innerText = station.stationName; //stationsDict[code].stationName;
+                attempt.appendChild(loc);
+
+                document.getElementById("attempts").appendChild(attempt);
+            }
+
+            function guess() {
+                const g = document
+                    .getElementById("input")
+                    .value.toLowerCase()
+                    .replaceAll(" ", "");
+
+                var res = document.getElementById("res");
+
+                if (g in stationsDict) {
+                    addGuess(stationsDict[g]);
+
+                    if (
+                        g == today.stationName.toLowerCase().replaceAll(" ", "")
+                    ) {
+                        res.innerText = "well done!";
+                    } else {
+                        res.innerText = `not quite, ${g} is ${stationsDict[g].crsCode}`;
+                    }
+                } else {
+                    res.innerText = `there isnt a station at ${g}`;
+                }
+            }
+        </script>
+    </body>
+</html>
