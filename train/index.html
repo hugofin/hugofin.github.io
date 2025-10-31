@@ -107,11 +107,31 @@
                 text-wrap: nowrap;
             }
 
+            .row {
+                display: flex;
+                flex-direction: row;
+                align-content: baseline;
+            }
+
             input {
                 width: 9rem;
-                height: 3rem;
-                font-size: 3rem;
+                max-height: 3rem;
+                font-size: 2rem;
                 font-family: monospace;
+            }
+
+            button {
+                width: 3rem;
+                max-height: 3rem;
+                font-size: 2rem;
+                font-family: monospace;
+                border: none;
+                background-color: rgba(0, 0, 0, 0);
+                color: #fff;
+            }
+
+            button:active {
+                background-color: rgba(255, 255, 255, 0.4);
             }
         </style>
     </head>
@@ -125,7 +145,7 @@
         </div>
 
         <div class="footer">
-            <div>
+            <div class="row">
                 <input
                     id="input"
                     type="text"
@@ -133,7 +153,7 @@
                     autocapitalize="characters"
                 />
 
-                <button id="guess" onclick="guess()">guess...</button>
+                <button id="guess" onclick="guess()">→</button>
             </div>
 
             <span id="res"></span>
@@ -142,19 +162,16 @@
         <script src="./stations.js"></script>
         <script>
             const today = stations[Math.floor(Math.random() * stations.length)];
-
-            const stationsDict = {};
             const guesses = [];
-
             const correct = ["?", "?", "?"];
 
             const setHead = () => {
                 document.getElementById("today").innerText =
                     `Calling at: ${today.stationName} (${correct[0]}${correct[1]}${correct[2]})`;
             };
-
             setHead();
 
+            const stationsDict = {};
             for (var s of stations) {
                 stationsDict[s.crsCode] = {
                     stationName: s.stationName,
@@ -166,16 +183,14 @@
             }
 
             function addGuess(guess) {
+                guesses.push(guess);
+
                 var attempt = document.createElement("div");
                 attempt.classList.add("ticket");
-
-                console.log(guess);
 
                 var mid = document.createElement("div");
                 mid.classList.add("middle");
                 attempt.appendChild(mid);
-
-                guess.split().map((x) => {});
 
                 for (var l in guess) {
                     var newCel = document.createElement("div");
@@ -215,18 +230,25 @@
 
             function guess() {
                 const input = document.getElementById("input");
+                const guess = input.value.toUpperCase();
+                input.value = "";
 
-                const guess = `${input.value}`.toUpperCase();
-
-                var res = document.getElementById("res");
-
-                addGuess(guess);
-
+                if (guess.length == 3 && !guesses.includes(guess)) {
+                    addGuess(guess);
+                }
                 if (guess == today.crsCode) {
-                    res.innerText = "well done!";
+                    document.getElementById("res").innerText = "well done!";
                     input.disabled = "disabled";
                 }
             }
+
+            function handleKeydown(e) {
+                switch (e.code) {
+                    case "Enter":
+                        guess();
+                }
+            }
+            document.addEventListener("keydown", handleKeydown);
         </script>
     </body>
 </html>
