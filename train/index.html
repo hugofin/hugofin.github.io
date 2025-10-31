@@ -13,7 +13,6 @@
             }
 
             body {
-                max-width: 25rem;
                 margin: 0rem auto;
             }
 
@@ -36,20 +35,21 @@
             }
 
             .midriff {
-                height: 65vh;
                 overflow: auto;
             }
 
             .footer {
                 background-color: #ef3c24;
                 height: 10vh;
-                display: flex;
-                justify-content: space-between;
                 color: #fff;
                 display: flex;
                 flex-direction: column;
                 row-gap: 0.2rem;
                 padding: 0.8rem;
+                position: fixed;
+                width: 100%;
+                bottom: 0px;
+                align-items: center;
             }
 
             .attempts {
@@ -57,6 +57,7 @@
                 flex-direction: column;
                 row-gap: 1rem;
                 align-items: center;
+                max-height: 75vh;
             }
 
             .ticket {
@@ -80,6 +81,7 @@
             }
 
             .letter {
+                font-size: 20px;
                 width: 2.5rem;
                 height: 2.5rem;
                 color: #fff;
@@ -105,6 +107,9 @@
                 left: 3px;
                 color: #fff;
                 text-wrap: nowrap;
+                max-height: 1rem;
+                padding-bottom: 1rem;
+                font-size: 15px;
             }
 
             .row {
@@ -114,16 +119,18 @@
             }
 
             input {
-                width: 9rem;
-                max-height: 3rem;
-                font-size: 2rem;
+                width: 9em;
+                text-align: center;
+                max-height: 3em;
+                font-size: 25px;
                 font-family: monospace;
             }
 
             button {
-                width: 3rem;
-                max-height: 3rem;
-                font-size: 2rem;
+                width: 3em;
+                text-align: center;
+                max-height: 3em;
+                font-size: 25px;
                 font-family: monospace;
                 border: none;
                 background-color: rgba(0, 0, 0, 0);
@@ -145,18 +152,20 @@
         </div>
 
         <div class="footer">
-            <div class="row">
-                <input
-                    id="input"
-                    type="text"
-                    maxlength="3"
-                    autocapitalize="characters"
-                />
+            <div>
+                <div class="row">
+                    <input
+                        id="input"
+                        type="text"
+                        maxlength="3"
+                        autocapitalize="characters"
+                    />
 
-                <button id="guess" onclick="guess()">→</button>
+                    <button id="guess" onclick="guess()">→</button>
+                </div>
             </div>
 
-            <span id="res"></span>
+            <span id="res" style="font-size: 18px"></span>
         </div>
 
         <script src="./stations.js"></script>
