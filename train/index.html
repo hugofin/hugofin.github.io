@@ -1,5 +1,6 @@
 <!doctype html>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <html lang="en-GB">
     <head>
         <title>trainstationcoldle</title>
@@ -61,17 +62,17 @@
             }
 
             .ticket {
-                width: 234px;
-                height: 130px;
+                width: 18rem;
+                height: 10rem;
                 background-color: #ff6816;
                 display: flex;
                 flex-direction: column;
-                padding-top: 26px;
+                padding-top: 2rem;
                 border-radius: 10px;
             }
 
             .middle {
-                height: 104px;
+                height: 8rem;
                 background-color: #fff8af;
                 display: flex;
                 flex-direction: row;
@@ -178,6 +179,7 @@
                 document.getElementById("today").innerText =
                     `Calling at: ${today.stationName} (${correct[0]}${correct[1]}${correct[2]})`;
             };
+            setHead();
 
             const stationsDict = {};
             for (var s of stations) {
@@ -235,7 +237,6 @@
                     block: "center",
                 });
             }
-
             function guess() {
                 const input = document.getElementById("input");
                 const guess = input.value.toUpperCase();
