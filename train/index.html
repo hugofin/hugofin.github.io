@@ -268,6 +268,11 @@
 
                 document.getElementById("res").innerText = "";
                 input.disabled = "";
+
+                document
+                    .getElementById("guess")
+                    .setAttribute("onClick", "javascript: guess();");
+                document.getElementById("guess").innerText = "→";
             }
 
             function handleKeydown(e) {
