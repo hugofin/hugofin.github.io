@@ -131,7 +131,7 @@
                 font-family: monospace;
             }
 
-            button {
+            .subButton {
                 width: 3em;
                 text-align: center;
                 max-height: 3em;
@@ -142,7 +142,7 @@
                 color: #fff;
             }
 
-            button:active {
+            .subButton:active {
                 background-color: rgba(255, 255, 255, 0.4);
             }
         </style>
@@ -158,16 +158,22 @@
 
         <div class="footer">
             <div>
-                <div class="row">
+                <form class="row">
                     <input
                         id="input"
                         type="text"
+                        name="query"
+                        autocomplete="off"
                         maxlength="3"
                         autocapitalize="characters"
                     />
-
-                    <button id="guess" onclick="guess()">→</button>
-                </div>
+                    <input
+                        type="submit"
+                        id="guess"
+                        value="→"
+                        class="subButton"
+                    />
+                </form>
             </div>
 
             <span id="res" style="font-size: 18px"></span>
@@ -178,6 +184,7 @@
             var today = "";
             var guesses = [];
             var correct = ["?", "?", "?"];
+            var daily = true;
 
             const setHead = () => {
                 document.getElementById("today").innerText =
@@ -194,6 +201,49 @@
                     crsCode: s.crsCode,
                     constituentCountry: s.constituentCountry,
                 };
+            }
+
+            const form = document.forms[0];
+            form.onsubmit = (e) => {
+                e.preventDefault();
+                const query = form.query.value.toUpperCase();
+                form.query.value = "";
+                tryGuess(query);
+            };
+
+            function reset() {
+                today = stations[Math.floor(Math.random() * stations.length)];
+                guesses = [];
+                correct = ["?", "?", "?"];
+                setHead();
+
+                const at = document.getElementById("attempts");
+                while (at.firstChild) {
+                    at.removeChild(at.lastChild);
+                }
+
+                document.getElementById("res").innerText = "";
+                input.disabled = "";
+
+                document
+                    .getElementById("guess")
+                    .setAttribute("onClick", "javascript: guess();");
+                document.getElementById("guess").innerText = "→";
+            }
+            reset();
+
+            function tryGuess(g) {
+                if (g.length == 3 && !guesses.includes(g)) {
+                    addGuess(g);
+                }
+                if (g == today.crsCode) {
+                    document.getElementById("res").innerText = "well done!";
+                    input.disabled = "disabled";
+                    document
+                        .getElementById("guess")
+                        .setAttribute("onClick", "javascript: reset();");
+                    document.getElementById("guess").innerText = "↻";
+                }
             }
 
             function addGuess(guess) {
@@ -241,54 +291,6 @@
                     block: "center",
                 });
             }
-            function guess() {
-                const input = document.getElementById("input");
-                const guess = input.value.toUpperCase();
-                input.value = "";
-
-                if (guess.length == 3 && !guesses.includes(guess)) {
-                    addGuess(guess);
-                }
-                if (guess == today.crsCode) {
-                    document.getElementById("res").innerText = "well done!";
-                    input.disabled = "disabled";
-                    document
-                        .getElementById("guess")
-                        .setAttribute("onClick", "javascript: reset();");
-                    document.getElementById("guess").innerText = "↻";
-                }
-            }
-
-            function reset() {
-                today = stations[Math.floor(Math.random() * stations.length)];
-                guesses = [];
-                correct = ["?", "?", "?"];
-                setHead();
-
-                const at = document.getElementById("attempts");
-                while (at.firstChild) {
-                    at.removeChild(at.lastChild);
-                }
-
-                document.getElementById("res").innerText = "";
-                input.disabled = "";
-
-                document
-                    .getElementById("guess")
-                    .setAttribute("onClick", "javascript: guess();");
-                document.getElementById("guess").innerText = "→";
-            }
-
-            function handleKeydown(e) {
-                switch (e.code) {
-                    case "Enter":
-                        guess();
-                        break;
-                }
-            }
-            document.addEventListener("keydown", handleKeydown);
-
-            reset();
         </script>
     </body>
 </html>
