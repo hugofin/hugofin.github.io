@@ -36,6 +36,7 @@
                 align-content: center;
                 border-bottom: 1rem solid #ccc;
                 margin-bottom: 1rem;
+                z-index: 1;
             }
 
             .midriff {
@@ -145,6 +146,40 @@
             .subButton:active {
                 background-color: rgba(255, 255, 255, 0.4);
             }
+
+            .endButton {
+                width: 100%;
+                text-align: center;
+                font-family: monospace;
+                border: none;
+                background-color: #ff6816;
+                color: #fff;
+            }
+
+            .endButton:active {
+                background-color: #ff9846;
+            }
+
+            .grey {
+                position: fixed;
+                top: 0px;
+                height: 100vh;
+                width: 100vw;
+                background-color: rgba(0, 0, 0, 0.4);
+                z-index: 2;
+                display: none;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .fin {
+                height: 10rem;
+                width: 10rem;
+                text-align: center;
+                position: fixed;
+                background-color: #fff;
+            }
         </style>
     </head>
     <body>
@@ -176,15 +211,56 @@
                 </form>
             </div>
 
-            <span id="res" style="font-size: 18px"></span>
+            <span id="res" style="font-size: 18px" onclick="reset()"></span>
+        </div>
+
+        <div class="grey" id="grey">
+            <div
+                style="
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                "
+                class="fin"
+            >
+                <div id="fin"></div>
+                <div style="display: flex; flex-direction: column">
+                    <button class="endButton">copy results</button>
+                    <button class="endButton" onclick="reset()">
+                        play again?
+                    </button>
+                </div>
+            </div>
         </div>
 
         <script src="./stations.js"></script>
         <script>
-            var today = "";
             var guesses = [];
             var correct = ["?", "?", "?"];
             var daily = true;
+
+            const stationsDict = {};
+            stations.map(
+                (s) =>
+                    (stationsDict[s.crsCode] = {
+                        stationName: s.stationName,
+                        lat: s.lat,
+                        long: s.long,
+                        crsCode: s.crsCode,
+                        constituentCountry: s.constituentCountry,
+                    }),
+            );
+
+            const d = new Date();
+            const seed = parseInt(
+                `${d.getUTCDate()}${d.getUTCFullYear()}${d.getUTCMonth()}`,
+            );
+            function random(seed) {
+                let x = Math.sin(seed + 1) * 10000;
+                return x - Math.floor(x);
+            }
+            var today = stations[Math.floor(random(seed) * stations.length)];
+            console.log(today);
 
             const setHead = () => {
                 document.getElementById("today").innerText =
@@ -192,23 +268,12 @@
             };
             setHead();
 
-            const stationsDict = {};
-            for (var s of stations) {
-                stationsDict[s.crsCode] = {
-                    stationName: s.stationName,
-                    lat: s.lat,
-                    long: s.long,
-                    crsCode: s.crsCode,
-                    constituentCountry: s.constituentCountry,
-                };
-            }
-
             const form = document.forms[0];
             form.onsubmit = (e) => {
                 e.preventDefault();
-                const query = form.query.value.toUpperCase();
+                const g = form.query.value.toUpperCase();
                 form.query.value = "";
-                tryGuess(query);
+                tryGuess(g);
             };
 
             function reset() {
@@ -224,49 +289,47 @@
 
                 document.getElementById("res").innerText = "";
                 input.disabled = "";
-
-                document
-                    .getElementById("guess")
-                    .setAttribute("onClick", "javascript: guess();");
-                document.getElementById("guess").innerText = "→";
+                document.getElementById("grey").style.display = "none";
             }
-            reset();
 
             function tryGuess(g) {
                 if (g.length == 3 && !guesses.includes(g)) {
                     addGuess(g);
                 }
                 if (g == today.crsCode) {
-                    document.getElementById("res").innerText = "well done!";
                     input.disabled = "disabled";
-                    document
-                        .getElementById("guess")
-                        .setAttribute("onClick", "javascript: reset();");
-                    document.getElementById("guess").innerText = "↻";
+                    if (daily) {
+                        daily = false;
+                        document.getElementById("grey").style.display = "flex";
+                        document.getElementById("fin").innerText =
+                            `well done! you got today's station in ${guesses.length} guesses!`;
+                    } else {
+                        document.getElementById("res").innerText =
+                            "well done! go again ↻";
+                    }
                 }
             }
 
-            function addGuess(guess) {
-                guesses.push(guess);
+            function addGuess(g) {
+                guesses.push(g);
 
                 var attempt = document.createElement("div");
                 attempt.classList.add("ticket");
-
                 var mid = document.createElement("div");
                 mid.classList.add("middle");
                 attempt.appendChild(mid);
 
-                for (var l in guess) {
+                for (var l in g) {
                     var newCel = document.createElement("div");
-                    newCel.innerText = guess[l];
+                    newCel.innerText = g[l];
                     switch (true) {
-                        case guess[l] == today.crsCode[l]:
+                        case g[l] == today.crsCode[l]:
                             newCel.classList.add("letter", "exact");
-                            correct[l] = guess[l];
+                            correct[l] = g[l];
                             setHead();
                             break;
-                        case today.crsCode.includes(guess[l]) &&
-                            !correct.includes(guess[l]):
+                        case today.crsCode.includes(g[l]) &&
+                            !correct.includes(g[l]):
                             newCel.classList.add("letter", "close");
                             break;
                         default:
@@ -279,13 +342,9 @@
                 var loc = document.createElement("span");
                 loc.classList.add("loc");
                 loc.innerText =
-                    guess in stationsDict
-                        ? stationsDict[guess].stationName
-                        : "???";
+                    g in stationsDict ? stationsDict[g].stationName : "???";
                 attempt.appendChild(loc);
-
                 document.getElementById("attempts").appendChild(attempt);
-
                 attempt.scrollIntoView({
                     behavior: "smooth",
                     block: "center",
