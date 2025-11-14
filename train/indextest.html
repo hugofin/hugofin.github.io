@@ -1,0 +1,296 @@
+<!doctype html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<html lang="en-GB">
+    <head>
+        <title>trainstationcoldle</title>
+        <link
+            href="https://fonts.cdnfonts.com/css/dot-matrix"
+            rel="stylesheet"
+        />
+        <style>
+            :root {
+                font-family: monospace;
+            }
+
+            body {
+                margin: 0rem auto;
+            }
+
+            marquee {
+                font-family: "Dot Matrix";
+                font-weight: normal;
+                font-size: 25px;
+                transform: skewX(-5deg);
+                margin: 0px;
+            }
+
+            .top {
+                background-color: #223;
+                position: fixed;
+                top: 0px;
+                width: 100%;
+                height: 4rem;
+                color: #9d9;
+                padding: 0.8rem;
+                align-content: center;
+                border-bottom: 1rem solid #ccc;
+                margin-bottom: 1rem;
+            }
+
+            .midriff {
+                overflow: auto;
+            }
+
+            .footer {
+                background-color: #ef3c24;
+                height: 9rem;
+                color: #fff;
+                display: flex;
+                flex-direction: column;
+                row-gap: 0.2rem;
+                padding: 0.8rem;
+                position: fixed;
+                width: 100%;
+                bottom: 0px;
+                align-items: center;
+            }
+
+            .attempts {
+                display: flex;
+                flex-direction: column;
+                row-gap: 1rem;
+                align-items: center;
+                padding-bottom: 12rem;
+                padding-top: 8rem;
+            }
+
+            .ticket {
+                width: 18rem;
+                height: 10rem;
+                background-color: #ff6816;
+                display: flex;
+                flex-direction: column;
+                padding-top: 2rem;
+                border-radius: 10px;
+            }
+
+            .middle {
+                height: 8rem;
+                background-color: #fff8af;
+                display: flex;
+                flex-direction: row;
+                column-gap: 1rem;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .letter {
+                font-size: 20px;
+                width: 2.5rem;
+                height: 2.5rem;
+                color: #fff;
+                text-align: center;
+                align-content: center;
+            }
+
+            .far {
+                background-color: #aaa;
+            }
+
+            .close {
+                background-color: #faa;
+            }
+
+            .exact {
+                background-color: #ada;
+            }
+
+            .loc {
+                position: relative;
+                bottom: 1px;
+                left: 3px;
+                color: #fff;
+                text-wrap: nowrap;
+                max-height: 1rem;
+                padding-bottom: 1rem;
+                font-size: 15px;
+            }
+
+            .row {
+                display: flex;
+                flex-direction: row;
+                align-content: baseline;
+            }
+
+            input {
+                width: 9em;
+                text-align: center;
+                max-height: 3em;
+                font-size: 25px;
+                font-family: monospace;
+            }
+
+            button {
+                width: 3em;
+                text-align: center;
+                max-height: 3em;
+                font-size: 25px;
+                font-family: monospace;
+                border: none;
+                background-color: rgba(0, 0, 0, 0);
+                color: #fff;
+            }
+
+            button:active {
+                background-color: rgba(255, 255, 255, 0.4);
+            }
+        </style>
+    </head>
+    <body>
+        <div class="top">
+            <marquee id="today"></marquee>
+        </div>
+
+        <div class="midriff">
+            <div class="attempts" id="attempts"></div>
+        </div>
+
+        <div class="footer">
+            <div>
+                <div class="row">
+                    <input
+                        id="input"
+                        type="text"
+                        maxlength="3"
+                        autocapitalize="characters"
+                    />
+
+                    <button id="guess" onclick="guess()">→</button>
+                </div>
+            </div>
+
+            <span id="res" style="font-size: 18px"></span>
+        </div>
+
+        <script src="./stations.js"></script>
+        <script>
+            var today = "";
+            var guesses = [];
+            var correct = ["?", "?", "?"];
+            var daily = true;
+
+            const setHead = () => {
+                document.getElementById("today").innerText =
+                    `Calling at: ${today.stationName} (${correct[0]}${correct[1]}${correct[2]})`;
+            };
+            setHead();
+
+            const stationsDict = {};
+            for (var s of stations) {
+                stationsDict[s.crsCode] = {
+                    stationName: s.stationName,
+                    lat: s.lat,
+                    long: s.long,
+                    crsCode: s.crsCode,
+                    constituentCountry: s.constituentCountry,
+                };
+            }
+
+            function addGuess(guess) {
+                guesses.push(guess);
+
+                var attempt = document.createElement("div");
+                attempt.classList.add("ticket");
+
+                var mid = document.createElement("div");
+                mid.classList.add("middle");
+                attempt.appendChild(mid);
+
+                for (var l in guess) {
+                    var newCel = document.createElement("div");
+                    newCel.innerText = guess[l];
+                    switch (true) {
+                        case guess[l] == today.crsCode[l]:
+                            newCel.classList.add("letter", "exact");
+                            correct[l] = guess[l];
+                            setHead();
+                            break;
+                        case today.crsCode.includes(guess[l]) &&
+                            !correct.includes(guess[l]):
+                            newCel.classList.add("letter", "close");
+                            break;
+                        default:
+                            newCel.classList.add("letter", "far");
+                            break;
+                    }
+                    mid.appendChild(newCel);
+                }
+
+                var loc = document.createElement("span");
+                loc.classList.add("loc");
+                loc.innerText =
+                    guess in stationsDict
+                        ? stationsDict[guess].stationName
+                        : "???";
+                attempt.appendChild(loc);
+
+                document.getElementById("attempts").appendChild(attempt);
+
+                attempt.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center",
+                });
+            }
+            function guess() {
+                const input = document.getElementById("input");
+                const guess = input.value.toUpperCase();
+                input.value = "";
+
+                if (guess.length == 3 && !guesses.includes(guess)) {
+                    addGuess(guess);
+                }
+                if (guess == today.crsCode) {
+                    document.getElementById("res").innerText = "well done!";
+                    input.disabled = "disabled";
+                    document
+                        .getElementById("guess")
+                        .setAttribute("onClick", "javascript: reset();");
+                    document.getElementById("guess").innerText = "↻";
+                }
+            }
+
+            function reset() {
+                today = stations[Math.floor(Math.random() * stations.length)];
+                guesses = [];
+                correct = ["?", "?", "?"];
+                setHead();
+
+                const at = document.getElementById("attempts");
+                while (at.firstChild) {
+                    at.removeChild(at.lastChild);
+                }
+
+                document.getElementById("res").innerText = "";
+                input.disabled = "";
+
+                document
+                    .getElementById("guess")
+                    .setAttribute("onClick", "javascript: guess();");
+                document.getElementById("guess").innerText = "→";
+            }
+
+            function handleKeydown(e) {
+                document.getElementById("today").innerText = e.code;
+                switch (e.code) {
+                    case "Enter":
+                        guess();
+                        break;
+                }
+            }
+            document.addEventListener("keydown", handleKeydown);
+
+            reset();
+        </script>
+    </body>
+</html>
