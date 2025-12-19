@@ -25,27 +25,26 @@
 
             <div class="text-area">
                 <div class="text-container">
-                    <b class="top">
-                        <a class="interlink" href="/lambdacube"
-                            >lambdacube →
-                        </a>
-                    </b>
-                    <span>
+                    <a class="interlink" href="/lambdacube">
+                        <div>lambdacube</div>
+                        <div>→</div>
+                    </a>
+                    <span class="writing">
                         My Dissertation Project, a 3d tool to help explain the
                         concept of Henk Barendregt's 'lambdacube', written in
                         elm.
                     </span>
-                    <span>
+                    <span class="writing">
                         The lambda cube is a way of demonstrating how any
                         combination of three different type systems can be added
                         to the simply typed lambda calculus, and how the system
                         changes based on type system.
                     </span>
-
-                    <b class="top">
-                        <a class="interlink" href="/dayleaf">Dayleaf → </a>
-                    </b>
-                    <span>
+                    <a class="interlink" href="/dayleaf">
+                        <div>Dayleaf</div>
+                        <div>→</div>
+                    </a>
+                    <span class="writing">
                         A daily guessing game designed to teach the trees native
                         to Great Britain and Ireland
                     </span>
@@ -56,29 +55,26 @@
         <div class="content-row">
             <div class="text-area">
                 <div class="text-container">
-                    <b class="top">
-                        <a class="interlink" href="/twentyone"
-                            >Vingt-et-un →
-                        </a>
-                    </b>
-                    <span>
+                    <a class="interlink" href="/twentyone">
+                        <div>Vingt-et-un</div>
+                        <div>→</div>
+                    </a>
+                    <span class="writing">
                         A roguelike implementation of twenty one / pontoon /
-                        blackjack</span
-                    >
-
-                    <b class="top">
-                        <a class="interlink" href="/train"
-                            >TrainStationCodle →
-                        </a>
-                    </b>
-                    <span> Guess the CRS code of a station if you want</span>
-
-                    <b class="top">
-                        <a class="interlink" href="/countries"
-                            >Countries in order →
-                        </a>
-                    </b>
-                    <span>
+                        blackjack
+                    </span>
+                    <a class="interlink" href="/train">
+                        <div>TrainStationCodle</div>
+                        <div>→</div>
+                    </a>
+                    <span class="writing">
+                        Guess the CRS code of a station if you want
+                    </span>
+                    <a class="interlink" href="/countries">
+                        <div>Countries in order</div>
+                        <div>→</div>
+                    </a>
+                    <span class="writing">
                         Game to test how many countries you can name
                         alphabetically
                     </span>
@@ -108,28 +104,25 @@
 
             <div class="text-area">
                 <div class="text-container">
-                    <b class="top">
-                        <a class="interlink" href="/connectionsRipoff"
-                            >Etymology Connections type game →
-                        </a>
-                    </b>
-                    <span>
+                    <a class="interlink" href="/connectionsRipoff">
+                        <div>Etymology Connections type game</div>
+                        <div>→</div>
+                    </a>
+                    <span class="writing">
                         Can you guess the words that share a common root?
                     </span>
-                    <b class="top">
-                        <a class="interlink" href="/mapgame/mapgame.html"
-                            >Cities World Map Thing →
-                        </a>
-                    </b>
-                    <span>
+                    <a class="interlink" href="/mapgame/mapgame.html">
+                        <div>World Map Thing</div>
+                        <div>→</div>
+                    </a>
+                    <span class="writing">
                         Half baked map game, more of a cities map at the moment
                     </span>
-                    <b class="top">
-                        <a class="interlink" href="/tlds"
-                            >What TLD can I get →
-                        </a>
-                    </b>
-                    <span>
+                    <a class="interlink" href="/tlds">
+                        <div>What TLD can I get</div>
+                        <div>→</div>
+                    </a>
+                    <span class="writing">
                         Have you ever wondered what tld you can get with your
                         name?
                     </span>
@@ -196,8 +189,8 @@
         </div>
 
         <script>
-            let digits = "0123456789abcdef";
-            let position = ["", "inset"];
+            const digits = "0123456789abcdef";
+            const position = ["", "inset"];
 
             function makeByte() {
                 return `${digits[Math.floor(Math.random() * 16)]}${digits[Math.floor(Math.random() * 16)]}`;
@@ -222,17 +215,17 @@
 
             document.getElementById("intro").style.boxShadow = shadow;
 
-            let stars = "*.•˚˙°· \n\n";
+            const stars = "*.•˚˙°· \n\n";
             let planetarium = "";
 
-            for (var i = 0; i < 250; i++) {
+            for (let i = 0; i < 250; i++) {
                 planetarium += stars[Math.floor(Math.random() * 10)];
                 planetarium += " ".repeat(Math.floor(Math.random() * 25));
             }
 
             document.getElementById("sky").innerText = planetarium;
 
-            let flowers = "●◆▲▼▼";
+            const flowers = "●◆▲▼▼";
 
             let stems = [];
             let petals_red = [];
@@ -240,7 +233,7 @@
             let petals_pur = [];
             let petals_whi = [];
 
-            for (var i = 0; i < 75; i++) {
+            for (let i = 0; i < 75; i++) {
                 row = " ".repeat(75);
                 stems.push(row);
                 petals_red.push(row);
@@ -250,7 +243,7 @@
             }
 
             function insertAt(x, y, char, list) {
-                var str = list[y];
+                let str = list[y];
 
                 str = str.split("");
                 str[x] = char;
@@ -261,13 +254,13 @@
                 return list;
             }
 
-            for (var i = 0; i < 100; i++) {
+            for (let i = 0; i < 100; i++) {
                 x = Math.floor(Math.random() * 75);
                 y = Math.floor(Math.random() * 74);
 
                 stems = insertAt(x, y + 1, "|", stems);
 
-                var p = flowers[Math.floor(Math.random() * 4)];
+                let p = flowers[Math.floor(Math.random() * 4)];
 
                 switch (Math.floor(Math.random() * 8)) {
                     case 0:

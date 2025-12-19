@@ -36,12 +36,12 @@
 }
 
 .text-area {
-    width: 40%;
+    width: 44%;
     max-height: 80vh;
     display: flex;
     align-items: center;
     row-gap: 2rem;
-    padding: 5%;
+    padding: 3%;
 }
 
 .text-container {
@@ -51,6 +51,12 @@
     align-items: center;
     row-gap: 2rem;
     font-size: 1.6rem;
+    width: 100%;
+}
+
+.writing {
+    padding: 1%;
+    width: 100%;
 }
 
 .hyperlink {
@@ -60,11 +66,22 @@
 .interlink {
     color: #000000;
     text-decoration: none;
+    font-weight: bold;
+    justify-content: space-between;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding: 1%;
+    width: 100%;
 }
 
-.top {
-    width: 100%;
-    justify-content: space-between;
+.interlink:hover {
+    color: #fff;
+    background-color: #000;
+}
+
+.interlink:active {
+    background-color: #0000ff;
 }
 
 table {
