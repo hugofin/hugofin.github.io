@@ -7,6 +7,10 @@
             :root {
                 font-family: system-ui;
                 /*background-color: #444;*/
+                @media (prefers-color-scheme: dark) {
+                    color: #fcf4e3;
+                    background-color: #2d2821;
+                }
             }
 
             h1 {
@@ -44,6 +48,10 @@
                 stroke-width: 0.5;
             }
 
+            .circlexx:active {
+                fill: #ccc;
+            }
+
             /*
             * Smaller circles around subnational territories: Australian external territories, Chinese SARs, Dutch special municipalities, and French DOMs (overseas regions/departments) [but not French COMs (overseas collectivities)]
             *
@@ -64,7 +72,13 @@
                 fill: #c0c0c0;
                 stroke: #c0c0c0;
                 stroke-width: 0.5;
+                /*transition: stroke 0.5s ease-out;*/
                 fill-rule: evenodd;
+            }
+
+            .landxx:active {
+                /*transition: stroke 0.2s ease-out;*/
+                fill: #ccc;
             }
 
             /*
@@ -97,6 +111,10 @@
                 stroke-width: 0.5;
             }
 
+            .noxx:active {
+                fill: #ccc;
+            }
+
             /*
             * Styles for territories with limited or no recognition
             * (all of them - including Taiwan - are overlays (i.e. duplicate layers) over their "host" countries, and so not showing them doesn't leave any gaps on the map)
@@ -104,7 +122,7 @@
             * Change opacity to 1 to display all territories
             */
             .limitxx {
-                opacity: 0;
+                opacity: 1;
                 fill: #c0c0c0;
                 stroke: #ffffff;
                 stroke-width: 0.2;
@@ -123,45 +141,13 @@
                 stroke-width: 0.3;
             }
 
-            /*
-            * Oceans, seas, and large lakes
-            */
             .oceanxx {
                 opacity: 1;
                 fill: #cef;
-                stroke: #000000;
-                stroke-width: 0.5;
+                @media (prefers-color-scheme: dark) {
+                    fill: #057;
+                }
             }
-
-            /*
-            * Reserved class names:
-            *
-            * .eu - for members of European Union
-            * .eaeu - for members of Eurasian Economic Union
-            */
-
-            /*
-            * Additional style rules
-            *
-            * The following are examples of colouring countries.
-            * These can be substituted with custom styles to colour the countries on the map.
-            *
-            * Colour a few countries:
-            *
-            * .gb, .au, .nc
-            * {
-            * 	fill: #ff0000;
-            * }
-            *
-            * Colour a few small-country circles (along with the countries):
-            *
-            * .ms, .ky
-            * {
-            * 	opacity: 1;
-            * 	fill: #ff0000;
-            * }
-            *
-            */
 
             .correct {
                 stroke: #3f3;
@@ -169,16 +155,28 @@
                 stroke-width: 2;
             }
 
+            .correct:active {
+                fill: #afa;
+            }
+
             .wrong {
                 stroke: #f33;
                 fill: #faa;
-                stroke-width: 1;
+                stroke-width: 2;
+            }
+
+            .wrong:active {
+                fill: #faa;
             }
 
             .missed {
                 stroke: #33f;
                 fill: #aaf;
-                stroke-width: 1;
+                stroke-width: 2;
+            }
+
+            .missed:active {
+                fill: #aaf;
             }
         </style>
     </head>
@@ -220,6 +218,7 @@
             width="100%"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 2754 1398"
+            cursor="crosshair"
         >
             <path
                 id="ocean"
@@ -10499,6 +10498,7 @@
             }
 
             function setUp() {
+                wrong = 0;
                 lost = false;
                 nightmare = false;
                 document.getElementById("nm").checked = false;
