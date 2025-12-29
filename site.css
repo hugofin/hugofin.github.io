@@ -60,7 +60,7 @@
 }
 
 .hyperlink {
-    color: #0000ff;
+    color: #3137fd;
 }
 
 .interlink {
@@ -81,7 +81,7 @@
 }
 
 .interlink:active {
-    background-color: #0000ff;
+    background-color: #3137fd;
 }
 
 table {
