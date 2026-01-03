@@ -93,10 +93,10 @@ table {
     user-select: none;
     height: 20vh;
     text-align: left;
-    @media (prefers-color-scheme: light) {
-        background-color: #fcf4e3;
-        color: #2d2821;
-    }
+
+    color-scheme: light dark;
+    --text: light-dark(#2d2821, #ecdbb7);
+    --bg: light-dark(#fcf4e3, #1a1713);
 }
 
 .stems {
