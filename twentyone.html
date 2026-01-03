@@ -179,16 +179,16 @@
         </div>
 
         <script>
-            var deck = [];
+            let deck = [];
 
-            var playerHand = [];
-            var wallet = 10;
-            var dealerHand = [];
+            let playerHand = [];
+            let wallet = 10;
+            let dealerHand = [];
 
-            var turn = "d";
-            var round = 1;
+            let turn = "d";
+            let round = 1;
 
-            var highScore = localStorage.getItem("highScore");
+            let highScore = localStorage.getItem("highScore");
 
             const positions = {
                 p0: [-9, -22],
@@ -212,18 +212,18 @@
             };
 
             function draw(deck) {
-                var i = Math.floor(Math.random() * deck.length);
-                var c = deck[i];
+                let i = Math.floor(Math.random() * deck.length);
+                let c = deck[i];
                 deck.splice(i, 1);
                 return c;
             }
 
             async function hit(hand) {
-                var card = draw(deck);
+                let card = draw(deck);
 
                 hand.push(card);
                 i = hand.length;
-                var x = `${turn}${i - 1}`;
+                let x = `${turn}${i - 1}`;
 
                 const c = document.getElementById(x);
                 c.classList.add(hand[i - 1][0]);
@@ -256,14 +256,14 @@
                 }
                 document.getElementById("d1").classList.remove("down");
 
-                var playerHighscore = Math.max(
+                let playerHighscore = Math.max(
                     ...sumHand(playerHand).filter(filterBusts),
                 );
-                var dealerHighscore = Math.max(
+                let dealerHighscore = Math.max(
                     ...sumHand(dealerHand).filter(filterBusts),
                 );
 
-                var winner = "the house wins";
+                let winner = "the house wins";
 
                 if (playerHighscore < 22) {
                     if (
@@ -346,20 +346,19 @@
                     }
                 }
 
-                for (var i = 0; i < 8; i++) {
-                    var pc = document.getElementById(`p${i}`);
+                for (let i = 0; i < 8; i++) {
+                    let pc = document.getElementById(`p${i}`);
                     pc.style.transform = `translate(0rem, 0rem)`;
                     pc.classList.add("down");
                     pc.classList.remove("♥", "♠", "♦", "♣");
 
-                    var dc = document.getElementById(`d${i}`);
+                    let dc = document.getElementById(`d${i}`);
                     dc.style.transform = `translate(0rem, 0rem)`;
                     dc.classList.add("down");
                     dc.classList.remove("♥", "♠", "♦", "♣");
                 }
 
                 await sleep(1000);
-
                 await hit(dealerHand);
                 await sleep(500);
 
@@ -387,10 +386,10 @@
             }
 
             function sumHand(hand) {
-                var sums = [];
-                var h2e = [];
+                let sums = [];
+                let h2e = [];
 
-                for (var i = 0; i < hand.length; i++) {
+                for (let i = 0; i < hand.length; i++) {
                     if (hand[i][1] == "A") {
                         copy1 = structuredClone(hand);
                         copy1[i][1] = "1";
@@ -426,7 +425,7 @@
             }
 
             function info() {
-                c = document.getElementById("explain");
+                let c = document.getElementById("explain");
 
                 if (c.style.display == "none") {
                     c.style.display = "flex";
