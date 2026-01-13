@@ -10430,6 +10430,8 @@
             </g>
         </svg>
         <div style="position: fixed; bottom: 0px; padding: 0.5rem">
+            <span>Overlocalise</span
+            ><input type="checkbox" onclick="overlocalise()" />
             <span>Hard Mode</span><input type="checkbox" onclick="easyHard()" />
             <div style="display: none" id="nm">
                 <span>Nightmare Mode</span>
@@ -10451,8 +10453,9 @@
             let hard = false;
             let nightmare = false;
             let wrong = 0;
+            let overlocalised = false;
 
-            const regionNames = new Intl.DisplayNames([], {
+            const regionNames = new Intl.DisplayNames(navigator.language, {
                 type: "region",
             });
 
@@ -10471,6 +10474,12 @@
                 }
             }
 
+            function countryCodeToLanguageCode(countryCode) {
+                const locale = new Intl.Locale("und", { region: countryCode });
+                const maximizedLocale = locale.maximize(); // the magic
+                return maximizedLocale.language;
+            }
+
             function getNext(vals) {
                 if (vals.length > 0) {
                     const i = Math.floor(Math.random() * vals.length);
@@ -10487,7 +10496,19 @@
                     confetti();
                     count.innerText = `you got ${wrong} wrong for ${Math.round(((guessed.length - wrong) / guessed.length) * 100)}%`;
                 } else {
-                    head.innerText = `${regionNames.of(current.toUpperCase())}`;
+                    if (overlocalised) {
+                        let local = new Intl.DisplayNames(
+                            countryCodeToLanguageCode(current),
+                            {
+                                type: "region",
+                            },
+                        );
+
+                        head.innerText = `${local.of(current.toUpperCase())}`;
+                    } else {
+                        head.innerText = `${regionNames.of(current.toUpperCase())}`;
+                    }
+
                     count.innerText = `${guessed.length} out of ${guessed.length + toGo.length}`;
                 }
             }
@@ -10515,6 +10536,11 @@
                 guessed = [];
                 getNext(toGo);
                 document.getElementById("advance").removeAttribute("disabled");
+            }
+
+            function overlocalise() {
+                overlocalised = !overlocalised;
+                setUp();
             }
 
             function easyHard() {
