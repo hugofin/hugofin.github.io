@@ -10487,7 +10487,7 @@
                     confetti();
                     count.innerText = `you got ${wrong} wrong for ${Math.round(((guessed.length - wrong) / guessed.length) * 100)}%`;
                 } else {
-                    head.innerText = `${regionNames.of(current)}`;
+                    head.innerText = `${regionNames.of(current.toUpperCase())}`;
                     count.innerText = `${guessed.length} out of ${guessed.length + toGo.length}`;
                 }
             }
