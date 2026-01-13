@@ -10431,8 +10431,8 @@
         </svg>
         <div style="position: fixed; bottom: 0px; padding: 0.5rem">
             <span>Overlocalise</span
-            ><input type="checkbox" onclick="overlocalise()" />
-            <span>Hard Mode</span><input type="checkbox" onclick="easyHard()" />
+            ><input type="checkbox" onclick="overlocalise()" id="overLocal"/>
+            <span>Hard Mode</span><input type="checkbox" onclick="easyHard()" id="hardMode"/>
             <div style="display: none" id="nm">
                 <span>Nightmare Mode</span>
                 <input type="checkbox" onclick="hardNightmare()" />
@@ -10441,6 +10441,8 @@
         <script>
             const head = document.getElementById("head");
             const count = document.getElementById("count");
+            document.getElementById("overLocal").checked= false;
+            document.getElementById("hardMode").checked=false;
 
             // prettier-ignore
             let cs = ["sd","ss","ge","pe","bf","ly","by","pk","id","ye","mg","bo","rs","ci","dz","ch","cm","mk","bw","ke","jo","mx","ae","bz","br","sl","ml","cd","it","so","af","bd","do","gw","gh","at","se","tr","ug","mz","jp","nz","cu","ve","pt","co","mr","ao","de","th","pg","iq","hr","gl","ne","dk","lv","ro","zm","mm","et","gt","sr","cz","td","al","fi","sy","kg","sb","om","pa","ar","gb","cr","py","gn","ie","ng","tn","pl","na","za","eg","tz","sa","vn","ru","ht","ba","in","ca","sv","gy","be","gq","ls","bg","bi","dj","az","ir","my","ph","uy","cg","ee","rw","am","sn","tg","es","ga","hu","mw","tj","kh","kr","hn","is","ni","cl","ma","lr","cf","sk","lt","zw","lk","il","ps","la","kp","gr","tm","ec","bj","si","no","md","ua","np","er","us","kz","tf","uz","mn","bt","aq","au","cn","fr","nl","lb","me","sz","nc","fj","kw","tl","bs","vu","fk","gs","gm","qa","jm","cy","pr","bn","tt","cv","pf","ws","lu","km","mu","fo","st","vi","cw","sx","dm","to","ki","fm","bh","ad","mp","pw","sc","io","ag","bb","tc","vc","lc","gd","mt","mv","ky","kn","ms","bl","nu","pm","ck","wf","as","mh","aw","li","vg","sh","je","ai","mf","gg","sm","bm","tv","nr","gi","pn","mc","va","im","gu","sg","tk","tw","eh"
