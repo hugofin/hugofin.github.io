@@ -10422,15 +10422,42 @@
                 />
             </g>
         </svg>
-        <div style="position: fixed; bottom: 0px; padding: 0.5rem">
-            <span>Overlocalise</span
-            ><input type="checkbox" onclick="overlocalise()" id="overLocal" />
-            <span>Hard Mode</span
-            ><input type="checkbox" onclick="easyHard()" id="hardMode" />
-            <div style="display: none" id="nm">
-                <span>Nightmare Mode</span>
-                <input type="checkbox" onclick="hardNightmare()" />
+        <div
+            style="
+                position: fixed;
+                bottom: 0px;
+                padding: 0.5rem;
+                display: flex;
+                justify-content: space-between;
+                width: 98%;
+            "
+        >
+            <div>
+                <span>Overlocalise</span
+                ><input
+                    type="checkbox"
+                    onclick="overlocalise()"
+                    id="overLocal"
+                />
+                <span>Hard Mode</span
+                ><input type="checkbox" onclick="easyHard()" id="hardMode" />
+                <div style="display: none" id="nm">
+                    <span>Nightmare Mode</span>
+                    <input type="checkbox" onclick="hardNightmare()" />
+                </div>
             </div>
+            <span
+                style="
+                    border: 1px solid;
+                    border-radius: 0.5rem;
+                    width: 1rem;
+                    height: 1rem;
+                    text-align: center;
+                    font-size: 0.8rem;
+                "
+                onclick="info()"
+                >?</span
+            >
         </div>
         <script>
             const head = document.getElementById("head");
@@ -10623,6 +10650,12 @@
                         getNext(toGo);
                     }
                 }
+            }
+
+            function info() {
+                alert(
+                    "Click the landmass ascociated with the country named in the top left corner.  This game makes use of a public domain map from wikipedia, under creative commons.  The file can be found here https://en.wikipedia.org/wiki/Wikipedia:Blank_maps#/media/File:BlankMap-World.svg",
+                );
             }
         </script>
         <script
