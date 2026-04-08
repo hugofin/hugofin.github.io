@@ -213,9 +213,9 @@
                 <h2 onclick="startEndless()">Endless</h2>
             </div>
 
-            <span
-                >Guess the location of ten countries on a blank world map</span
-            >
+            <span>
+                Guess the location of ten countries on a blank world map
+            </span>
         </div>
 
         <div
@@ -10474,16 +10474,18 @@
             </g>
         </svg>
         <div
+            id="options"
             style="
                 position: fixed;
                 bottom: 0px;
-                padding: 0.5rem" id="options;
+                padding: 0.5rem;
                 display: flex;
+                flex-direction: row;
                 justify-content: space-between;
                 width: 98%;
             "
         >
-            <div>
+            <div style="max-width: 30%">
                 <span>Overlocalise</span>
                 <input
                     type="checkbox"
@@ -10507,8 +10509,9 @@
                     font-size: 0.8rem;
                 "
                 onclick="info()"
-                >?</span
             >
+                ?
+            </span>
         </div>
         <script>
             const head = document.getElementById("head");
@@ -10668,7 +10671,7 @@
 
                     console.log(toGo);
                 } else {
-                    document.getElementById("options").style.display = "block";
+                    document.getElementById("options").style.display = "flex";
                 }
 
                 toGo.forEach((x) => {
@@ -10784,9 +10787,6 @@
                     x.push(toGo[i]);
                     removeValue(toGo[i], toGo);
                 }
-
-                console.log(x);
-                console.log(wrong);
 
                 const y = x
                     .map((country) => (wrong.includes(country) ? "🟥" : "🟩"))
