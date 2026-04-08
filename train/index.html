@@ -212,6 +212,21 @@
             </div>
 
             <span id="res" style="font-size: 18px" onclick="reset()"></span>
+
+            <span
+                style="
+                    border: 1px solid;
+                    border-radius: 0.5rem;
+                    width: 1rem;
+                    height: 1rem;
+                    text-align: center;
+                    font-size: 0.8rem;
+                    position: absolute;
+                    right: 5%;
+                "
+                onclick="info()"
+                >?</span
+            >
         </div>
 
         <div class="grey" id="grey">
@@ -357,6 +372,12 @@
                 const carriage = "🚃";
                 const share = `🚂${carriage.repeat(guesses.length)}\n${d.toLocaleDateString("en-GB")} - ${today.stationName} \nhugofin.github.io/train`;
                 navigator.clipboard.writeText(share);
+            }
+
+            function info() {
+                alert(
+                    "Guess the 3 letter station code for the station name scrolling over the top.  The dataset used in this game is from http://www.railwaycodes.org.uk/crs/crs0.shtm#crs and is used under creative commons",
+                );
             }
         </script>
     </body>
