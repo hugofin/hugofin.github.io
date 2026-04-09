@@ -4,10 +4,7 @@
 <html lang="en-GB">
     <head>
         <title>trainstationcoldle</title>
-        <link
-            href="https://fonts.cdnfonts.com/css/dot-matrix"
-            rel="stylesheet"
-        />
+        <link href="https://fonts.cdnfonts.com/css/dot-matrix" rel="stylesheet" />
         <style>
             :root {
                 font-family: monospace;
@@ -200,14 +197,8 @@
                         name="query"
                         autocomplete="off"
                         maxlength="3"
-                        autocapitalize="characters"
-                    />
-                    <input
-                        type="submit"
-                        id="guess"
-                        value="→"
-                        class="subButton"
-                    />
+                        autocapitalize="characters" />
+                    <input type="submit" id="guess" value="→" class="subButton" />
                 </form>
             </div>
 
@@ -230,22 +221,11 @@
         </div>
 
         <div class="grey" id="grey">
-            <div
-                style="
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: space-between;
-                "
-                class="fin"
-            >
+            <div style="display: flex; flex-direction: column; justify-content: space-between" class="fin">
                 <div id="fin"></div>
                 <div style="display: flex; flex-direction: column">
-                    <button class="endButton" onclick="result()">
-                        copy results
-                    </button>
-                    <button class="endButton" onclick="reset()">
-                        play again?
-                    </button>
+                    <button class="endButton" onclick="result()">copy results</button>
+                    <button class="endButton" onclick="reset()">play again?</button>
                 </div>
             </div>
         </div>
@@ -269,9 +249,7 @@
             );
 
             const d = new Date();
-            const seed = parseInt(
-                `${d.getUTCDate()}${d.getUTCFullYear()}${d.getUTCMonth()}`,
-            );
+            const seed = parseInt(`${d.getUTCDate()}${d.getUTCFullYear()}${d.getUTCMonth()}`);
             function random(seed) {
                 let x = Math.sin(seed + 1) * 10000;
                 return x - Math.floor(x);
@@ -321,8 +299,7 @@
                         document.getElementById("fin").innerText =
                             `well done! you got today's station in ${guesses.length} guesses!`;
                     } else {
-                        document.getElementById("res").innerText =
-                            "well done! go again ↻";
+                        document.getElementById("res").innerText = "well done! go again ↻";
                     }
                 }
             }
@@ -345,8 +322,7 @@
                             correct[l] = g[l];
                             setHead();
                             break;
-                        case today.crsCode.includes(g[l]) &&
-                            !correct.includes(g[l]):
+                        case today.crsCode.includes(g[l]) && !correct.includes(g[l]):
                             newCel.classList.add("letter", "close");
                             break;
                         default:
@@ -358,8 +334,7 @@
 
                 var loc = document.createElement("span");
                 loc.classList.add("loc");
-                loc.innerText =
-                    g in stationsDict ? stationsDict[g].stationName : "???";
+                loc.innerText = g in stationsDict ? stationsDict[g].stationName : "???";
                 attempt.appendChild(loc);
                 document.getElementById("attempts").appendChild(attempt);
                 attempt.scrollIntoView({

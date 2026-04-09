@@ -164,15 +164,13 @@
 
             <card id="explain" class="explain">
                 <span
-                    >try and get the sum your cards (lower) to be closer to 21,
-                    without going over it, than the dealer (upper). Press
-                    'carte!' (card!) to be dealt a new card and 'je m'y
-                    tiens...' (i'll keep mine...) if you don't want any more
-                    cards.
+                    >try and get the sum your cards (lower) to be closer to 21, without going over it, than the dealer
+                    (upper). Press 'carte!' (card!) to be dealt a new card and 'je m'y tiens...' (i'll keep mine...) if
+                    you don't want any more cards.
                 </span>
                 <span
-                    >Each round the cost to 'buy in' increases by one. You will
-                    lose when you no longer have enough money to buy in.</span
+                    >Each round the cost to 'buy in' increases by one. You will lose when you no longer have enough
+                    money to buy in.</span
                 >
                 <i> bonne chance!</i>
             </card>
@@ -256,20 +254,13 @@
                 }
                 document.getElementById("d1").classList.remove("down");
 
-                let playerHighscore = Math.max(
-                    ...sumHand(playerHand).filter(filterBusts),
-                );
-                let dealerHighscore = Math.max(
-                    ...sumHand(dealerHand).filter(filterBusts),
-                );
+                let playerHighscore = Math.max(...sumHand(playerHand).filter(filterBusts));
+                let dealerHighscore = Math.max(...sumHand(dealerHand).filter(filterBusts));
 
                 let winner = "the house wins";
 
                 if (playerHighscore < 22) {
-                    if (
-                        dealerHighscore > 21 ||
-                        playerHighscore > dealerHighscore
-                    ) {
+                    if (dealerHighscore > 21 || playerHighscore > dealerHighscore) {
                         winner = "you win!!";
                         wallet += 2 * round;
                     }
@@ -284,21 +275,17 @@
                 document.getElementById("wallet").innerText = `£${wallet}`;
 
                 if (wallet >= round) {
-                    document.getElementById("result").innerText =
-                        `${winner} , go to next round →`;
+                    document.getElementById("result").innerText = `${winner} , go to next round →`;
                 } else {
-                    document.getElementById("result").innerText =
-                        `${winner} , c'est fini :(  try again ↻`;
+                    document.getElementById("result").innerText = `${winner} , c'est fini :(  try again ↻`;
                     document.getElementById("result").onclick = function () {
                         beginAgain();
                     };
                     if (round > highScore) {
-                        document.getElementById("score").innerText =
-                            `Well done! ${round} is a new high score`;
+                        document.getElementById("score").innerText = `Well done! ${round} is a new high score`;
                         localStorage.setItem("highScore", round);
                     } else {
-                        document.getElementById("score").innerText =
-                            `your high score is ${highScore}`;
+                        document.getElementById("score").innerText = `your high score is ${highScore}`;
                     }
                 }
             }
@@ -327,21 +314,7 @@
 
                 // ⚘ ⚫︎ ⚔ bell cup leaf
                 for (suit of ["♥", "♠", "♦", "♣"]) {
-                    for (rank of [
-                        "2",
-                        "3",
-                        "4",
-                        "5",
-                        "6",
-                        "7",
-                        "8",
-                        "9",
-                        "10",
-                        "J",
-                        "Q",
-                        "K",
-                        "A",
-                    ]) {
+                    for (rank of ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"]) {
                         deck.push([suit, rank]);
                     }
                 }
@@ -377,8 +350,7 @@
 
                 document.getElementById("result").innerText = " ";
                 document.getElementById("wallet").innerText = `£${wallet}`;
-                document.getElementById("round").innerText =
-                    `it's round ${round}`;
+                document.getElementById("round").innerText = `it's round ${round}`;
 
                 document.getElementById("result").onclick = function () {
                     advance();

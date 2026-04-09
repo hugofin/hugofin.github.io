@@ -51,44 +51,19 @@
         </style>
     </head>
     <body>
-        <div
-            style="
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-            "
-        >
+        <div style="display: flex; flex-direction: row; justify-content: space-between">
             <h1>dayleaf</h1>
-            <span style="align-self: end; padding-bottom: 1.5rem; color: #6b6"
-                >the daily tree guessing game</span
-            >
+            <span style="align-self: end; padding-bottom: 1.5rem; color: #6b6">the daily tree guessing game</span>
         </div>
 
         <img src="" id="image" class="image" />
 
         <div id="answer"></div>
-        <div
-            style="
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-            "
-        >
-            <form onsubmit="return false">
+        <div style="display: flex; flex-direction: row; justify-content: space-between">
+            <form onsubmit="return false;">
                 <label>
-                    <input
-                        id="query"
-                        autocomplete="off"
-                        list="opts"
-                        class="search"
-                    />
-                    <input
-                        id="submit"
-                        type="submit"
-                        class="submit"
-                        value="guess..."
-                        onclick="realTimeGuess()"
-                    />
+                    <input id="query" autocomplete="off" list="opts" class="search" />
+                    <input id="submit" type="submit" class="submit" value="guess..." onclick="realTimeGuess()" />
                 </label>
             </form>
             <div style="white-space: nowrap">
@@ -163,16 +138,10 @@
                     "aspen",
                     "/thumb/0/03/Populus_tremula_-_Eurasian_Aspen%2C_Giresun_2016_01-2.jpg/330px-Populus_tremula_-_Eurasian_Aspen%2C_Giresun_2016_01-2.jpg",
                 ],
-                [
-                    "common lime",
-                    "thumb/5/58/Tilia_May_2014-1.jpg/960px-Tilia_May_2014-1.jpg",
-                ],
+                ["common lime", "thumb/5/58/Tilia_May_2014-1.jpg/960px-Tilia_May_2014-1.jpg"],
                 ["hazel", "c/c3/Hazelnut_in_blossom.jpg"],
                 ["alder", "2/2c/20120904Alnus_glutinosa01.jpg"],
-                [
-                    "crab apple",
-                    "b/b6/Flowering_crab_apple_tree_%28Malus_sylvestris%29_-_geograph.org.uk_-_1310092.jpg",
-                ],
+                ["crab apple", "b/b6/Flowering_crab_apple_tree_%28Malus_sylvestris%29_-_geograph.org.uk_-_1310092.jpg"],
                 ["hornbeam", "2/2c/Carpinus_betulus_-_Hunsrück_001.jpg"],
                 ["elm", "0/03/Constable_-_Study_of_an_Elm_Tree_-_c1821.jpeg"],
                 ["beech", "5/5b/Grib_skov.jpg"],
@@ -183,36 +152,21 @@
                 ],
                 ["common hawthorn", "f/f5/%28ms%29_Crataegus_monogyna_12.jpg"],
                 ["oak", "d/d3/Eiche_in_Suffolk.jpg"], //a/af/Quercus_robur.jpg
-                [
-                    "sycamore",
-                    "thumb/e/ea/FelledSycamoreTree.jpg/960px-FelledSycamoreTree.jpg",
-                ],
+                ["sycamore", "thumb/e/ea/FelledSycamoreTree.jpg/960px-FelledSycamoreTree.jpg"],
                 ["field maple", "c/c5/Acer_campestre_009.jpg"],
                 [
                     "london plane",
                     "b/b9/London_Plane_in_the_evening_rush_hour%2C_Millbank%2C_London_-_geograph.org.uk_-_4816671.jpg",
                 ],
-                [
-                    "wild service tree",
-                    "f/f0/Sorbus_torminalis_Trunk_and_canopy.jpg",
-                ],
-                [
-                    "sweet chestnut",
-                    "thumb/7/7a/Sweet_chestnuts_in_Farnham.jpg/2560px-Sweet_chestnuts_in_Farnham.jpg",
-                ],
+                ["wild service tree", "f/f0/Sorbus_torminalis_Trunk_and_canopy.jpg"],
+                ["sweet chestnut", "thumb/7/7a/Sweet_chestnuts_in_Farnham.jpg/2560px-Sweet_chestnuts_in_Farnham.jpg"],
                 ["goat willow", "1/19/Salix_caprea_sl19.jpg"],
                 [
                     "horse chestnut",
                     "thumb/2/2c/Horse_chestnut_flowers_in_Brodalen_4.jpg/960px-Horse_chestnut_flowers_in_Brodalen_4.jpg",
                 ],
-                [
-                    "ash",
-                    "6/62/Ash_in_Under_Hooken_-_geograph.org.uk_-_240969.jpg",
-                ],
-                [
-                    "rowan",
-                    "thumb/2/26/Rowan_tree_20081002b.jpg/960px-Rowan_tree_20081002b.jpg",
-                ],
+                ["ash", "6/62/Ash_in_Under_Hooken_-_geograph.org.uk_-_240969.jpg"],
+                ["rowan", "thumb/2/26/Rowan_tree_20081002b.jpg/960px-Rowan_tree_20081002b.jpg"],
                 ["yew", "7/7e/Taxus_baccata_tree.jpg"],
                 ["larch", "8/88/Autumn_Larch_-_geograph.org.uk_-_265498.jpg"],
                 ["scots pine", "9/91/Skuleskogen_pine.jpg"],
@@ -220,9 +174,7 @@
             ];
 
             const d = new Date();
-            const seed = parseInt(
-                `${d.getUTCDate()}${d.getUTCFullYear()}${d.getUTCMonth()}`,
-            );
+            const seed = parseInt(`${d.getUTCDate()}${d.getUTCFullYear()}${d.getUTCMonth()}`);
             let previousGuesses = [];
             let finishedToday = "no";
 
@@ -232,8 +184,7 @@
             }
 
             const todays = trees[Math.floor(random() * trees.length)];
-            document.getElementById("image").src =
-                `https://upload.wikimedia.org/wikipedia/commons/${todays[1]}`;
+            document.getElementById("image").src = `https://upload.wikimedia.org/wikipedia/commons/${todays[1]}`;
 
             let wr = 0;
             let wins = localStorage.getItem("wins");
@@ -242,10 +193,7 @@
             if (lastSeed != seed) {
                 localStorage.setItem("finishedToday", finishedToday);
                 localStorage.setItem("lastSeed", seed);
-                localStorage.setItem(
-                    "previousGuesses",
-                    JSON.stringify(previousGuesses),
-                );
+                localStorage.setItem("previousGuesses", JSON.stringify(previousGuesses));
             } else {
                 finishedToday = localStorage.getItem("finishedToday");
                 let gs = JSON.parse(localStorage.getItem("previousGuesses"));
@@ -257,20 +205,14 @@
             function realTimeGuess() {
                 let x = document.getElementById("query").value;
                 guess(x);
-                localStorage.setItem(
-                    "previousGuesses",
-                    JSON.stringify(previousGuesses),
-                );
+                localStorage.setItem("previousGuesses", JSON.stringify(previousGuesses));
             }
 
             function guess(g) {
                 let res = ["✕", "#ff4444"];
 
                 if (g) {
-                    if (
-                        g.toLowerCase().replaceAll(" ", "") ==
-                        todays[0].replaceAll(" ", "")
-                    ) {
+                    if (g.toLowerCase().replaceAll(" ", "") == todays[0].replaceAll(" ", "")) {
                         res[0] = `✓`;
                         res[1] = "#44dd44";
                         document.getElementById("query").disabled = "disabled";
@@ -289,12 +231,9 @@
                             `Well done! your win rate is ${Math.floor((wins / games) * 100)}%`;
                     } else {
                         if (previousGuesses.length >= 4) {
-                            document.getElementById("query").disabled =
-                                "disabled";
-                            document.getElementById("submit").disabled =
-                                "disabled";
-                            document.getElementById("answer").innerText =
-                                todays[0];
+                            document.getElementById("query").disabled = "disabled";
+                            document.getElementById("submit").disabled = "disabled";
+                            document.getElementById("answer").innerText = todays[0];
 
                             if (finishedToday != "yes") {
                                 games++;
@@ -310,26 +249,16 @@
                                 `Better luck next time, your win rate is ${Math.floor(wr)}%`;
                         }
 
-                        document.getElementById(
-                            `h${5 - previousGuesses.length}`,
-                        ).innerText = "♡";
+                        document.getElementById(`h${5 - previousGuesses.length}`).innerText = "♡";
                         document.getElementById("query").value = "";
                     }
 
                     previousGuesses.push(g);
 
-                    document.getElementById(
-                        `g${previousGuesses.length}`,
-                    ).innerText = g;
-                    document.getElementById(
-                        `g${previousGuesses.length}`,
-                    ).style.display = "block";
-                    document.getElementById(
-                        `r${previousGuesses.length}`,
-                    ).innerText = res[0];
-                    document.getElementById(
-                        `r${previousGuesses.length}`,
-                    ).style.color = res[1];
+                    document.getElementById(`g${previousGuesses.length}`).innerText = g;
+                    document.getElementById(`g${previousGuesses.length}`).style.display = "block";
+                    document.getElementById(`r${previousGuesses.length}`).innerText = res[0];
+                    document.getElementById(`r${previousGuesses.length}`).style.color = res[1];
                 }
             }
         </script>
