@@ -199,7 +199,7 @@
     </head>
     <body>
         <div id="welcome" class="welcome">
-            <h1>no 🌐 borders</h1>
+            <h1>no borders</h1>
 
             <div
                 style="
@@ -209,11 +209,29 @@
                     width: 40%;
                 "
             >
-                <h2 onclick="startDaily()">Daily</h2>
-                <h2 onclick="startEndless()">Endless</h2>
+                <h2
+                    onclick="startDaily()"
+                    onmouseover="
+                        over(
+                            'Guess the location of ten countries on a blank world map',
+                        )
+                    "
+                >
+                    Daily
+                </h2>
+                <h2
+                    onclick="startEndless()"
+                    onmouseover="
+                        over(
+                            'Try to guess the location of every country, without borders',
+                        )
+                    "
+                >
+                    Endless
+                </h2>
             </div>
 
-            <span>
+            <span id="startText">
                 Guess the location of ten countries on a blank world map
             </span>
         </div>
@@ -10572,15 +10590,7 @@
                         let message = `Well done! you got ${right}/10 today!`;
 
                         head.innerText = message;
-                        confetti({
-                            count:
-                                20 *
-                                Math.round(
-                                    ((guessed.length - wrong.length) /
-                                        guessed.length) *
-                                        100,
-                                ),
-                        });
+
                         count.innerText = ``;
                         document.getElementById("share").style.display =
                             "block";
@@ -10794,6 +10804,10 @@
 
                 const s = `${y}\nhugofin.github.io/no-borders`;
                 navigator.clipboard.writeText(s);
+            }
+
+            function over(text) {
+                document.getElementById("startText").innerText = text;
             }
         </script>
         <script
