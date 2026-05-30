@@ -1,0 +1,94 @@
+<!doctype html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<html lang="en-GB">
+    <head>
+        <title>terrain</title>
+        <style>
+            :root {
+                font-family: system-ui;
+            }
+            body {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transform: rotate(-45deg) skew(15deg, 15deg);
+            }
+
+            table {
+                border-collapse: collapse;
+            }
+
+            td {
+                height: 2rem;
+                width: 2rem;
+                font-size: 8px;
+                color: rgba(1, 1, 1, 0.5);
+            }
+
+            td:hover {
+                transform: translate3d(0.25rem, -0.25rem, 0.25rem);
+            }
+
+            .grass {
+                background-color: #ae4;
+            }
+
+            .water {
+                background-color: #aef;
+            }
+
+            .forest {
+                background-color: #8b1;
+            }
+
+            .rocks {
+                background-color: #ccc;
+            }
+        </style>
+    </head>
+    <body>
+        <table id="grid"></table>
+
+        <script>
+            const GRIDSIZE = 15;
+            const grid = document.getElementById("grid");
+            const terrains = [
+                "grass",
+                "grass",
+                "grass",
+                "grass",
+                "forest",
+                "forest",
+                "water",
+                "rocks",
+            ];
+
+            const terrainMap = [];
+
+            function randomTerrain() {
+                return terrains[Math.floor(Math.random() * terrains.length)];
+            }
+
+            function inBounds(x, y) {
+                return x > -1 && x < GRIDSIZE && y > -1 && y < GRIDSIZE;
+            }
+
+            for (let row = 0; row < GRIDSIZE; row++) {
+                const new_row = document.createElement("tr");
+                new_row.id = `r${row}`;
+
+                for (let column = 0; column < GRIDSIZE; column++) {
+                    const new_cell = document.createElement("td");
+                    const t = randomTerrain();
+
+                    new_cell.innerHTML = t;
+                    new_cell.classList.add(t);
+                    new_row.appendChild(new_cell);
+                }
+
+                grid.append(new_row);
+            }
+        </script>
+    </body>
+</html>
