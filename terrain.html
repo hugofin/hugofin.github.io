@@ -12,59 +12,94 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                transform: rotate(-45deg) skew(15deg, 15deg);
             }
 
             table {
                 border-collapse: collapse;
+                transform: rotate(-45deg) skew(15deg, 15deg);
             }
 
             td {
                 height: 2rem;
                 width: 2rem;
                 font-size: 8px;
-                color: rgba(1, 1, 1, 0.5);
-            }
-
-            td:hover {
-                transform: translate3d(0.25rem, -0.25rem, 0.25rem);
             }
 
             .grass {
                 background-color: #ae4;
             }
 
+            .grass:hover {
+                transform: translate3d(0.25rem, -0.25rem, 0.25rem);
+                background-color: #cf7;
+            }
+
             .water {
                 background-color: #aef;
+            }
+
+            .water:hover {
+                transform: translate3d(0.25rem, -0.25rem, 0.25rem);
+                background-color: #cff;
             }
 
             .forest {
                 background-color: #8b1;
             }
 
+            .forest:hover {
+                transform: translate3d(0.25rem, -0.25rem, 0.25rem);
+                background-color: #be4;
+            }
+
             .rocks {
                 background-color: #ccc;
+            }
+
+            .rocks:hover {
+                transform: translate3d(0.25rem, -0.25rem, 0.25rem);
+                background-color: #ddd;
+            }
+
+            .selected {
+                transform: translate3d(0.25rem, -0.25rem, 0.25rem);
+                border: 0.1rem dashed #f00;
+                background-color: #ccca;
+                box-sizing: border-box;
+            }
+
+            .something {
+                height: 1rem;
+                width: 1rem;
+                font-size: 8px;
+                background-color: #f00;
+            }
+
+            .actions {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-evenly;
+                position: absolute;
+                bottom: 0rem;
             }
         </style>
     </head>
     <body>
         <table id="grid"></table>
 
-        <script>
-            const GRIDSIZE = 15;
-            const grid = document.getElementById("grid");
-            const terrains = [
-                "grass",
-                "grass",
-                "grass",
-                "grass",
-                "forest",
-                "forest",
-                "water",
-                "rocks",
-            ];
+        <div class="actions">
+            <button>move</button>
+            <button>attack</button>
+        </div>
 
+        <script>
+            const GRIDSIZE = 20;
+            const grid = document.getElementById("grid");
+            const terrains = ["grass", "grass", "grass", "grass", "forest", "forest", "water", "rocks"];
             const terrainMap = [];
+            const entities = {};
+
+            let selectedCell = "";
 
             function randomTerrain() {
                 return terrains[Math.floor(Math.random() * terrains.length)];
@@ -74,21 +109,85 @@
                 return x > -1 && x < GRIDSIZE && y > -1 && y < GRIDSIZE;
             }
 
+            function selectCell(cell) {
+                if (selectedCell == cell.id) {
+                    selectedCell = "";
+                    cell.classList.remove("selected");
+                } else {
+                    if (entities[selectedCell]) {
+                        moveEntity(selectedCell, cell.id);
+                        document.getElementById(selectedCell).classList.remove("selected");
+                        return;
+                    }
+
+                    if (selectedCell != "") {
+                        document.getElementById(selectedCell).classList.remove("selected");
+                    }
+
+                    selectedCell = cell.id;
+                    cell.classList.add("selected");
+                }
+            }
+
+            function moveEntity(start, destination) {
+                const child = document.getElementById(start).childNodes[0];
+
+                document.getElementById(destination).appendChild(child);
+                document.getElementById(start).childNodes = null;
+                entities[destination] = entities[start];
+                entities[start] = "";
+            }
+
             for (let row = 0; row < GRIDSIZE; row++) {
-                const new_row = document.createElement("tr");
-                new_row.id = `r${row}`;
-
+                const newRow = [];
                 for (let column = 0; column < GRIDSIZE; column++) {
-                    const new_cell = document.createElement("td");
-                    const t = randomTerrain();
+                    newRow.push("water");
+                }
+                terrainMap.push(newRow);
+            }
 
-                    new_cell.innerHTML = t;
-                    new_cell.classList.add(t);
+            for (let island = 0; island < 4; island++) {
+                const cx = Math.floor(Math.random() * GRIDSIZE);
+                const cy = Math.floor(Math.random() * GRIDSIZE);
+
+                const radius = 4;
+
+                for (let y = cy - radius; y < cy + radius; y++) {
+                    for (let x = cx - radius; x < cx + radius; x++) {
+                        if (inBounds(x, y)) terrainMap[y][x] = "grass";
+                    }
+                }
+            }
+
+            for (i in terrainMap) {
+                const new_row = document.createElement("tr");
+                new_row.id = `r${i}`;
+
+                for (j in terrainMap[i]) {
+                    const new_cell = document.createElement("td");
+
+                    new_cell.id = `r${i}c${j}`;
+                    new_cell.classList.add(terrainMap[i][j]);
+                    new_cell.onclick = function () {
+                        selectCell(new_cell);
+                    };
                     new_row.appendChild(new_cell);
+
+                    entities[`r${i}c${j}`] = "";
                 }
 
                 grid.append(new_row);
             }
+
+            const one = document.getElementById("r1c1");
+            const something = document.createElement("div");
+            something.classList.add("something");
+            something.innerText = "A";
+            something.id = "A";
+
+            entities["r1c1"] = "A";
+
+            one.appendChild(something);
         </script>
     </body>
 </html>
