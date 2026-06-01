@@ -7,16 +7,21 @@
         <style>
             :root {
                 font-family: system-ui;
+                --text: light-dark(#000, #fcf4e3);
+                background-color: #2d2821;
             }
             body {
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                /*background-color: var(--bg);*/
             }
 
             table {
                 border-collapse: collapse;
                 transform: rotate(-45deg) skew(15deg, 15deg);
+                max-width: 80%;
+                overflow: scroll;
             }
 
             td {
@@ -34,6 +39,13 @@
                 background-color: #cf7;
             }
 
+            .grass.selected {
+                transform: translate3d(0.25rem, -0.25rem, 0.25rem);
+                border: 0.1rem dashed #f00;
+                background-color: #cf7;
+                box-sizing: border-box;
+            }
+
             .water {
                 background-color: #aef;
             }
@@ -41,6 +53,13 @@
             .water:hover {
                 transform: translate3d(0.25rem, -0.25rem, 0.25rem);
                 background-color: #cff;
+            }
+
+            .water.selected {
+                transform: translate3d(0.25rem, -0.25rem, 0.25rem);
+                border: 0.1rem dashed #f00;
+                background-color: #cff;
+                box-sizing: border-box;
             }
 
             .forest {
@@ -61,11 +80,8 @@
                 background-color: #ddd;
             }
 
-            .selected {
-                transform: translate3d(0.25rem, -0.25rem, 0.25rem);
-                border: 0.1rem dashed #f00;
-                background-color: #ccca;
-                box-sizing: border-box;
+            .option {
+                background-color: #fdd;
             }
 
             .something {
@@ -80,6 +96,7 @@
                 flex-direction: row;
                 justify-content: space-evenly;
                 position: absolute;
+                width: 100%;
                 bottom: 0rem;
             }
         </style>
@@ -94,6 +111,7 @@
 
         <script>
             const GRIDSIZE = 20;
+            const STEPSIZE = 4;
             const grid = document.getElementById("grid");
             const terrains = ["grass", "grass", "grass", "grass", "forest", "forest", "water", "rocks"];
             const terrainMap = [];
@@ -126,6 +144,13 @@
 
                     selectedCell = cell.id;
                     cell.classList.add("selected");
+
+                    // if (entities[selectedCell]) {
+                    //     for (const coord of getCircle(selectedCell.split("|"), STEPSIZE)) {
+                    //         if (inBounds(coord[0], coord[1])) document.getElementById(`${coord[0]}|${coord[1]}`).classList.add("option");
+                    //     }
+                    //     return;
+                    // }
                 }
             }
 
@@ -136,6 +161,28 @@
                 document.getElementById(start).childNodes = null;
                 entities[destination] = entities[start];
                 entities[start] = "";
+
+                // for (const coord of getCircle(start.split("|"), STEPSIZE)) {
+                //     if (inBounds(coord[0], coord[1])) document.getElementById(`${coord[0]}|${coord[1]}`).classList.remove("option");
+                // }
+            }
+
+            function getDistance(p1, p2) {
+                return Math.sqrt((p2[0] - p1[0]) ** 2 + (p2[1] - p1[1]) ** 2);
+            }
+
+            function getCircle(coordinate, radius) {
+                const cy = coordinate[0];
+                const cx = coordinate[1];
+                const points = [];
+
+                for (let y = cy - radius; y <= cy + radius; y++) {
+                    for (let x = cx - radius; x <= cx + radius; x++) {
+                        if (Math.round(getDistance(coordinate, [y, x])) <= radius) points.push([y, x]);
+                    }
+                }
+
+                return points;
             }
 
             for (let row = 0; row < GRIDSIZE; row++) {
@@ -146,16 +193,14 @@
                 terrainMap.push(newRow);
             }
 
-            for (let island = 0; island < 4; island++) {
+            for (let island = 0; island < 5; island++) {
                 const cx = Math.floor(Math.random() * GRIDSIZE);
                 const cy = Math.floor(Math.random() * GRIDSIZE);
 
-                const radius = 4;
+                const radius = 3 + Math.floor(Math.random() * 4);
 
-                for (let y = cy - radius; y < cy + radius; y++) {
-                    for (let x = cx - radius; x < cx + radius; x++) {
-                        if (inBounds(x, y)) terrainMap[y][x] = "grass";
-                    }
+                for (const coord of getCircle([cy, cx], radius)) {
+                    if (inBounds(coord[0], coord[1])) terrainMap[coord[0]][coord[1]] = "grass";
                 }
             }
 
@@ -166,7 +211,13 @@
                 for (j in terrainMap[i]) {
                     const new_cell = document.createElement("td");
 
-                    new_cell.id = `r${i}c${j}`;
+                    new_cell.id = `${i}|${j}`;
+
+                    const t = terrainMap[i][j];
+
+                    if (t == "grass") {
+                    }
+
                     new_cell.classList.add(terrainMap[i][j]);
                     new_cell.onclick = function () {
                         selectCell(new_cell);
@@ -179,13 +230,13 @@
                 grid.append(new_row);
             }
 
-            const one = document.getElementById("r1c1");
+            const one = document.getElementById("1|1");
             const something = document.createElement("div");
             something.classList.add("something");
             something.innerText = "A";
             something.id = "A";
 
-            entities["r1c1"] = "A";
+            entities["1|1"] = "A";
 
             one.appendChild(something);
         </script>
