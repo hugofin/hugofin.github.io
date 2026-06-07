@@ -7,14 +7,12 @@
         <style>
             :root {
                 font-family: system-ui;
-                --text: light-dark(#000, #fcf4e3);
-                background-color: #2d2821;
             }
+
             body {
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                /*background-color: var(--bg);*/
             }
 
             table {
@@ -46,6 +44,14 @@
                 box-sizing: border-box;
             }
 
+            .grass.unavailable {
+                background-color: #8c2;
+            }
+
+            .grass.unavailable:hover {
+                transform: translate3d(0rem, 0rem, 0rem);
+            }
+
             .water {
                 background-color: #aef;
             }
@@ -60,6 +66,14 @@
                 border: 0.1rem dashed #f00;
                 background-color: #cff;
                 box-sizing: border-box;
+            }
+
+            .water.unavailable {
+                background-color: #8ce;
+            }
+
+            .water.unavailable:hover {
+                transform: translate3d(0rem, 0rem, 0rem);
             }
 
             .forest {
@@ -98,6 +112,8 @@
                 position: absolute;
                 width: 100%;
                 bottom: 0rem;
+                height: 5rem;
+                background-color: #eee;
             }
         </style>
     </head>
@@ -115,9 +131,11 @@
             const grid = document.getElementById("grid");
             const terrains = ["grass", "grass", "grass", "grass", "forest", "forest", "water", "rocks"];
             const terrainMap = [];
+            const allCells = [];
             const entities = {};
 
             let selectedCell = "";
+            let actionState = "";
 
             function randomTerrain() {
                 return terrains[Math.floor(Math.random() * terrains.length)];
@@ -131,6 +149,9 @@
                 if (selectedCell == cell.id) {
                     selectedCell = "";
                     cell.classList.remove("selected");
+                    allCells.forEach((x) => {
+                        document.getElementById(x).classList.remove("unavailable");
+                    });
                 } else {
                     if (entities[selectedCell]) {
                         moveEntity(selectedCell, cell.id);
@@ -145,12 +166,16 @@
                     selectedCell = cell.id;
                     cell.classList.add("selected");
 
-                    // if (entities[selectedCell]) {
-                    //     for (const coord of getCircle(selectedCell.split("|"), STEPSIZE)) {
-                    //         if (inBounds(coord[0], coord[1])) document.getElementById(`${coord[0]}|${coord[1]}`).classList.add("option");
-                    //     }
-                    //     return;
-                    // }
+                    if (entities[selectedCell]) {
+                        allCells.forEach((x) => {
+                            document.getElementById(x).classList.add("unavailable");
+                        });
+
+                        for (const coord of getCircle(selectedCell.split("|"), STEPSIZE)) {
+                            if (inBounds(coord[0], coord[1])) document.getElementById(`${coord[0]}|${coord[1]}`).classList.remove("unavailable");
+                        }
+                        return;
+                    }
                 }
             }
 
@@ -162,9 +187,9 @@
                 entities[destination] = entities[start];
                 entities[start] = "";
 
-                // for (const coord of getCircle(start.split("|"), STEPSIZE)) {
-                //     if (inBounds(coord[0], coord[1])) document.getElementById(`${coord[0]}|${coord[1]}`).classList.remove("option");
-                // }
+                allCells.forEach((x) => {
+                    document.getElementById(x).classList.remove("unavailable");
+                });
             }
 
             function getDistance(p1, p2) {
@@ -209,9 +234,11 @@
                 new_row.id = `r${i}`;
 
                 for (j in terrainMap[i]) {
+                    const cell_id = `${i}|${j}`;
                     const new_cell = document.createElement("td");
 
-                    new_cell.id = `${i}|${j}`;
+                    new_cell.id = cell_id;
+                    allCells.push(cell_id);
 
                     const t = terrainMap[i][j];
 
@@ -224,19 +251,19 @@
                     };
                     new_row.appendChild(new_cell);
 
-                    entities[`r${i}c${j}`] = "";
+                    entities[cell_id] = "";
                 }
 
                 grid.append(new_row);
             }
 
-            const one = document.getElementById("1|1");
+            const one = document.getElementById("10|10");
             const something = document.createElement("div");
             something.classList.add("something");
             something.innerText = "A";
             something.id = "A";
 
-            entities["1|1"] = "A";
+            entities["10|10"] = "A";
 
             one.appendChild(something);
         </script>
