@@ -77,12 +77,20 @@
             }
 
             .forest {
-                background-color: #8b1;
+                background-color: #291;
             }
 
             .forest:hover {
                 transform: translate3d(0.25rem, -0.25rem, 0.25rem);
-                background-color: #be4;
+                background-color: #5b4;
+            }
+
+            .forest.unavailable {
+                background-color: #161;
+            }
+
+            .forest.unavailable:hover {
+                transform: translate3d(0rem, 0rem, 0rem);
             }
 
             .rocks {
@@ -310,12 +318,6 @@
 
                     const t = terrainMap[i][j];
 
-                    if (t == "grass") {
-                        // 1/4  forest
-                        // 1/8  to be rocks
-                        // 1/16 to be crops
-                    }
-
                     newCell.classList.add(terrainMap[i][j]);
                     newCell.onclick = function () {
                         selectCell(newCell);
@@ -324,6 +326,22 @@
                 }
 
                 grid.append(newRow);
+            }
+
+            for (i in terrainMap) {
+                for (j in terrainMap[i]) {
+                    if (terrainMap[i][j] == "grass") {
+                        const chance = Math.random();
+
+                        if (chance >= 0.98) {
+                            for (const coord of getCircle([i, j], 2)) {
+                                if (inBounds(coord[0], coord[1])) {
+                                    document.getElementById(`${coord[0]}|${coord[1]}`).classList = "forest";
+                                }
+                            }
+                        }
+                    }
+                }
             }
 
             function makeEntities(data) {
