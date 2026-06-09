@@ -94,10 +94,6 @@
                 background-color: #ddd;
             }
 
-            .option {
-                background-color: #fdd;
-            }
-
             .something {
                 height: 1rem;
                 width: 1rem;
@@ -105,14 +101,27 @@
                 background-color: #f00;
             }
 
-            .actions {
-                display: flex;
+            .selectedActions {
+                display: none;
                 flex-direction: row;
                 justify-content: space-evenly;
                 position: absolute;
-                width: 100%;
+                width: 80%;
                 bottom: 0rem;
                 height: 5rem;
+                left: 0rem;
+                background-color: #eee;
+            }
+
+            .selectedInfo {
+                display: none;
+                flex-direction: row;
+                justify-content: space-evenly;
+                position: absolute;
+                width: 20%;
+                bottom: 0rem;
+                height: 8rem;
+                right: 0rem;
                 background-color: #eee;
             }
         </style>
@@ -120,10 +129,11 @@
     <body>
         <table id="grid"></table>
 
-        <div class="actions">
+        <div id="selectedActions" class="selectedActions">
             <button id="moveButton">move</button>
             <!--<button>attack</button>-->
         </div>
+        <div class="selectedInfo" id="selectedInfo"></div>
 
         <script>
             const GRIDSIZE = 20;
@@ -132,7 +142,8 @@
             const terrains = ["grass", "grass", "grass", "grass", "forest", "forest", "water", "rocks"];
             const terrainMap = [];
             const allCells = [];
-            const entities = {};
+            const entitys = {};
+            const entityMap = {};
 
             let selectedCell = "";
             let actionState = "";
@@ -166,6 +177,17 @@
                         showMovementRange();
                     };
                 }
+
+                const selectedEntity = entitys[cell.id];
+
+                if (selectedEntity) {
+                    document.getElementById("selectedInfo").style.display = "flex";
+                    document.getElementById("selectedActions").style.display = "flex";
+                    document.getElementById("selectedInfo").innerText = entityMap[selectedEntity]?.name ?? "";
+                } else {
+                    document.getElementById("selectedInfo").style.display = "none";
+                    document.getElementById("selectedActions").style.display = "none";
+                }
             }
 
             function moveEntity(start, destination) {
@@ -173,8 +195,8 @@
 
                 document.getElementById(destination).appendChild(child);
                 document.getElementById(start).childNodes = null;
-                entities[destination] = entities[start];
-                entities[start] = "";
+                entitys[destination] = entitys[start];
+                entitys[start] = "";
 
                 allCells.forEach((x) => {
                     document.getElementById(x).classList.remove("unavailable");
@@ -202,7 +224,7 @@
             function showMovementRange() {
                 actionState = "move";
 
-                if (entities[selectedCell]) {
+                if (entitys[selectedCell]) {
                     allCells.forEach((x) => {
                         const cell = document.getElementById(x);
 
@@ -212,12 +234,16 @@
 
                     for (const coord of getCircle(selectedCell.split("|"), STEPSIZE)) {
                         if (inBounds(coord[0], coord[1])) {
-                            const cell = document.getElementById(`${coord[0]}|${coord[1]}`);
+                            const cellId = `${coord[0]}|${coord[1]}`;
 
-                            cell.classList.remove("unavailable");
-                            cell.onclick = function () {
-                                moveTo(cell);
-                            };
+                            if (!entitys[cellId]) {
+                                const cell = document.getElementById(cellId);
+                                cell.classList.remove("unavailable");
+                                cell.onclick = function () {
+                                    moveTo(cell);
+                                };
+                            }
+                            document.getElementById(selectedCell).classList.remove("unavailable");
                         }
                     }
                 }
@@ -237,16 +263,19 @@
                     };
                 });
 
-                document.getElementById("moveButton").onclick = function () {};
+                document.getElementById("moveButton").onclick = function () {
+                    showMovementRange();
+                };
             }
 
             function moveTo(cell) {
-                if (entities[selectedCell]) {
+                if (entitys[selectedCell]) {
                     moveEntity(selectedCell, cell.id);
                     document.getElementById(selectedCell).classList.remove("selected");
                 }
 
-                selectedCell = "";
+                selectedCell = cell.id;
+                cell.classList.add("selected");
                 actionState = "";
                 resetGrid();
             }
@@ -284,6 +313,9 @@
                     const t = terrainMap[i][j];
 
                     if (t == "grass") {
+                        // 1/4  forest
+                        // 1/8  to be rocks
+                        // 1/16 to be crops
                     }
 
                     new_cell.classList.add(terrainMap[i][j]);
@@ -292,21 +324,52 @@
                     };
                     new_row.appendChild(new_cell);
 
-                    entities[cell_id] = "";
+                    entitys[cell_id] = "";
                 }
 
                 grid.append(new_row);
             }
 
-            const one = document.getElementById("10|10");
+            let player = {
+                id: "A",
+                name: "what",
+                hitPoints: 10,
+                movementRange: 4,
+                landMobile: true,
+                waterMobile: true,
+                controlable: true,
+            };
+
             const something = document.createElement("div");
             something.classList.add("something");
             something.innerText = "A";
             something.id = "A";
 
-            entities["10|10"] = "A";
+            entitys["10|10"] = "A";
+            entityMap["A"] = player;
 
-            one.appendChild(something);
+            document.getElementById("10|10").appendChild(something);
+
+            let enemy = {
+                id: "B",
+                name: "M1",
+                hitPoints: 10,
+                movementRange: 4,
+                landMobile: true,
+                waterMobile: true,
+                controlable: true,
+            };
+
+            const ememyy = document.createElement("div");
+            ememyy.classList.add("something");
+            ememyy.innerText = "B";
+            ememyy.id = "B";
+            ememyy.style.backgroundColor = "#00f";
+
+            entitys["12|12"] = "B";
+            entityMap["B"] = enemy;
+
+            document.getElementById("12|12").appendChild(ememyy);
         </script>
     </body>
 </html>
