@@ -98,7 +98,14 @@
                 height: 1rem;
                 width: 1rem;
                 font-size: 8px;
-                background-color: #f00;
+            }
+
+            .good {
+                background-color: #fafafa;
+            }
+
+            .evil {
+                background-color: #fd9;
             }
 
             .selectedActions {
@@ -130,7 +137,7 @@
         <table id="grid"></table>
 
         <div id="selectedActions" class="selectedActions">
-            <button id="moveButton">move</button>
+            <button id="moveButton" onclick="showMovementRange()">move</button>
             <!--<button>attack</button>-->
         </div>
         <div class="selectedInfo" id="selectedInfo"></div>
@@ -142,11 +149,10 @@
             const terrains = ["grass", "grass", "grass", "grass", "forest", "forest", "water", "rocks"];
             const terrainMap = [];
             const allCells = [];
-            const entitys = {};
             const entityMap = {};
+            const entityList = {};
 
             let selectedCell = "";
-            let actionState = "";
 
             function randomTerrain() {
                 return terrains[Math.floor(Math.random() * terrains.length)];
@@ -172,18 +178,14 @@
 
                     selectedCell = cell.id;
                     cell.classList.add("selected");
-
-                    document.getElementById("moveButton").onclick = function () {
-                        showMovementRange();
-                    };
                 }
 
-                const selectedEntity = entitys[cell.id];
+                const selectedEntity = entityMap[cell.id];
 
                 if (selectedEntity) {
                     document.getElementById("selectedInfo").style.display = "flex";
                     document.getElementById("selectedActions").style.display = "flex";
-                    document.getElementById("selectedInfo").innerText = entityMap[selectedEntity]?.name ?? "";
+                    document.getElementById("selectedInfo").innerText = entityList[selectedEntity]?.name ?? "";
                 } else {
                     document.getElementById("selectedInfo").style.display = "none";
                     document.getElementById("selectedActions").style.display = "none";
@@ -195,8 +197,8 @@
 
                 document.getElementById(destination).appendChild(child);
                 document.getElementById(start).childNodes = null;
-                entitys[destination] = entitys[start];
-                entitys[start] = "";
+                entityMap[destination] = entityMap[start];
+                entityMap[start] = "";
 
                 allCells.forEach((x) => {
                     document.getElementById(x).classList.remove("unavailable");
@@ -222,9 +224,7 @@
             }
 
             function showMovementRange() {
-                actionState = "move";
-
-                if (entitys[selectedCell]) {
+                if (entityMap[selectedCell]) {
                     allCells.forEach((x) => {
                         const cell = document.getElementById(x);
 
@@ -236,7 +236,7 @@
                         if (inBounds(coord[0], coord[1])) {
                             const cellId = `${coord[0]}|${coord[1]}`;
 
-                            if (!entitys[cellId]) {
+                            if (!entityMap[cellId]) {
                                 const cell = document.getElementById(cellId);
                                 cell.classList.remove("unavailable");
                                 cell.onclick = function () {
@@ -269,14 +269,13 @@
             }
 
             function moveTo(cell) {
-                if (entitys[selectedCell]) {
+                if (entityMap[selectedCell]) {
                     moveEntity(selectedCell, cell.id);
                     document.getElementById(selectedCell).classList.remove("selected");
                 }
 
                 selectedCell = cell.id;
                 cell.classList.add("selected");
-                actionState = "";
                 resetGrid();
             }
 
@@ -300,15 +299,14 @@
             }
 
             for (i in terrainMap) {
-                const new_row = document.createElement("tr");
-                new_row.id = `r${i}`;
+                const newRow = document.createElement("tr");
 
                 for (j in terrainMap[i]) {
-                    const cell_id = `${i}|${j}`;
-                    const new_cell = document.createElement("td");
+                    const cellId = `${i}|${j}`;
+                    const newCell = document.createElement("td");
 
-                    new_cell.id = cell_id;
-                    allCells.push(cell_id);
+                    newCell.id = cellId;
+                    allCells.push(cellId);
 
                     const t = terrainMap[i][j];
 
@@ -318,58 +316,54 @@
                         // 1/16 to be crops
                     }
 
-                    new_cell.classList.add(terrainMap[i][j]);
-                    new_cell.onclick = function () {
-                        selectCell(new_cell);
+                    newCell.classList.add(terrainMap[i][j]);
+                    newCell.onclick = function () {
+                        selectCell(newCell);
                     };
-                    new_row.appendChild(new_cell);
-
-                    entitys[cell_id] = "";
+                    newRow.appendChild(newCell);
                 }
 
-                grid.append(new_row);
+                grid.append(newRow);
             }
 
-            let player = {
-                id: "A",
-                name: "what",
-                hitPoints: 10,
-                movementRange: 4,
-                landMobile: true,
-                waterMobile: true,
-                controlable: true,
-            };
+            function makeEntities(data) {
+                data.forEach((x, i) => {
+                    const [location, details] = x;
+                    const id = i + 1;
 
-            const something = document.createElement("div");
-            something.classList.add("something");
-            something.innerText = "A";
-            something.id = "A";
+                    const e = document.createElement("div");
+                    e.classList.add("something", details.class);
+                    e.innerText = id;
+                    e.id = id;
+                    e.title = details.name;
 
-            entitys["10|10"] = "A";
-            entityMap["A"] = player;
+                    entityMap[location] = id;
+                    entityList[id] = details;
 
-            document.getElementById("10|10").appendChild(something);
+                    document.getElementById(location).appendChild(e);
+                });
+            }
 
-            let enemy = {
-                id: "B",
-                name: "M1",
-                hitPoints: 10,
-                movementRange: 4,
-                landMobile: true,
-                waterMobile: true,
-                controlable: true,
-            };
-
-            const ememyy = document.createElement("div");
-            ememyy.classList.add("something");
-            ememyy.innerText = "B";
-            ememyy.id = "B";
-            ememyy.style.backgroundColor = "#00f";
-
-            entitys["12|12"] = "B";
-            entityMap["B"] = enemy;
-
-            document.getElementById("12|12").appendChild(ememyy);
+            makeEntities([
+                [
+                    "10|10",
+                    {
+                        name: "you",
+                        hitPoints: 10,
+                        movementRange: 4,
+                        class: "good",
+                    },
+                ],
+                [
+                    "15|15",
+                    {
+                        name: "enemy",
+                        hitPoints: 10,
+                        movementRange: 4,
+                        class: "evil",
+                    },
+                ],
+            ]);
         </script>
     </body>
 </html>
